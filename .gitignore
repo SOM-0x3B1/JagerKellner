@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+documentation/circuit-design-v01.png
+documentation/circuit-design-v02.png

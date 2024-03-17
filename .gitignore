@@ -52,3 +52,13 @@ Mkfile.old
 dkms.conf
 documentation/circuit-design-v01.png
 documentation/circuit-design-v02.png
+/codegentemp
+/CortexM3
+/Generated_Source
+/Export
+BUILD.log
+JagerKellner.rpt
+JagerKellner.cycdx
+JagerKellner.cyfit
+JagerKellner.svd
+JagerKellner_timing.html

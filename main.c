@@ -17,6 +17,9 @@ volatile float currZAngle = 0;
 void init(void)
 {
     I2C_GY87_Start();
+    Clock_Motor_PWM_Start();
+    PWM_LED_Start();
+    PWM_LED_BRIGHTNESS_Start();
     USBUART_Start(0, USBUART_5V_OPERATION);
     USBUART_CDC_Init();
     while(USBUART_GetConfiguration() == 0) {}
@@ -35,7 +38,7 @@ int main(void)
     
     init();
     
-    MotorState motorSate = MOTOR_GO;
+    MotorState motorSate = MOTOR_SLEEPING;
     float motorRPercentage = 0;
     float motorLPercentage = 0;
     

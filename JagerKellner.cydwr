@@ -328,18 +328,21 @@
       <Data key="b0162966-0060-4af5-82d1-fcb491ad7619/be0a0e37-ad17-42ca-b5a1-1a654d736358" value="UART_KITPROG_IntClock" />
     </Group>
     <Group key="Pin">
-      <Data key="5a147cb1-5ac0-4802-8660-c915b2fcfdda" value="SDA" />
-      <Data key="7c1f546b-9017-448d-9a07-7b8dba34abbf" value="SCL" />
+      <Data key="5a147cb1-5ac0-4802-8660-c915b2fcfdda" value="Pin_SDA" />
+      <Data key="7c1f546b-9017-448d-9a07-7b8dba34abbf" value="Pin_SCL" />
       <Data key="8b2116e9-70b3-4708-9e2e-ee864c7a13ec" value="Pin_DRDY" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="Pin_SW1" />
       <Data key="746dd0a1-4285-4fc6-934b-e71d6564a619" value="Pin_INTA" />
       <Data key="3472a9e4-80f0-459d-97a5-93c3d76b907d" value="Pin_3_3V_OUT" />
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="Pin_2" />
+      <Data key="beca5e2d-f70f-4900-a4db-7eca1ed3126e/8b77a6c4-10a0-4390-971c-672353e2a49c" value="USBUART_Dm" />
+      <Data key="beca5e2d-f70f-4900-a4db-7eca1ed3126e/618a72fc-5ddd-4df5-958f-a3d55102db42" value="USBUART_Dp" />
       <Data key="c37c9920-5487-4c0f-9735-c9e429d73245" value="Rx_1" />
       <Data key="e826f00b-6fab-4dc7-99dd-3dd0301813ec" value="Pin_3_3V_OUT" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="Pin_Motor_L" />
       <Data key="eabef0c5-5f5c-4579-b984-7b43717ef336" value="Pin_Motor_R" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="Tx_1" />
+      <Data key="f5edc4c8-49fc-4b72-a21b-2ac8929e7d5d" value="Pin_LED" />
     </Group>
   </Group>
   <Group key="EEPROM">
@@ -3484,6 +3487,11 @@
     <Group key="ed092b9b-d398-4703-be89-cebf998501f6">
       <Group key="0">
         <Data key="Port Format" value="12,7" />
+      </Group>
+    </Group>
+    <Group key="f5edc4c8-49fc-4b72-a21b-2ac8929e7d5d">
+      <Group key="0">
+        <Data key="Port Format" value="2,1" />
       </Group>
     </Group>
     <Group key="UnAssigned Pins" />

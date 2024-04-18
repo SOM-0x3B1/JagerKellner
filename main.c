@@ -3,7 +3,6 @@
 
 void Init(void)
 {
-    VDAC8_1_Start();
     I2C_GY87_Start();
     USBUART_Start(0, USBUART_5V_OPERATION);
     USBUART_CDC_Init();

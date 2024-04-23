@@ -212,7 +212,8 @@ int main(void)
                     
                     
                     //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
-                    sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compAngleY, (int)compAngleX); 
+                    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compAngleY, (int)compAngleX); 
+                    sprintf(usbOutBuf, "%d %d\n\r",  (int)compAngleY, (int)compAngleX); 
                     USBUART_PutString(usbOutBuf);  
                     
                     sampleCount = 0;

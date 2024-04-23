@@ -5,7 +5,9 @@
 #include "kalman.h"
 
 
+#define RAD_TO_DEG 180/M_PI
 #define PWM_MAX 11999
+
 
 typedef enum {
     MOTOR_GO,
@@ -48,6 +50,7 @@ Kalman_t KalmanY = {
 //volatile float test;
 volatile double yaw, pitch, roll;
 volatile double angX, angY;
+volatile double compAngleX, compAngleY;;
 
 
 
@@ -176,8 +179,9 @@ int main(void)
                     GZ = ((float)CGZ-GZoff)/131.07; 
                                         
                     
+                    /*
                     //roll  = atan2f(AY, AZ) * 180/M_PI;
-                    pitch = atan2f(AX, sqrt(AY*AY + AZ*AZ)) * 180/M_PI;    
+                    //pitch = atan2f(AX, sqrt(AY*AY + AZ*AZ)) * 180/M_PI;    
                     
                     
                     double roll_sqrt = sqrt(AX * AX + AZ * AZ);
@@ -191,14 +195,24 @@ int main(void)
                         KalmanY.angle = pitch;
                         angY = pitch;
                     } else {
-                        angY = Kalman_getAngle(&KalmanY, pitch, GY, 1000);
+                        angY = Kalman_getAngle(&KalmanY, pitch, GY, 100000);
                     }
                     if (fabs(angY) > 90)
                         GX = -GX;
-                    angX = Kalman_getAngle(&KalmanX, roll, GX, 1000);                    
+                    angX = Kalman_getAngle(&KalmanX, roll, GX, 100000); 
+                    */
                     
                     
-                    sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
+                    roll  = atan2(AY, AZ) * RAD_TO_DEG;
+                    pitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * RAD_TO_DEG;                   
+                  
+                    
+                    compAngleX = 0.93 * (compAngleX + GX * 0.02) + 0.07 * roll; // Calculate the angle using a Complimentary filter
+                    compAngleY = 0.93 * (compAngleY + GY * 0.02) + 0.07 * pitch;
+                    
+                    
+                    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
+                    sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compAngleY, (int)compAngleX); 
                     USBUART_PutString(usbOutBuf);  
                     
                     sampleCount = 0;

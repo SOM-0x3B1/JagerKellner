@@ -5,6 +5,7 @@
 #include "kalman.h"
 
 
+#define GYRO_EVAL_INTERVAL 0.016
 #define PWM_MAX 11999
 volatile const float radToDeg = 180/M_PI;
 
@@ -166,13 +167,13 @@ int main(void)
                     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
                   
                     
-                    compRoll = 0.93 * (compRoll + GX * 0.02) + 0.07 * accRoll; // Calculate the angle using a Complimentary filter
-                    compPitch = 0.93 * (compPitch + GY * 0.02) + 0.07 * accPitch;
+                    compRoll = 0.98 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.02 * accRoll; // Calculate the angle using a Complimentary filter
+                    compPitch = 0.98 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.02 * accPitch;
                     
                     
                     //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
                     //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compPitch, (int)compRoll); 
-                    sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*10), (int)(compRoll*10)); 
+                    sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*100), (int)(compRoll*100)); 
                     USBUART_PutString(usbOutBuf);
                     
                     sampleCount = 0;                

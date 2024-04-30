@@ -143,7 +143,7 @@ void motor_setPWM(){
     int lPWM = (int)(PWM_MAX * motor_LPercentage);
     int rPWM = (int)(PWM_MAX * (1 - motor_RPercentage)); // inverted PWM
     PWM_Motor_WriteCompare1(lPWM);
-    PWM_Motor_WriteCompare1(rPWM);
+    PWM_Motor_WriteCompare2(rPWM);
 }
 
 

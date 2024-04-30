@@ -5,16 +5,19 @@
 #include "kalman.h"
 
 
-#define GYRO_EVAL_INTERVAL 0.016
-#define PWM_MAX 11999
 volatile const float radToDeg = 180/M_PI;
 
 
 typedef enum {
     MOTOR_GO,
-    MOTOR_BREAKING,
+    MOTOR_BRAKING,
     MOTOR_SLEEPING
 } MotorState;
+
+typedef enum {
+    FORWARD,
+    BACWARDS
+} Direction;
 
 typedef enum {
     GYRO_SAMPLE,
@@ -27,20 +30,41 @@ char usbOutBuf[100];
 volatile float targetPitchAngle = 0;
 volatile float targetRollAngle = 0;
 
+#define GYRO_EVAL_INTERVAL 0.016
 volatile GyroState gyroState = GYRO_SAMPLE;
-int16_t CAX, CAY, CAZ; //current acceleration values
-int16_t CGX, CGY, CGZ; //current gyroscope values
+volatile bool gyroStarted = false;
+int16_t CAX = 0, CAY = 0, CAZ = 0; //current acceleration values
+int16_t CGX = 0, CGY = 0, CGZ = 0; //current gyroscope values
 volatile float AXoff = 0, AYoff = 0, AZoff = 0; //accelerometer offset values
 volatile float GXoff = 0, GYoff = 0, GZoff = 0; //gyroscope offset values
 volatile double AX = 0, AY = 0, AZ = 0; //acceleration doubles
 volatile double GX = 0, GY = 0, GZ = 0; //gyroscope doubles
 volatile int sampleCount = 0;
-volatile double accPitch, accRoll;
-volatile double compRoll, compPitch;;
+volatile double accPitch = 0, accRoll = 0;
+volatile double compRoll = 0, compPitch = 0;
 
-MotorState motorSate = MOTOR_SLEEPING;
-float motorRPercentage = 0;
-float motorLPercentage = 0; 
+
+
+
+
+#define PWM_MAX 11999
+
+typedef struct MotorIn{
+    uint8 first;
+    uint8 second;  
+} MotorIn;
+const MotorIn motor_in_sleep = (MotorIn) {0, 0};
+const MotorIn motor_in_forward = (MotorIn) {1, 0};
+const MotorIn motor_in_backwards = (MotorIn) {0, 1};
+const MotorIn motor_in_brake = (MotorIn) {1, 1};
+
+MotorState motor_sate = MOTOR_SLEEPING;
+bool motor_firstStart = true;
+Direction motor_newDirection;
+Direction motor_lastDirection;
+MotorIn motor_curr_in;
+float motor_LPercentage = 0; 
+float motor_RPercentage = 0;
 
 
 
@@ -57,7 +81,7 @@ CY_ISR(GyroEvalIT){
 
 
 
-void calibrate(int numberOfTests){
+void gyro_calibrate(int numberOfTests){
     for(int i=0; i<numberOfTests; i++) {   
         MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
         AXoff += CAX;
@@ -87,17 +111,44 @@ void calibrate(int numberOfTests){
 }
 
 
-void setPWM(float mL, float mR){
-    int lPWM = (int)PWM_MAX * mL;
-    int rPWM = 1 - ((int)PWM_MAX * mR);   
+void motor_evalDirection(){    
+    if(compPitch >= 0){
+        motor_newDirection = FORWARD;
+        motor_curr_in = motor_in_forward;
+    }
+    else {
+        motor_newDirection = BACWARDS;
+        motor_curr_in = motor_in_backwards;
+    }
+    
+    if(motor_firstStart)
+        motor_lastDirection = motor_newDirection;
+    
+    if( motor_newDirection != motor_lastDirection){
+        motor_sate = MOTOR_BRAKING;
+        motor_curr_in = motor_in_brake;
+    }
+    
+    motor_lastDirection = motor_newDirection;
+}
+
+void motor_setDirection(){
+    Pin_Motor_In_1_Write(motor_curr_in.first);
+    Pin_Motor_In_2_Write(motor_curr_in.second);
+    Pin_Motor_In_3_Write(motor_curr_in.first);
+    Pin_Motor_In_4_Write(motor_curr_in.second);
+}
+
+void motor_setPWM(){
+    int lPWM = (int)(PWM_MAX * motor_LPercentage);
+    int rPWM = (int)(PWM_MAX * (1 - motor_RPercentage)); // inverted PWM
     PWM_Motor_WriteCompare1(lPWM);
     PWM_Motor_WriteCompare1(rPWM);
 }
 
 
 void init(void)
-{    
-    Clock_Motor_PWM_Start();
+{        
     USBUART_Start();    
     USBUART_PutString("\n\rCOM Port Open\n\r");
     
@@ -107,13 +158,16 @@ void init(void)
     USBUART_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
     
     USBUART_PutString("Calbirating...\n\r");
-    calibrate(500);
+    gyro_calibrate(500);
     USBUART_PutString("Calbiration done\n\n\r");
     
     Clock_Timer_G87_Sample_Start();
     Clock_Timer_G87_Eval_Start();
     Timer_GY87_Sample_Start();
     Timer_GY87_Eval_Start();
+    
+    Clock_Motor_PWM_Start();
+    motor_curr_in = motor_in_sleep;
     
     PWM_LED_Start();
     PWM_LED_BRIGHTNESS_Start();
@@ -182,15 +236,23 @@ int main(void)
                 GX = 0; GY = 0; GZ = 0;
                 
                 gyroState = GYRO_SAMPLE;
+                gyroStarted = true;
                 break;
             }
-            default:
-                break;
         }       
         
-        switch(motorSate){
+        
+        if(motor_sate != MOTOR_SLEEPING && gyroStarted)
+            motor_evalDirection();
+        
+        
+        switch(motor_sate){
             case MOTOR_GO:
-                setPWM(motorLPercentage, motorRPercentage);
+                motor_setDirection();
+                motor_setPWM();
+                break;
+            case MOTOR_BRAKING:
+                
                 break;
             default:
                 break;

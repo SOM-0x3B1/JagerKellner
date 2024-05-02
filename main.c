@@ -226,7 +226,9 @@ void init(void)
     
     I2C_GY87_Start();    
     MPU6050_init();
-	MPU6050_initialize(); // 400 kbps
+	MPU6050_initialize();
+    MPU6050_setMasterClockSpeed(13); // 400 kbps
+    MPU6050_setDLPFMode(1);
     USBUART_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
     
     

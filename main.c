@@ -27,6 +27,10 @@ typedef enum {
 
 char usbOutBuf[100];
 
+
+volatile bool sleep = false;
+
+
 volatile float targetPitchAngle = 0;
 volatile float targetRollAngle = 0;
 
@@ -72,6 +76,15 @@ volatile uint encoderEvalCountR = 0;
 
 
 
+void setSleepLED(){
+    if(sleep)
+        PWM_LED_WriteCompare(50);
+    else
+        PWM_LED_WriteCompare(800);
+}
+
+
+
 CY_ISR(GyroSampleIT){
     Timer_GY87_Sample_STATUS;
     if(gyroState == GYRO_SAMPLE)
@@ -84,8 +97,8 @@ CY_ISR(GyroEvalIT){
 }
 
 
-CY_ISR(EncoderLeftIT){ encoderCurrCountL++; USBUART_PutString("encoder_l\n\r"); }
-CY_ISR(EncoderRightIT){ encoderCurrCountR++; USBUART_PutString("encoder_r\n\r");}
+CY_ISR(EncoderLeftIT){ encoderCurrCountL++; }
+CY_ISR(EncoderRightIT){ encoderCurrCountR++; }
 
 CY_ISR(EncoderEvalIT){
     Timer_Motor_Encoder_Eval_STATUS;
@@ -93,6 +106,12 @@ CY_ISR(EncoderEvalIT){
     encoderEvalCountR = encoderCurrCountR;
     encoderCurrCountL = 0;
     encoderCurrCountR = 0;
+}
+
+CY_ISR(ToggleSleepIT){
+    sleep = !sleep;
+    motor_sate = MOTOR_SLEEPING;
+    setSleepLED();
 }
 
 
@@ -207,8 +226,9 @@ void init(void)
     
     I2C_GY87_Start();    
     MPU6050_init();
-	MPU6050_initialize();
+	MPU6050_initialize(); // 400 kbps
     USBUART_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
+    
     
     USBUART_PutString("Calbirating...\n\r");
     gyro_calibrate(500);
@@ -234,6 +254,7 @@ void init(void)
     isr_Inc_Motor_Encoder_L_StartEx(EncoderLeftIT);
     isr_Inc_Motor_Encoder_R_StartEx(EncoderRightIT);
     isr_Eval_Motor_Encoder_StartEx(EncoderEvalIT);
+    isr_Toggle_Sleep_StartEx(ToggleSleepIT);
 }
 
 
@@ -244,8 +265,7 @@ int main(void)
     CyGlobalIntEnable; /* Enable global interrupts. */
  
     
-    for(;;)
-    {        
+    for(;;) {                
         switch(gyroState){
             case GYRO_SAMPLE: {
                 AX += ((float)CAX-AXoff);
@@ -264,7 +284,7 @@ int main(void)
                    gyro_getAngles();
                 
                 sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*100), (int)(compRoll*100)); 
-                //USBUART_PutString(usbOutBuf);
+                USBUART_PutString(usbOutBuf);
          
                 AX = 0; AY = 0; AZ = 0;
                 GX = 0; GY = 0; GZ = 0;
@@ -276,9 +296,16 @@ int main(void)
         }       
         
         
+        if(compPitch > 45 || compPitch < -45 || compRoll > 45 || compRoll < -45){
+            sleep = true;
+            motor_sate = MOTOR_SLEEPING;
+            setSleepLED();
+        }
+             
+        
         if(motor_sate != MOTOR_SLEEPING && gyroStarted){
             motor_evalDirection();
-            motor_evalPWM();
+            motor_evalPWM();            
         }
         
         

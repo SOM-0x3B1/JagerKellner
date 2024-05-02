@@ -73,6 +73,7 @@ volatile uint encoderCurrCountL = 0;
 volatile uint encoderCurrCountR = 0;
 volatile uint encoderEvalCountL = 0;
 volatile uint encoderEvalCountR = 0;
+volatile bool encoderEvalReady = false;
 
 
 
@@ -105,7 +106,8 @@ CY_ISR(EncoderEvalIT){
     encoderEvalCountL = encoderCurrCountL;
     encoderEvalCountR = encoderCurrCountR;
     encoderCurrCountL = 0;
-    encoderCurrCountR = 0;
+    encoderCurrCountR = 0;   
+    encoderEvalReady = true;
 }
 
 CY_ISR(ToggleSleepIT){
@@ -285,8 +287,9 @@ int main(void)
                 if(sampleCount > 0)
                    gyro_getAngles();
                 
-                sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*100), (int)(compRoll*100)); 
+                sprintf(usbOutBuf, "GA %d %d\n",  (int)(compPitch*100), (int)(compRoll*100)); 
                 USBUART_PutString(usbOutBuf);
+               
          
                 AX = 0; AY = 0; AZ = 0;
                 GX = 0; GY = 0; GZ = 0;
@@ -296,6 +299,13 @@ int main(void)
                 break;
             }
         }       
+        
+        
+        if(encoderEvalReady){
+            sprintf(usbOutBuf, "GS %d %d\n", encoderEvalCountL, encoderEvalCountR); 
+            USBUART_PutString(usbOutBuf);
+            encoderEvalReady = false;
+        }
         
         
         if(compPitch > 45 || compPitch < -45 || compRoll > 45 || compRoll < -45){

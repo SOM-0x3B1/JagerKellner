@@ -329,12 +329,14 @@
     </Group>
     <Group key="Pin">
       <Data key="5a147cb1-5ac0-4802-8660-c915b2fcfdda" value="Pin_SDA" />
+      <Data key="5da7b9e5-25c6-45a0-9c27-d2da00996740" value="Pin_Motor_Encoder_L" />
       <Data key="7c1f546b-9017-448d-9a07-7b8dba34abbf" value="Pin_SCL" />
       <Data key="8b2116e9-70b3-4708-9e2e-ee864c7a13ec" value="Pin_DRDY" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="Pin_SW1" />
       <Data key="518e1c41-8e9d-4d30-aa6a-8bc79a68ae57" value="Pin_Motor_In_4" />
       <Data key="746dd0a1-4285-4fc6-934b-e71d6564a619" value="Pin_INTA" />
       <Data key="880b1266-f9d4-4594-8da3-f3a0915d568d" value="Pin_Motor_In_1" />
+      <Data key="3013b01d-7338-4c6c-94de-67265f8d0ce7" value="Pin_Motor_Encoder_R" />
       <Data key="3472a9e4-80f0-459d-97a5-93c3d76b907d" value="Pin_3_3V_OUT" />
       <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="Rx_1" />
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="Pin_2" />
@@ -3439,6 +3441,11 @@
         <Data key="Port Format" value="12,1" />
       </Group>
     </Group>
+    <Group key="5da7b9e5-25c6-45a0-9c27-d2da00996740">
+      <Group key="0">
+        <Data key="Port Format" value="12,4" />
+      </Group>
+    </Group>
     <Group key="7c1f546b-9017-448d-9a07-7b8dba34abbf">
       <Group key="0">
         <Data key="Port Format" value="12,0" />
@@ -3467,6 +3474,11 @@
     <Group key="880b1266-f9d4-4594-8da3-f3a0915d568d">
       <Group key="0">
         <Data key="Port Format" value="3,4" />
+      </Group>
+    </Group>
+    <Group key="3013b01d-7338-4c6c-94de-67265f8d0ce7">
+      <Group key="0">
+        <Data key="Port Format" value="12,2" />
       </Group>
     </Group>
     <Group key="3472a9e4-80f0-459d-97a5-93c3d76b907d">
@@ -3525,6 +3537,7 @@
       </Group>
     </Group>
     <Group key="UnAssigned Pins" />
+    <Group key="Unlocked Pins" />
   </Group>
   <Group key="PlaceDir">
     <Data key="count" value="0" />

@@ -45,8 +45,6 @@ volatile double compRoll = 0, compPitch = 0;
 
 
 
-
-
 #define PWM_MAX 11999
 
 typedef struct MotorIn{
@@ -58,13 +56,19 @@ const MotorIn motor_in_forward = (MotorIn) {1, 0};
 const MotorIn motor_in_backwards = (MotorIn) {0, 1};
 const MotorIn motor_in_brake = (MotorIn) {1, 1};
 
-MotorState motor_sate = MOTOR_SLEEPING;
-bool motor_firstStart = true;
-Direction motor_newDirection;
-Direction motor_lastDirection;
-MotorIn motor_curr_in;
-float motor_LPercentage = 0; 
-float motor_RPercentage = 0;
+volatile MotorState motor_sate = MOTOR_SLEEPING;
+volatile bool motor_firstStart = true;
+volatile Direction motor_newDirection;
+volatile Direction motor_lastDirection;
+volatile MotorIn motor_curr_in;
+volatile float motor_LPercentage = 0; 
+volatile float motor_RPercentage = 0;
+
+
+volatile uint encoderCurrCountL = 0;
+volatile uint encoderCurrCountR = 0;
+volatile uint encoderEvalCountL = 0;
+volatile uint encoderEvalCountR = 0;
 
 
 
@@ -77,6 +81,18 @@ CY_ISR(GyroSampleIT){
 CY_ISR(GyroEvalIT){
     Timer_GY87_Eval_STATUS;
     gyroState = GYRO_EVAL; 
+}
+
+
+CY_ISR(EncoderLeftIT){ encoderCurrCountL++; USBUART_PutString("encoder_l\n\r"); }
+CY_ISR(EncoderRightIT){ encoderCurrCountR++; USBUART_PutString("encoder_r\n\r");}
+
+CY_ISR(EncoderEvalIT){
+    Timer_Motor_Encoder_Eval_STATUS;
+    encoderEvalCountL = encoderCurrCountL;
+    encoderEvalCountR = encoderCurrCountR;
+    encoderCurrCountL = 0;
+    encoderCurrCountR = 0;
 }
 
 
@@ -111,6 +127,38 @@ void gyro_calibrate(int numberOfTests){
 }
 
 
+void gyro_getAngles(){
+    AX /= sampleCount;
+    AY /= sampleCount;
+    AZ /= sampleCount;
+    GX /= sampleCount;
+    GY /= sampleCount;
+    GZ /= sampleCount;
+
+    AX = ((float)CAX-AXoff)/16384.00;
+    AY = ((float)CAY-AYoff)/16384.00; //16384 is just 32768/2 to get our 1G value
+    AZ = ((float)CAZ-(AZoff-16384))/16384.00; //remove 1G before dividing
+
+    GX = ((float)CGX-GXoff)/131.07; //131.07 is just 32768/250 to get us our 1deg/sec value
+    GY = ((float)CGY-GYoff)/131.07;
+    GZ = ((float)CGZ-GZoff)/131.07;                                         
+
+
+    accRoll  = atan2(AY, AZ) * radToDeg;
+    accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
+
+
+    compRoll = 0.98 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.02 * accRoll; // Calculate the angle using a Complimentary filter
+    compPitch = 0.98 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.02 * accPitch;
+
+
+    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
+    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compPitch, (int)compRoll);     
+
+    sampleCount = 0;   
+}
+
+
 void motor_evalDirection(){    
     if(compPitch >= 0){
         motor_newDirection = FORWARD;
@@ -130,6 +178,11 @@ void motor_evalDirection(){
     }
     
     motor_lastDirection = motor_newDirection;
+}
+
+void motor_evalPWM(){
+    motor_LPercentage = 0.1;
+    motor_RPercentage = 0.1;
 }
 
 void motor_setDirection(){
@@ -163,22 +216,29 @@ void init(void)
     
     Clock_Timer_G87_Sample_Start();
     Clock_Timer_G87_Eval_Start();
+    Clock_Timer_Motor_Encoder_Eval_Start();
     Timer_GY87_Sample_Start();
     Timer_GY87_Eval_Start();
+    Timer_Motor_Encoder_Eval_Start();
     
     Clock_Motor_PWM_Start();
+    PWM_Motor_Start();
     motor_curr_in = motor_in_sleep;
     
     PWM_LED_Start();
     PWM_LED_BRIGHTNESS_Start();
+    
+    
+    isr_Sample_GY87_StartEx(GyroSampleIT);
+    isr_Eval_GY87_StartEx(GyroEvalIT);
+    isr_Inc_Motor_Encoder_L_StartEx(EncoderLeftIT);
+    isr_Inc_Motor_Encoder_R_StartEx(EncoderRightIT);
+    isr_Eval_Motor_Encoder_StartEx(EncoderEvalIT);
 }
 
 
 int main(void)
-{
-    isr_Sample_GY87_StartEx(GyroSampleIT);
-    isr_Eval_GY87_StartEx(GyroEvalIT);    
-    
+{   
     init();   
     
     CyGlobalIntEnable; /* Enable global interrupts. */
@@ -200,38 +260,12 @@ int main(void)
                 break;
             }
             case GYRO_EVAL: {
-                if(sampleCount > 0) {
-                    AX /= sampleCount;
-                    AY /= sampleCount;
-                    AZ /= sampleCount;
-                    GX /= sampleCount;
-                    GY /= sampleCount;
-                    GZ /= sampleCount;
-                    
-                    AX = ((float)CAX-AXoff)/16384.00;
-                    AY = ((float)CAY-AYoff)/16384.00; //16384 is just 32768/2 to get our 1G value
-                    AZ = ((float)CAZ-(AZoff-16384))/16384.00; //remove 1G before dividing
-                    
-                    GX = ((float)CGX-GXoff)/131.07; //131.07 is just 32768/250 to get us our 1deg/sec value
-                    GY = ((float)CGY-GYoff)/131.07;
-                    GZ = ((float)CGZ-GZoff)/131.07;                                         
-                  
-                    
-                    accRoll  = atan2(AY, AZ) * radToDeg;
-                    accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
-                  
-                    
-                    compRoll = 0.98 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.02 * accRoll; // Calculate the angle using a Complimentary filter
-                    compPitch = 0.98 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.02 * accPitch;
-                    
-                    
-                    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
-                    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compPitch, (int)compRoll); 
-                    sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*100), (int)(compRoll*100)); 
-                    USBUART_PutString(usbOutBuf);
-                    
-                    sampleCount = 0;                
-                }                
+                if(sampleCount > 0)
+                   gyro_getAngles();
+                
+                sprintf(usbOutBuf, "%d %d\r",  (int)(compPitch*100), (int)(compRoll*100)); 
+                //USBUART_PutString(usbOutBuf);
+         
                 AX = 0; AY = 0; AZ = 0;
                 GX = 0; GY = 0; GZ = 0;
                 
@@ -242,8 +276,10 @@ int main(void)
         }       
         
         
-        if(motor_sate != MOTOR_SLEEPING && gyroStarted)
+        if(motor_sate != MOTOR_SLEEPING && gyroStarted){
             motor_evalDirection();
+            motor_evalPWM();
+        }
         
         
         switch(motor_sate){
@@ -252,11 +288,12 @@ int main(void)
                 motor_setPWM();
                 break;
             case MOTOR_BRAKING:
-                
+                if(encoderEvalCountL == 0 &&encoderCurrCountR == 0)
+                    motor_sate = MOTOR_GO;
                 break;
             default:
                 break;
-        }
+        }       
     }
 }
 

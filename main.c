@@ -2,39 +2,27 @@
 #include "mpu6050.h"
 #include "stdio.h"
 #include "math.h"
-#include "kalman.h"
 
 
-volatile const float radToDeg = 180/M_PI;
+
+char usbOutBuf[100];
+
+volatile bool sleep = false;
+
+volatile float targetPitchAngle = 0;
+volatile float targetRollAngle = 0;
 
 
-typedef enum {
-    MOTOR_GO,
-    MOTOR_BRAKING,
-    MOTOR_SLEEPING
-} MotorState;
-
-typedef enum {
-    FORWARD,
-    BACWARDS
-} Direction;
 
 typedef enum {
     GYRO_SAMPLE,
     GYRO_EVAL
 } GyroState;
 
-
-char usbOutBuf[100];
-
-
-volatile bool sleep = false;
-
-
-volatile float targetPitchAngle = 0;
-volatile float targetRollAngle = 0;
-
+#define TIPPING_TRESHOLD 60
 #define GYRO_EVAL_INTERVAL 0.016
+volatile const float radToDeg = 180/M_PI;
+
 volatile GyroState gyroState = GYRO_SAMPLE;
 volatile bool gyroStarted = false;
 int16_t CAX = 0, CAY = 0, CAZ = 0; //current acceleration values
@@ -49,72 +37,48 @@ volatile double compRoll = 0, compPitch = 0;
 
 
 
-#define PWM_MAX 11999
+#define MOTOR_PWM_MAX 11999
+
+typedef enum {
+    MOTOR_GO,
+    MOTOR_BRAKE,
+    MOTOR_SLEEP
+} MotorState;
+
+typedef enum {
+    FORWARD,
+    BACWARDS
+} Direction;
 
 typedef struct MotorIn{
     uint8 first;
     uint8 second;  
 } MotorIn;
-const MotorIn motor_in_sleep = (MotorIn) {0, 0};
-const MotorIn motor_in_forward = (MotorIn) {1, 0};
-const MotorIn motor_in_backwards = (MotorIn) {0, 1};
-const MotorIn motor_in_brake = (MotorIn) {1, 1};
 
-volatile MotorState motor_sate = MOTOR_SLEEPING;
+const MotorIn motor_input_sleep = (MotorIn) {0, 0};
+const MotorIn motor_input_forward = (MotorIn) {1, 0};
+const MotorIn motor_input_backwards = (MotorIn) {0, 1};
+const MotorIn motor_input_brake = (MotorIn) {1, 1};
+
+volatile MotorIn motor_curr_input;
+
+volatile MotorState motor_sate = MOTOR_SLEEP;
 volatile bool motor_firstStart = true;
 volatile Direction motor_newDirection;
 volatile Direction motor_lastDirection;
-volatile MotorIn motor_curr_in;
 volatile float motor_LPercentage = 0; 
 volatile float motor_RPercentage = 0;
 
 
-volatile uint encoderCurrCountL = 0;
-volatile uint encoderCurrCountR = 0;
-volatile uint encoderEvalCountL = 0;
-volatile uint encoderEvalCountR = 0;
+
+typedef struct Encoder{
+    uint currCount;
+    uint evalCount;
+} Encoder;
+
+Encoder encoderL = (Encoder) {0, 0};
+Encoder encoderR = (Encoder) {0, 0};
 volatile bool encoderEvalReady = false;
-
-
-
-void setSleepLED(){
-    if(sleep)
-        PWM_LED_WriteCompare(50);
-    else
-        PWM_LED_WriteCompare(800);
-}
-
-
-
-CY_ISR(GyroSampleIT){
-    Timer_GY87_Sample_STATUS;
-    if(gyroState == GYRO_SAMPLE)
-        MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
-}
-
-CY_ISR(GyroEvalIT){
-    Timer_GY87_Eval_STATUS;
-    gyroState = GYRO_EVAL; 
-}
-
-
-CY_ISR(EncoderLeftIT){ encoderCurrCountL++; }
-CY_ISR(EncoderRightIT){ encoderCurrCountR++; }
-
-CY_ISR(EncoderEvalIT){
-    Timer_Motor_Encoder_Eval_STATUS;
-    encoderEvalCountL = encoderCurrCountL;
-    encoderEvalCountR = encoderCurrCountR;
-    encoderCurrCountL = 0;
-    encoderCurrCountR = 0;   
-    encoderEvalReady = true;
-}
-
-CY_ISR(ToggleSleepIT){
-    sleep = !sleep;
-    motor_sate = MOTOR_SLEEPING;
-    setSleepLED();
-}
 
 
 
@@ -169,56 +133,96 @@ void gyro_getAngles(){
     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
 
 
-    compRoll = 0.98 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.02 * accRoll; // Calculate the angle using a Complimentary filter
-    compPitch = 0.98 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.02 * accPitch;
-
-
-    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)angY, (int)angX); 
-    //sprintf(usbOutBuf, "\rPitch:%4d, Roll:%4d  ",  (int)compPitch, (int)compRoll);     
+    compRoll = 0.93 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.07 * accRoll; // Calculate the angle using a Complimentary filter
+    compPitch = 0.93 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.07 * accPitch;
 
     sampleCount = 0;   
 }
 
 
+
 void motor_evalDirection(){    
     if(compPitch >= 0){
         motor_newDirection = FORWARD;
-        motor_curr_in = motor_in_forward;
+        motor_curr_input = motor_input_forward;
     }
     else {
         motor_newDirection = BACWARDS;
-        motor_curr_in = motor_in_backwards;
+        motor_curr_input = motor_input_backwards;
     }
     
     if(motor_firstStart)
         motor_lastDirection = motor_newDirection;
     
-    if( motor_newDirection != motor_lastDirection){
-        motor_sate = MOTOR_BRAKING;
-        motor_curr_in = motor_in_brake;
-    }
+    if( motor_newDirection != motor_lastDirection)
+        motor_sate = MOTOR_BRAKE;
     
     motor_lastDirection = motor_newDirection;
 }
 
-void motor_evalPWM(){
-    motor_LPercentage = 0.1;
-    motor_RPercentage = 0.1;
+void motor_setDirection(){
+    Pin_Motor_In_1_Write(motor_curr_input.first);
+    Pin_Motor_In_2_Write(motor_curr_input.second);
+    Pin_Motor_In_3_Write(motor_curr_input.first);
+    Pin_Motor_In_4_Write(motor_curr_input.second);
 }
 
-void motor_setDirection(){
-    Pin_Motor_In_1_Write(motor_curr_in.first);
-    Pin_Motor_In_2_Write(motor_curr_in.second);
-    Pin_Motor_In_3_Write(motor_curr_in.first);
-    Pin_Motor_In_4_Write(motor_curr_in.second);
+void motor_evalPWM(){
+    float balanceSpeed = fabsf((float)compPitch / 45);
+    motor_LPercentage = balanceSpeed;
+    motor_RPercentage = balanceSpeed;
+}
+
+void motor_resetPWM(){
+    motor_LPercentage = 0;
+    motor_RPercentage = 0;
 }
 
 void motor_setPWM(){
-    int lPWM = (int)(PWM_MAX * motor_LPercentage);
-    int rPWM = (int)(PWM_MAX * (1 - motor_RPercentage)); // inverted PWM
+    int lPWM = (int)(MOTOR_PWM_MAX * motor_LPercentage);
+    int rPWM = (int)(MOTOR_PWM_MAX * (1 - motor_RPercentage)); // inverted PWM
     PWM_Motor_WriteCompare1(lPWM);
     PWM_Motor_WriteCompare2(rPWM);
 }
+
+
+
+void updateLED(){
+    if(sleep)
+        PWM_LED_WriteCompare(50);
+    else
+        PWM_LED_WriteCompare(800);
+}
+
+
+
+CY_ISR(GyroSampleIT){
+    Timer_GY87_Sample_STATUS;
+    if(gyroState == GYRO_SAMPLE)
+        MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
+}
+CY_ISR(GyroEvalIT){
+    Timer_GY87_Eval_STATUS;
+    gyroState = GYRO_EVAL; 
+}
+
+CY_ISR(EncoderLeftIT){ encoderL.currCount++; }
+CY_ISR(EncoderRightIT){ encoderR.currCount++; }
+CY_ISR(EncoderEvalIT){
+    Timer_Motor_Encoder_Eval_STATUS;
+    encoderL.evalCount = encoderL.currCount;
+    encoderR.evalCount = encoderR.currCount;
+    encoderL.currCount = 0;
+    encoderR.currCount = 0;   
+    encoderEvalReady = true;
+}
+
+CY_ISR(ToggleSleepIT){
+    sleep = !sleep;    
+    motor_sate = sleep ? MOTOR_SLEEP : MOTOR_GO;
+    updateLED();
+}
+
 
 
 void init(void)
@@ -247,7 +251,7 @@ void init(void)
     
     Clock_Motor_PWM_Start();
     PWM_Motor_Start();
-    motor_curr_in = motor_in_sleep;
+    motor_curr_input = motor_input_sleep;
     
     PWM_LED_Start();
     PWM_LED_BRIGHTNESS_Start();
@@ -260,6 +264,7 @@ void init(void)
     isr_Eval_Motor_Encoder_StartEx(EncoderEvalIT);
     isr_Toggle_Sleep_StartEx(ToggleSleepIT);
 }
+
 
 
 int main(void)
@@ -279,8 +284,8 @@ int main(void)
                 GX += ((float)CGX-GXoff);
                 GY += ((float)CGY-GYoff);
                 GZ += ((float)CGZ-GZoff);
-                sampleCount++;
-            
+                
+                sampleCount++;            
                 break;
             }
             case GYRO_EVAL: {
@@ -302,37 +307,42 @@ int main(void)
         
         
         if(encoderEvalReady){
-            sprintf(usbOutBuf, "GS %d %d\n", encoderEvalCountL, encoderEvalCountR); 
+            sprintf(usbOutBuf, "GS %d %d\n", encoderL.evalCount, encoderR.evalCount); 
             USBUART_PutString(usbOutBuf);
             encoderEvalReady = false;
         }
         
         
-        if(compPitch > 45 || compPitch < -45 || compRoll > 45 || compRoll < -45){
+        if(compPitch > TIPPING_TRESHOLD || compPitch < -TIPPING_TRESHOLD ||
+        compRoll > TIPPING_TRESHOLD || compRoll < -TIPPING_TRESHOLD){
             sleep = true;
-            motor_sate = MOTOR_SLEEPING;
-            setSleepLED();
-        }
-             
-        
-        if(motor_sate != MOTOR_SLEEPING && gyroStarted){
-            motor_evalDirection();
-            motor_evalPWM();            
+            motor_sate = MOTOR_SLEEP;
+            
+            updateLED();
         }
         
         
-        switch(motor_sate){
-            case MOTOR_GO:
-                motor_setDirection();
-                motor_setPWM();
-                break;
-            case MOTOR_BRAKING:
-                if(encoderEvalCountL == 0 &&encoderCurrCountR == 0)
-                    motor_sate = MOTOR_GO;
-                break;
-            default:
-                break;
-        }       
+        if(gyroStarted){
+            switch(motor_sate){
+                case MOTOR_GO:                    
+                    motor_evalDirection();
+                    motor_evalPWM();
+                    break;
+                case MOTOR_BRAKE:
+                    motor_curr_input = motor_input_brake;
+                    motor_resetPWM();
+                    if(encoderL.evalCount == 0 && encoderR.currCount == 0)
+                        motor_sate = MOTOR_GO;
+                    break;
+                case MOTOR_SLEEP:
+                    motor_curr_input = motor_input_sleep;
+                    motor_resetPWM();
+                    break;
+            }
+            
+            motor_setDirection();
+            motor_setPWM();
+        }
     }
 }
 

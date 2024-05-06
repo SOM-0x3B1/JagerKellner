@@ -5,7 +5,7 @@
 
 
 
-char usbOutBuf[100];
+char outBuf[100];
 
 volatile bool sleep = false;
 
@@ -56,8 +56,8 @@ typedef struct MotorIn{
 } MotorIn;
 
 const MotorIn motor_input_sleep = (MotorIn) {0, 0};
-const MotorIn motor_input_forward = (MotorIn) {1, 0};
-const MotorIn motor_input_backwards = (MotorIn) {0, 1};
+const MotorIn motor_input_forward = (MotorIn) {0, 1};
+const MotorIn motor_input_backwards = (MotorIn) {1, 0};
 const MotorIn motor_input_brake = (MotorIn) {1, 1};
 
 volatile MotorIn motor_curr_input;
@@ -94,13 +94,13 @@ void gyro_calibrate(int numberOfTests){
     
         CyDelay(1);
         if((i & 3) == 0) { // Write only when i % 4 == 0
-            sprintf(usbOutBuf, "\r%d / %d ", i + 1, numberOfTests);
-            USBUART_PutString(usbOutBuf);
+            sprintf(outBuf, "\r%d / %d ", i + 1, numberOfTests);
+            UART_USB_PutString(outBuf);
         }
     }
     
-    sprintf(usbOutBuf, "\r%d / %d \n\r", numberOfTests, numberOfTests);
-    USBUART_PutString(usbOutBuf);
+    sprintf(outBuf, "\r%d / %d \n\r", numberOfTests, numberOfTests);
+    UART_USB_PutString(outBuf);
     
     
     AXoff = AXoff/numberOfTests;
@@ -227,20 +227,20 @@ CY_ISR(ToggleSleepIT){
 
 void init(void)
 {        
-    USBUART_Start();    
-    USBUART_PutString("\n\rCOM Port Open\n\r");
+    UART_USB_Start();    
+    UART_USB_PutString("\n\rCOM Port Open\n\r");
     
     I2C_GY87_Start();    
     MPU6050_init();
 	MPU6050_initialize();
     MPU6050_setMasterClockSpeed(13); // 400 kbps
     MPU6050_setDLPFMode(1);
-    USBUART_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
+    UART_USB_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
     
     
-    USBUART_PutString("Calbirating...\n\r");
+    UART_USB_PutString("Calbirating...\n\r");
     gyro_calibrate(500);
-    USBUART_PutString("Calbiration done\n\n\r");
+    UART_USB_PutString("Calbiration done\n\n\r");
     
     Clock_Timer_G87_Sample_Start();
     Clock_Timer_G87_Eval_Start();
@@ -292,8 +292,8 @@ int main(void)
                 if(sampleCount > 0)
                    gyro_getAngles();
                 
-                sprintf(usbOutBuf, "GA %d %d\n",  (int)(compPitch*100), (int)(compRoll*100)); 
-                USBUART_PutString(usbOutBuf);
+                sprintf(outBuf, "GA %d %d\n",  (int)(compPitch*100), (int)(compRoll*100)); 
+                UART_USB_PutString(outBuf);
                
          
                 AX = 0; AY = 0; AZ = 0;
@@ -307,8 +307,8 @@ int main(void)
         
         
         if(encoderEvalReady){
-            sprintf(usbOutBuf, "GS %d %d\n", encoderL.evalCount, encoderR.evalCount); 
-            USBUART_PutString(usbOutBuf);
+            sprintf(outBuf, "GS %d %d\n", encoderL.evalCount, encoderR.evalCount); 
+            UART_USB_PutString(outBuf);
             encoderEvalReady = false;
         }
         

@@ -5,39 +5,40 @@
 
 
 
-char outBuf[100];
+char outBuf[100]; // UART output string buffer
 
-volatile bool sleep = false;
+volatile bool sleep = false; // suspend motors
 
 volatile float targetPitchAngle = 0;
-volatile float targetRollAngle = 0;
 
 
 
 typedef enum {
-    GYRO_SAMPLE,
-    GYRO_EVAL
+    GYRO_SAMPLE, // collect samples (1000 Hz)
+    GYRO_EVAL    // calculate orientation from samples (62 Hz)
 } GyroState;
 
-#define TIPPING_TRESHOLD 60
-#define GYRO_EVAL_INTERVAL 0.016
-volatile const float radToDeg = 180/M_PI;
+#define TIPPING_TRESHOLD 60 // suspend motors over this tilt angle
+#define GYRO_SAMPLE_INTERVAL 0.001 //  1 ms -> 1000 Hz
+#define GYRO_EVAL_INTERVAL 0.016   // 16 ms -> 662 Hz
+volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
 volatile GyroState gyroState = GYRO_SAMPLE;
-volatile bool gyroStarted = false;
-int16_t CAX = 0, CAY = 0, CAZ = 0; //current acceleration values
-int16_t CGX = 0, CGY = 0, CGZ = 0; //current gyroscope values
-volatile float AXoff = 0, AYoff = 0, AZoff = 0; //accelerometer offset values
-volatile float GXoff = 0, GYoff = 0, GZoff = 0; //gyroscope offset values
-volatile double AX = 0, AY = 0, AZ = 0; //acceleration doubles
-volatile double GX = 0, GY = 0, GZ = 0; //gyroscope doubles
-volatile int sampleCount = 0;
-volatile double accPitch = 0, accRoll = 0;
-volatile double compRoll = 0, compPitch = 0;
+volatile bool gyroStarted = false; // the first evaluation has been completed
+
+int16_t CAX = 0, CAY = 0, CAZ = 0; // current acceleration values
+int16_t CGX = 0, CGY = 0, CGZ = 0; // current gyroscope values
+volatile double AXoff = 0, AYoff = 0, AZoff = 0; // accelerometer offset values
+volatile double GXoff = 0, GYoff = 0, GZoff = 0; // gyroscope offset values
+volatile double AX = 0, AY = 0, AZ = 0; // averaged acceleration values
+volatile double GX = 0, GY = 0, GZ = 0; // averaged gyroscope values
+volatile int sampleCount = 0; // number of successfully collected samples
+volatile double accPitch = 0, accRoll = 0;   // angles calculated exclusively from the accelerometer
+volatile double compRoll = 0, compPitch = 0; // anlges calculated by the complementary filter (gyro + acc)
 
 
 
-#define MOTOR_PWM_MAX 11999
+#define MOTOR_PWM_MAX 11999 // maximum motor PWM value
 
 typedef enum {
     MOTOR_GO,
@@ -50,9 +51,10 @@ typedef enum {
     BACWARDS
 } Direction;
 
+// motor input config
 typedef struct MotorIn{
-    uint8 first;
-    uint8 second;  
+    uint8 first;  // IN1, IN3
+    uint8 second; // IN2, IN4
 } MotorIn;
 
 const MotorIn motor_input_sleep = (MotorIn) {0, 0};
@@ -60,30 +62,31 @@ const MotorIn motor_input_forward = (MotorIn) {0, 1};
 const MotorIn motor_input_backwards = (MotorIn) {1, 0};
 const MotorIn motor_input_brake = (MotorIn) {1, 1};
 
-volatile MotorIn motor_curr_input;
+volatile MotorIn motor_curr_input; // current motor input
 
 volatile MotorState motor_sate = MOTOR_SLEEP;
-volatile bool motor_firstStart = true;
+volatile bool motor_firstStart = true; // the motor hasn't been moving before
 volatile Direction motor_newDirection;
 volatile Direction motor_lastDirection;
-volatile float motor_LPercentage = 0; 
-volatile float motor_RPercentage = 0;
+volatile float motor_LPercentage = 0, motor_RPercentage = 0; // PWM duty cicle percentage
 
 
 
 typedef struct Encoder{
-    uint currCount;
-    uint evalCount;
+    uint currCount; // current interrupt count
+    uint evalCount; // evaluated interrupt count
 } Encoder;
 
 Encoder encoderL = (Encoder) {0, 0};
 Encoder encoderR = (Encoder) {0, 0};
-volatile bool encoderEvalReady = false;
+volatile bool encoderEvalReady = false; // ready to evaluate interrupt count
 
 
 
+/// calibrate gyro offsets
+/// @param numberOfTests how many samples should be gathered for calibration
 void gyro_calibrate(int numberOfTests){
-    for(int i=0; i<numberOfTests; i++) {   
+    for(int i = 0; i < numberOfTests; i++) {
         MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
         AXoff += CAX;
         AYoff += CAY;
@@ -92,17 +95,17 @@ void gyro_calibrate(int numberOfTests){
         GYoff += CGY;
         GZoff += CGZ;
     
-        CyDelay(1);
-        if((i & 3) == 0) { // Write only when i % 4 == 0
+        CyDelay(1); // wait 1 ms
+        if((i & 3) == 0) { // write only when i % 4 == 0
             sprintf(outBuf, "\r%d / %d ", i + 1, numberOfTests);
             UART_USB_PutString(outBuf);
         }
     }
     
     sprintf(outBuf, "\r%d / %d \n\r", numberOfTests, numberOfTests);
-    UART_USB_PutString(outBuf);
+    UART_USB_PutString(outBuf);    
     
-    
+    // average values
     AXoff = AXoff/numberOfTests;
     AYoff = AYoff/numberOfTests;
     AZoff = AZoff/numberOfTests;
@@ -112,6 +115,7 @@ void gyro_calibrate(int numberOfTests){
 }
 
 
+/// calculate angles from evaluated gyro data
 void gyro_getAngles(){
     AX /= sampleCount;
     AY /= sampleCount;
@@ -120,20 +124,21 @@ void gyro_getAngles(){
     GY /= sampleCount;
     GZ /= sampleCount;
 
-    AX = ((float)CAX-AXoff)/16384.00;
-    AY = ((float)CAY-AYoff)/16384.00; //16384 is just 32768/2 to get our 1G value
-    AZ = ((float)CAZ-(AZoff-16384))/16384.00; //remove 1G before dividing
+    AX = ((float)CAX - AXoff) / 16384.00;
+    AY = ((float)CAY - AYoff) / 16384.00;
+    AZ = ((float)CAZ - (AZoff - 16384)) / 16384.00;
 
-    GX = ((float)CGX-GXoff)/131.07; //131.07 is just 32768/250 to get us our 1deg/sec value
-    GY = ((float)CGY-GYoff)/131.07;
-    GZ = ((float)CGZ-GZoff)/131.07;                                         
+    GX = ((float)CGX-GXoff) / 131.07;
+    GY = ((float)CGY-GYoff) / 131.07;
+    GZ = ((float)CGZ-GZoff) / 131.07;                                         
 
 
+    // calculate the angles exclusively from the accelerometer
     accRoll  = atan2(AY, AZ) * radToDeg;
     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
 
-
-    compRoll = 0.93 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.07 * accRoll; // Calculate the angle using a Complimentary filter
+    // calculate the angles using a Complimentary filter
+    compRoll = 0.93 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.07 * accRoll; 
     compPitch = 0.93 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.07 * accPitch;
 
     sampleCount = 0;   
@@ -141,6 +146,7 @@ void gyro_getAngles(){
 
 
 
+/// get direction according to the current pitch
 void motor_evalDirection(){    
     if(compPitch >= 0){
         motor_newDirection = FORWARD;
@@ -160,6 +166,7 @@ void motor_evalDirection(){
     motor_lastDirection = motor_newDirection;
 }
 
+/// set direction on the motor controller
 void motor_setDirection(){
     Pin_Motor_In_1_Write(motor_curr_input.first);
     Pin_Motor_In_2_Write(motor_curr_input.second);
@@ -167,26 +174,30 @@ void motor_setDirection(){
     Pin_Motor_In_4_Write(motor_curr_input.second);
 }
 
+/// calculate optimal motor speed
 void motor_evalPWM(){
     float balanceSpeed = fabsf((float)compPitch / 45);
     motor_LPercentage = balanceSpeed;
     motor_RPercentage = balanceSpeed;
 }
 
+/// set motor speed to 0
 void motor_resetPWM(){
     motor_LPercentage = 0;
     motor_RPercentage = 0;
 }
 
+/// set motor speed to the calculated PWM
 void motor_setPWM(){
     int lPWM = (int)(MOTOR_PWM_MAX * motor_LPercentage);
-    int rPWM = (int)(MOTOR_PWM_MAX * (1 - motor_RPercentage)); // inverted PWM
+    int rPWM = (int)(MOTOR_PWM_MAX * (1 - motor_RPercentage)); // inverted PWM!
     PWM_Motor_WriteCompare1(lPWM);
     PWM_Motor_WriteCompare2(rPWM);
 }
 
 
 
+/// update the LED
 void updateLED(){
     if(sleep)
         PWM_LED_WriteCompare(50);
@@ -196,11 +207,13 @@ void updateLED(){
 
 
 
+/// get gyro sample
 CY_ISR(GyroSampleIT){
     Timer_GY87_Sample_STATUS;
     if(gyroState == GYRO_SAMPLE)
         MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
 }
+/// evaluate gyro samples 
 CY_ISR(GyroEvalIT){
     Timer_GY87_Eval_STATUS;
     gyroState = GYRO_EVAL; 

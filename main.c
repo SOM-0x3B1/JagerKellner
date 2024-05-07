@@ -9,7 +9,7 @@ char outBuf[100]; // UART output string buffer
 
 volatile bool sleep = false; // suspend motors
 
-volatile float targetPitchAngle = 0;
+volatile float targetPitchAngle = 0; // keep this angle to achieve balance
 
 
 
@@ -18,23 +18,23 @@ typedef enum {
     GYRO_EVAL    // calculate orientation from samples (62 Hz)
 } GyroState;
 
-#define TIPPING_TRESHOLD 60 // suspend motors over this tilt angle
-#define GYRO_SAMPLE_INTERVAL 0.001 //  1 ms -> 1000 Hz
-#define GYRO_EVAL_INTERVAL 0.016   // 16 ms -> 662 Hz
+#define TIPPING_TRESHOLD 60                // give up control and suspend motors over this tilt angle
+#define GYRO_SAMPLE_INTERVAL 0.001         //  1 ms -> 1000 Hz
+#define GYRO_EVAL_INTERVAL 0.016           // 16 ms -> 662 Hz
 volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
 volatile GyroState gyroState = GYRO_SAMPLE;
-volatile bool gyroStarted = false; // the first evaluation has been completed
+volatile bool gyroStarted = false;         // the first evaluation has been completed
 
-int16_t CAX = 0, CAY = 0, CAZ = 0; // current acceleration values
-int16_t CGX = 0, CGY = 0, CGZ = 0; // current gyroscope values
+int16_t CAX = 0, CAY = 0, CAZ = 0;               // current acceleration values
+int16_t CGX = 0, CGY = 0, CGZ = 0;               // current gyroscope values
 volatile double AXoff = 0, AYoff = 0, AZoff = 0; // accelerometer offset values
 volatile double GXoff = 0, GYoff = 0, GZoff = 0; // gyroscope offset values
-volatile double AX = 0, AY = 0, AZ = 0; // averaged acceleration values
-volatile double GX = 0, GY = 0, GZ = 0; // averaged gyroscope values
-volatile int sampleCount = 0; // number of successfully collected samples
-volatile double accPitch = 0, accRoll = 0;   // angles calculated exclusively from the accelerometer
-volatile double compRoll = 0, compPitch = 0; // anlges calculated by the complementary filter (gyro + acc)
+volatile double AX = 0, AY = 0, AZ = 0;          // averaged acceleration values
+volatile double GX = 0, GY = 0, GZ = 0;          // averaged gyroscope values
+volatile int sampleCount = 0;                    // number of successfully collected samples
+volatile double accPitch = 0, accRoll = 0;       // angles calculated exclusively from the accelerometer
+volatile double compRoll = 0, compPitch = 0;     // anlges calculated by the complementary filter (gyro + acc)
 
 
 
@@ -116,7 +116,7 @@ void gyro_calibrate(int numberOfTests){
 
 
 /// calculate angles from evaluated gyro data
-void gyro_getAngles(){
+void gyro_calcAngles(){
     AX /= sampleCount;
     AY /= sampleCount;
     AZ /= sampleCount;
@@ -140,27 +140,25 @@ void gyro_getAngles(){
     // calculate the angles using a Complimentary filter
     compRoll = 0.93 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.07 * accRoll; 
     compPitch = 0.93 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.07 * accPitch;
-
-    sampleCount = 0;   
 }
 
 
 
 /// get direction according to the current pitch
 void motor_evalDirection(){    
-    if(compPitch >= 0){
+    if(compPitch >= 0){ // tilting forwars
         motor_newDirection = FORWARD;
         motor_curr_input = motor_input_forward;
     }
-    else {
+    else { // tilting backwards
         motor_newDirection = BACWARDS;
         motor_curr_input = motor_input_backwards;
     }
     
     if(motor_firstStart)
-        motor_lastDirection = motor_newDirection;
+        motor_lastDirection = motor_newDirection;  // skip direction change check & save current
     
-    if( motor_newDirection != motor_lastDirection)
+    if( motor_newDirection != motor_lastDirection) // direction change check
         motor_sate = MOTOR_BRAKE;
     
     motor_lastDirection = motor_newDirection;
@@ -176,7 +174,7 @@ void motor_setDirection(){
 
 /// calculate optimal motor speed
 void motor_evalPWM(){
-    float balanceSpeed = fabsf((float)compPitch / 45);
+    float balanceSpeed = fabsf((float)compPitch / 45); // speed to maintain balance
     motor_LPercentage = balanceSpeed;
     motor_RPercentage = balanceSpeed;
 }
@@ -219,8 +217,10 @@ CY_ISR(GyroEvalIT){
     gyroState = GYRO_EVAL; 
 }
 
+/// encoder interrupt count
 CY_ISR(EncoderLeftIT){ encoderL.currCount++; }
 CY_ISR(EncoderRightIT){ encoderR.currCount++; }
+/// evaluate encoder interrupt count
 CY_ISR(EncoderEvalIT){
     Timer_Motor_Encoder_Eval_STATUS;
     encoderL.evalCount = encoderL.currCount;
@@ -230,6 +230,7 @@ CY_ISR(EncoderEvalIT){
     encoderEvalReady = true;
 }
 
+/// button interrupt to toggle sleep mode
 CY_ISR(ToggleSleepIT){
     sleep = !sleep;    
     motor_sate = sleep ? MOTOR_SLEEP : MOTOR_GO;
@@ -238,23 +239,27 @@ CY_ISR(ToggleSleepIT){
 
 
 
-void init(void)
+/// initialize things
+void init()
 {        
+    // init USB UART
     UART_USB_Start();    
     UART_USB_PutString("\n\rCOM Port Open\n\r");
     
-    I2C_GY87_Start();    
+    // init gyoscope
+    I2C_GY87_Start();
     MPU6050_init();
 	MPU6050_initialize();
     MPU6050_setMasterClockSpeed(13); // 400 kbps
-    MPU6050_setDLPFMode(1);
+    MPU6050_setDLPFMode(1); // 184 Hz, supports 1 kHz sample rate
     UART_USB_PutString(MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");   
     
-    
+    // calibrate gyro offsets
     UART_USB_PutString("Calbirating...\n\r");
     gyro_calibrate(500);
     UART_USB_PutString("Calbiration done\n\n\r");
     
+    // start timers
     Clock_Timer_G87_Sample_Start();
     Clock_Timer_G87_Eval_Start();
     Clock_Timer_Motor_Encoder_Eval_Start();
@@ -262,14 +267,16 @@ void init(void)
     Timer_GY87_Eval_Start();
     Timer_Motor_Encoder_Eval_Start();
     
+    // start motor control
     Clock_Motor_PWM_Start();
     PWM_Motor_Start();
     motor_curr_input = motor_input_sleep;
     
+    // start status LED 
     PWM_LED_Start();
     PWM_LED_BRIGHTNESS_Start();
     
-    
+    // register interrupts
     isr_Sample_GY87_StartEx(GyroSampleIT);
     isr_Eval_GY87_StartEx(GyroEvalIT);
     isr_Inc_Motor_Encoder_L_StartEx(EncoderLeftIT);
@@ -290,27 +297,30 @@ int main(void)
     for(;;) {                
         switch(gyroState){
             case GYRO_SAMPLE: {
+                // apply offstets and accumulate samples
                 AX += ((float)CAX-AXoff);
                 AY += ((float)CAY-AYoff);
-                AZ += ((float)CAZ-AZoff); 
+                AZ += ((float)CAZ-AZoff);
                 
                 GX += ((float)CGX-GXoff);
                 GY += ((float)CGY-GYoff);
                 GZ += ((float)CGZ-GZoff);
                 
-                sampleCount++;            
+                sampleCount++;
                 break;
             }
             case GYRO_EVAL: {
                 if(sampleCount > 0)
-                   gyro_getAngles();
+                   gyro_calcAngles();
                 
-                sprintf(outBuf, "GA %d %d\n",  (int)(compPitch*100), (int)(compRoll*100)); 
+                sprintf(outBuf, "GA %d %d\n",  (int)(compPitch*100), (int)(compRoll*100));
                 UART_USB_PutString(outBuf);
                
          
+                // reset samples
                 AX = 0; AY = 0; AZ = 0;
-                GX = 0; GY = 0; GZ = 0;
+                GX = 0; GY = 0; GZ = 0;           
+                sampleCount = 0;   
                 
                 gyroState = GYRO_SAMPLE;
                 gyroStarted = true;
@@ -329,8 +339,7 @@ int main(void)
         if(compPitch > TIPPING_TRESHOLD || compPitch < -TIPPING_TRESHOLD ||
         compRoll > TIPPING_TRESHOLD || compRoll < -TIPPING_TRESHOLD){
             sleep = true;
-            motor_sate = MOTOR_SLEEP;
-            
+            motor_sate = MOTOR_SLEEP;            
             updateLED();
         }
         

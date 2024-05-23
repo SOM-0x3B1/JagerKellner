@@ -238,6 +238,12 @@ CY_ISR(ToggleSleepIT){
 }
 
 
+CY_ISR(UARTEvalIT){
+    Timer_UART_Eval_STATUS;
+    
+}
+
+
 
 /// initialize things
 void init()
@@ -263,9 +269,11 @@ void init()
     Clock_Timer_G87_Sample_Start();
     Clock_Timer_G87_Eval_Start();
     Clock_Timer_Motor_Encoder_Eval_Start();
+    Clock_Timer_UART_Eval_Start();
     Timer_GY87_Sample_Start();
     Timer_GY87_Eval_Start();
     Timer_Motor_Encoder_Eval_Start();
+    Timer_UART_Eval_Start();
     
     // start motor control
     Clock_Motor_PWM_Start();

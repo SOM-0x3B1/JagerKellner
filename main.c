@@ -4,46 +4,50 @@
 #include "math.h"
 
 
-volatile bool sleep = false; // suspend motors
+//=====[ Main parameters ]==================
 
 volatile float targetPitchAngle = 0; // keep this angle to achieve balance
-volatile float antiDrift_offsetAngle = 0;
-volatile float antiDrift_weight = 0.005;
+/*volatile float antiDrift_offsetAngle = 0;
+volatile float antiDrift_weight = 0.005;*/
 
 
 volatile float Kp = 165;          // (P)roportional Tuning Parameter
 volatile float Ki = 0.4;           // (I)ntegral Tuning Parameter        
 volatile float Kd = 140;           // (D)erivative Tuning Parameter       
-volatile float iTerm = 0;        // Used to accumulate error (integral)
-volatile float maxPID = 255;     // The maximum value that can be output
-volatile float lastPitch = 0;    // The last sensor value
-volatile float lastError = 0;    // The last error value
+volatile float iTerm = 0;        // used to accumulate error (integral)
+volatile float maxPID = 255;     // the maximum value that can be output
+
+volatile float lastPitch = 0;    // the last sensor value
+volatile float lastError = 0;    // the last error value
 
 
 
+//=====[ Serial communication ]==================
 
+// currently active UART source
 typedef enum {
     SOURCE_USB,
     SOURCE_BLUETOOTH,
     SOURCE_WAITING
 } UART_Source;
 
+volatile UART_Source currentUARTSource = SOURCE_WAITING;
+
 typedef enum {
-    CMD_PART_TYPE,
-    CMD_PART_SPEC,
-    CMD_PART_VALUE
+    CMD_PART_TYPE,  // 1st character of command
+    CMD_PART_SPEC,  // 2nd character of command
+    CMD_PART_VALUE  // the value after the command
 } CommandPart;
 
 char outBuf[100]; // UART output string buffer
 
-volatile int BTspacer = 0;
+volatile int BTspacer = 0; // to make Bluetooth output less frequent
 
-volatile bool sendGyro = true;
-volatile bool sendMotor = true;
-
-volatile UART_Source currentUARTSource = SOURCE_WAITING;
+volatile bool sendGyro = true;  // enable gyro out stream
+volatile bool sendMotor = true; // enable motor speed out stream
 
 
+/// Read char from the currently active UART source
 char UART_getChar(){
     switch (currentUARTSource){
         case SOURCE_USB:
@@ -55,6 +59,7 @@ char UART_getChar(){
     }
 }
 
+/// Checks if currently active UART source has an empty buffer
 bool UART_isBufferEmpty(){
     if(currentUARTSource == SOURCE_USB)
         return !UART_USB_GetRxBufferSize();
@@ -62,6 +67,7 @@ bool UART_isBufferEmpty(){
         return !UART_Bluetooth_GetRxBufferSize();
 }
 
+/// Clears the RX buffer of the currently active UART source
 void UART_clearRxBuffer(){
     if(currentUARTSource == SOURCE_USB)
         UART_USB_ClearRxBuffer();
@@ -69,14 +75,16 @@ void UART_clearRxBuffer(){
         UART_Bluetooth_ClearRxBuffer();
 }
 
-void UART_PutRequestString(){
+/// Sends string to the currently active UART source
+void UART_active_PutString(){
     if(currentUARTSource == SOURCE_USB)
         UART_USB_PutString(outBuf);
     else
         UART_Bluetooth_PutString(outBuf);    
 }
 
-void UART_PutString(bool forceBT){    
+/// Send string to all UART sources
+void UART_dual_PutString(bool forceBT){    
     if(forceBT || BTspacer > 2){
         UART_Bluetooth_PutString(outBuf);
         BTspacer = 0;   
@@ -86,9 +94,130 @@ void UART_PutString(bool forceBT){
     UART_USB_PutString(outBuf);  
 }
 
+/// Read command from currently active UART source
+void UART_enum(){
+    if(currentUARTSource != SOURCE_WAITING){
+        bool fail = false;
+        volatile CommandPart currPart = CMD_PART_TYPE; // which part of the command string to expect
+        
+        /* S: set parameter
+         * E: set enabled
+         */
+        volatile char cmdType; 
+        
+        /* P: set proportional
+         * I: set integral
+         * D: set derivative
+         * A: set target angle
+         * G: enable gyroscope
+         * M: enable motor
+         */
+        volatile char cmdSpec;
+        
+        volatile int value = 0;
+        bool value_negative = false;        
+        
+        volatile char ch;
+        do {
+            ch = UART_getChar();
+        } while (ch == '\0');
+        
+        // state machine
+        while(!fail && ch != '\n' && ch != '\r'){
+            switch(currPart) {
+                // get type
+                case CMD_PART_TYPE: {
+                    if(ch == 'S' || ch == 'E') {
+                        cmdType = ch;
+                        currPart = CMD_PART_SPEC;
+                    }
+                    else { 
+                        UART_clearRxBuffer();
+                        fail = true;
+                    }
+                    break;
+                }
+                
+                // get specification
+                case CMD_PART_SPEC: {
+                    if (cmdType == 'S'){
+                        if(ch == 'P' || ch == 'I' || ch == 'D' || ch == 'A') {
+                            cmdSpec = ch;
+                            currPart = CMD_PART_VALUE;
+                        }
+                        else { 
+                            UART_clearRxBuffer();
+                            fail = true;
+                        }
+                    }
+                    else if (cmdType == 'E') {
+                        if(ch == 'G' || ch == 'M'){
+                            cmdSpec = ch;
+                            currPart = CMD_PART_VALUE;
+                        }
+                        else{
+                            UART_clearRxBuffer();
+                            fail = true;
+                        }
+                    }
+                    break;
+                }
+                
+                // get value
+                case CMD_PART_VALUE: {
+                    if(ch == '-')
+                        value_negative = true;
+                    else if(isdigit(ch)){
+                        value *= 10;
+                        value += ch - '0';
+                    } else
+                        fail = true;
+                    break;
+                }
+            }
+            if(!fail){
+                do {
+                    ch = UART_getChar();
+                } while (ch == 0);
+            }
+        }        
+      
+        if(!fail){
+            // set
+            if(cmdType == 'S'){
+                if(value_negative) value = -value;
+                switch(cmdSpec){
+                    case 'P':
+                        Kp = (float)value;
+                        break;
+                    case 'I':
+                        Ki = (float)value / 100;
+                        break;
+                    case 'D':
+                        Kd = (float)value;
+                        break;
+                    case 'A':
+                        targetPitchAngle = (float)value / 10;
+                        break;
+                }
+            } 
+            // enable
+            else if(cmdType == 'E') {
+                if(cmdSpec == 'G')
+                    sendGyro = (value != 0);
+                else if(cmdSpec == 'M')
+                    sendMotor = (value != 0);
+            }
+        }        
+        //UART_clearRxBuffer();
+        currentUARTSource = SOURCE_WAITING;
+    }   
+}
 
 
 
+
+//=====[ Gyroscope ]==================
 
 typedef enum {
     GYRO_SAMPLE, // collect samples (1000 Hz)
@@ -114,56 +243,6 @@ volatile double accPitch = 0, accRoll = 0;       // angles calculated exclusivel
 volatile double compRoll = 0, compPitch = 0;     // anlges calculated by the complementary filter (gyro + acc)
 
 
-
-#define MOTOR_PWM_MIN 0  // minimum value to start the motors
-#define MOTOR_PWM_MAX 2600 // maximum motor PWM value  <--  PWM compare vlaue * (6V / accumulator voltage)
-const int motor_fullThrottle = MOTOR_PWM_MAX - MOTOR_PWM_MIN;
-
-typedef enum {
-    MOTOR_GO,
-    MOTOR_BRAKE,
-    MOTOR_SLEEP
-} MotorState;
-
-typedef enum {
-    FORWARD,
-    BACWARDS
-} Direction;
-
-// motor input config
-typedef struct MotorIn{
-    uint8 first;  // IN1, IN3
-    uint8 second; // IN2, IN4
-} MotorIn;
-
-const MotorIn motor_input_sleep = (MotorIn) {0, 0};
-const MotorIn motor_input_forward = (MotorIn) {0, 1};
-const MotorIn motor_input_backwards = (MotorIn) {1, 0};
-const MotorIn motor_input_brake = (MotorIn) {1, 1};
-
-volatile MotorIn motor_curr_input; // current motor input
-
-volatile MotorState motor_sate = MOTOR_SLEEP;
-volatile bool motor_firstStart = true; // the motor hasn't been moving before
-volatile Direction motor_newDirection;
-volatile Direction motor_lastDirection;
-volatile float motor_LPercentage = 0, motor_RPercentage = 0; // PWM duty cicle percentage
-
-
-
-
-typedef struct Encoder{
-    uint currCount; // current interrupt count
-    uint evalCount; // evaluated interrupt count
-} Encoder;
-
-Encoder encoderL = (Encoder) {0, 0};
-Encoder encoderR = (Encoder) {0, 0};
-
-volatile bool encoderEvalReady = false;
-
-
-
 /// calibrate gyro offsets
 /// @param numberOfTests how many samples should be gathered for calibration
 void gyro_calibrate(int numberOfTests){
@@ -179,12 +258,12 @@ void gyro_calibrate(int numberOfTests){
         CyDelay(1); // wait 1 ms
         if((i & 3) == 0) { // write only when i % 4 == 0
             sprintf(outBuf, "\r%d / %d ", i + 1, numberOfTests);
-            UART_PutString(true);
+            UART_dual_PutString(true);
         }
     }
     
     sprintf(outBuf, "\r%d / %d \n\r", numberOfTests, numberOfTests);
-    UART_PutString(true);
+    UART_dual_PutString(true);
     
     // average values
     AXoff = AXoff/numberOfTests;
@@ -225,9 +304,59 @@ void gyro_calcAngles(){
 
 
 
-/// get direction according to the current pitch
+//=====[ Motor control ]==================
+
+#define MOTOR_PWM_MIN 0  // minimum value to start the motors
+#define MOTOR_PWM_MAX 2600 // maximum motor PWM value  <--  PWM compare vlaue * (6V / accumulator voltage)
+const int motor_fullThrottle = MOTOR_PWM_MAX - MOTOR_PWM_MIN;
+
+volatile bool sleep = false; // suspend motors
+
+typedef enum {
+    MOTOR_GO,
+    MOTOR_BRAKE,
+    MOTOR_SLEEP
+} MotorState;
+
+typedef enum {
+    FORWARD,
+    BACWARDS
+} Direction;
+
+// motor input config
+typedef struct MotorIn{
+    uint8 first;  // IN1, IN3
+    uint8 second; // IN2, IN4
+} MotorIn;
+
+const MotorIn motor_input_sleep = (MotorIn) {0, 0};
+const MotorIn motor_input_forward = (MotorIn) {0, 1};
+const MotorIn motor_input_backwards = (MotorIn) {1, 0};
+const MotorIn motor_input_brake = (MotorIn) {1, 1};
+
+volatile MotorIn motor_curr_input; // current motor input
+
+volatile MotorState motor_sate = MOTOR_SLEEP;
+volatile bool motor_firstStart = true; // the motor hasn't been moving before
+volatile Direction motor_newDirection;
+volatile Direction motor_lastDirection;
+volatile float motor_LPercentage = 0, motor_RPercentage = 0; // PWM duty cicle percentage
+
+
+typedef struct Encoder{
+    uint currCount; // current interrupt count
+    uint evalCount; // evaluated interrupt count
+} Encoder;
+
+Encoder encoderL = (Encoder) {0, 0};
+Encoder encoderR = (Encoder) {0, 0};
+
+volatile bool encoderEvalReady = false;
+
+
+/// Get direction according to the current pitch
 void motor_evalDirection(){    
-    if(compPitch - (targetPitchAngle + antiDrift_offsetAngle) >= 0){ // tilting forwars
+    if(compPitch - (targetPitchAngle /*+ antiDrift_offsetAngle*/) >= 0){ // tilting forwars
         motor_newDirection = FORWARD;
         motor_curr_input = motor_input_forward;
     }
@@ -245,7 +374,7 @@ void motor_evalDirection(){
     motor_lastDirection = motor_newDirection;
 }
 
-/// set direction on the motor controller
+/// Set direction on the motor controller
 void motor_setDirection(){
     Pin_Motor_In_1_Write(motor_curr_input.first);
     Pin_Motor_In_2_Write(motor_curr_input.second);
@@ -254,23 +383,18 @@ void motor_setDirection(){
 }
 
 
-/// calculate optimal motor speed
+/// Calculate optimal motor speed
 void motor_evalPWM(){
     // Calculate error between target and current values
-	float error = (targetPitchAngle + antiDrift_offsetAngle) - compPitch;
-
-	// Calculate the integral term
+	float error = (targetPitchAngle /*+ antiDrift_offsetAngle*/) - compPitch;
 	iTerm += error;
 
-	// Calculate the derivative term (using the simplification)
+	// Calculate the derivative term
 	float dTerm = error - lastError;
-
-	// Set old variable to equal new ones
 	lastError = error;
 
 	// Multiply each term by its constant, and add it all up
-	float result = (error * Kp) + (iTerm * Ki) + (dTerm * Kd);
-    
+	float result = (error * Kp) + (iTerm * Ki) + (dTerm * Kd);    
     result = fabsf(result);
 
 	// Limit PID value to maximum values
@@ -282,13 +406,13 @@ void motor_evalPWM(){
 }
 
 
-/// set motor speed to 0
+/// Set motor speed to 0
 void motor_resetPWM(){
     motor_LPercentage = 0;
     motor_RPercentage = 0;
 }
 
-/// set motor speed to the calculated PWM
+/// Set motor speed to the calculated PWM
 void motor_setPWM(){
     int lPWM =(int)(motor_fullThrottle * motor_LPercentage);
     int rPWM =(int)(motor_fullThrottle * motor_RPercentage);
@@ -298,7 +422,7 @@ void motor_setPWM(){
 
 
 
-/// update the LED
+/// Update the LED
 void updateLED(){
     if(sleep)
         PWM_LED_WriteCompare(50);
@@ -308,107 +432,8 @@ void updateLED(){
 
 
 
-void UART_enum(){
-    if(currentUARTSource != SOURCE_WAITING){
-        bool fail = false;
-        volatile CommandPart currPart = CMD_PART_TYPE;
-        volatile char cmdType;
-        volatile char cmdSpec;
-        volatile int value = 0;
-        bool value_negative = false;        
-        
-        volatile char ch;
-        do {
-            ch = UART_getChar();
-        } while (ch == 0);
-        
-        while(!fail && ch != '\n' && ch != '\r'){
-            switch(currPart) {
-                case CMD_PART_TYPE: {
-                    if(ch == 'S' || ch == 'E') {
-                        cmdType = ch;
-                        currPart = CMD_PART_SPEC;
-                    }
-                    else { 
-                        UART_clearRxBuffer();
-                        fail = true;
-                    }
-                    break;
-                }
-                
-                case CMD_PART_SPEC: {
-                    if (cmdType == 'S'){
-                        if(ch == 'P' || ch == 'I' || ch == 'D' || ch == 'A') {
-                            cmdSpec = ch;
-                            currPart = CMD_PART_VALUE;
-                        }
-                        else { 
-                            UART_clearRxBuffer();
-                            fail = true;
-                        }
-                    }
-                    else if (cmdType == 'E') {
-                        if(ch == 'G' || ch == 'M'){
-                            cmdSpec = ch;
-                            currPart = CMD_PART_VALUE;
-                        }
-                        else{
-                            UART_clearRxBuffer();
-                            fail = true;
-                        }
-                    }
-                    break;
-                }
-                
-                case CMD_PART_VALUE: {
-                    if(ch == '-')
-                        value_negative = true;
-                    else if(isdigit(ch)){
-                        value *= 10;
-                        value += ch - '0';
-                    } else
-                        fail = true;
-                    break;
-                }
-            }
-            if(!fail){
-                do {
-                    ch = UART_getChar();
-                } while (ch == 0);
-            }
-        }        
-      
-        if(!fail){
-            if(cmdType == 'S'){
-                if(value_negative) value = -value;
-                switch(cmdSpec){
-                    case 'P':
-                        Kp = (float)value;
-                        break;
-                    case 'I':
-                        Ki = (float)value / 100;
-                        break;
-                    case 'D':
-                        Kd = (float)value;
-                        break;
-                    case 'A':
-                        targetPitchAngle = (float)value / 10;
-                        break;
-                }
-            } 
-            else if(cmdType == 'E') {
-                if(cmdSpec == 'G')
-                    sendGyro = (value != 0);
-                else if(cmdSpec == 'M')
-                    sendMotor = (value != 0);
-            }
-        }        
-        //UART_clearRxBuffer();
-        currentUARTSource = SOURCE_WAITING;
-    }   
-}
 
-
+//=====[ Interrupts ]==================
 
 /// get gyro sample
 CY_ISR(GyroSampleIT){    
@@ -422,10 +447,10 @@ CY_ISR(GyroEvalIT){
     gyroState = GYRO_EVAL; 
 }
 
-/// encoder interrupt count
+/// Encoder interrupt count
 CY_ISR(EncoderLeftIT){ encoderL.currCount++; }
 CY_ISR(EncoderRightIT){ encoderR.currCount++; }
-/// evaluate encoder interrupt count
+/// Evaluate encoder interrupt count
 CY_ISR(EncoderEvalIT){
     Timer_Motor_Encoder_Eval_STATUS;
     encoderL.evalCount = encoderL.currCount;
@@ -435,14 +460,14 @@ CY_ISR(EncoderEvalIT){
     encoderEvalReady = true;
 }
 
-/// button interrupt to toggle sleep mode
+/// Button interrupt to toggle sleep mode
 CY_ISR(ToggleSleepIT){
     sleep = !sleep;    
     motor_sate = sleep ? MOTOR_SLEEP : MOTOR_GO;
     updateLED();
 }
 
-
+/// Read UART data
 CY_ISR(UARTEvalIT){
     Timer_UART_Eval_STATUS;
     if(currentUARTSource == SOURCE_WAITING){
@@ -456,6 +481,8 @@ CY_ISR(UARTEvalIT){
 }
 
 
+
+//=====[ Initialization ]==================
 
 /// initialize things
 void init() {        
@@ -475,14 +502,14 @@ void init() {
     MPU6050_setMasterClockSpeed(13); // 400 kbps
     MPU6050_setDLPFMode(1); // 184 Hz, supports 1 kHz sample rate
     sprintf(outBuf, MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");
-    UART_PutString(true);
+    UART_dual_PutString(true);
     
     // calibrate gyro offsets
     sprintf(outBuf, "Calbirating...\n\r");
-    UART_PutString(true);
+    UART_dual_PutString(true);
     gyro_calibrate(500);
     sprintf(outBuf, "Calbiration done\n\n\r");
-    UART_PutString(true);
+    UART_dual_PutString(true);
     
     // start timers
     Clock_Timer_G87_Sample_Start();
@@ -545,7 +572,7 @@ int main(void) {
                 
                 if(sendGyro){
                     sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*10), (int)(compRoll*10));
-                    UART_PutString(false);
+                    UART_dual_PutString(false);
                 }
                
          
@@ -576,13 +603,14 @@ int main(void) {
         }
         
         
+        // send motor speed data
         if(encoderEvalReady && sendMotor){
             sprintf(outBuf, "MS %d %d\n\r", encoderL.evalCount, encoderR.evalCount); 
-            UART_PutString(false);
+            UART_dual_PutString(false);
             encoderEvalReady = false;
         }
         
-        
+        // tipping detection
         if(compPitch > TIPPING_TRESHOLD || compPitch < -TIPPING_TRESHOLD ||
         compRoll > TIPPING_TRESHOLD || compRoll < -TIPPING_TRESHOLD){
             sleep = true;
@@ -590,7 +618,7 @@ int main(void) {
             updateLED();
         }
         
-        
+        // motor states
         if(gyroStarted){
             switch(motor_sate){
                 case MOTOR_BRAKE:

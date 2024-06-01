@@ -36,7 +36,7 @@ typedef enum {
 
 char outBuf[100]; // UART output string buffer
 
-volatile uint8 BTspacer = 0;
+volatile int BTspacer = 0;
 
 volatile bool sendGyro = true;
 volatile bool sendMotor = true;
@@ -76,8 +76,8 @@ void UART_PutRequestString(){
         UART_Bluetooth_PutString(outBuf);    
 }
 
-void UART_PutString(){    
-    if((BTspacer & 15) == 0){
+void UART_PutString(bool forceBT){    
+    if(forceBT || BTspacer > 2){
         UART_Bluetooth_PutString(outBuf);
         BTspacer = 0;   
     }
@@ -179,12 +179,12 @@ void gyro_calibrate(int numberOfTests){
         CyDelay(1); // wait 1 ms
         if((i & 3) == 0) { // write only when i % 4 == 0
             sprintf(outBuf, "\r%d / %d ", i + 1, numberOfTests);
-            UART_PutString();
+            UART_PutString(true);
         }
     }
     
     sprintf(outBuf, "\r%d / %d \n\r", numberOfTests, numberOfTests);
-    UART_PutString();
+    UART_PutString(true);
     
     // average values
     AXoff = AXoff/numberOfTests;
@@ -411,10 +411,10 @@ void UART_enum(){
 
 
 /// get gyro sample
-CY_ISR(GyroSampleIT){
-    Timer_GY87_Sample_STATUS;
+CY_ISR(GyroSampleIT){    
     if(gyroState == GYRO_SAMPLE)
         MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
+    Timer_GY87_Sample_STATUS;
 }
 /// evaluate gyro samples 
 CY_ISR(GyroEvalIT){
@@ -475,14 +475,14 @@ void init() {
     MPU6050_setMasterClockSpeed(13); // 400 kbps
     MPU6050_setDLPFMode(1); // 184 Hz, supports 1 kHz sample rate
     sprintf(outBuf, MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");
-    UART_PutString();
+    UART_PutString(true);
     
     // calibrate gyro offsets
     sprintf(outBuf, "Calbirating...\n\r");
-    UART_PutString();
+    UART_PutString(true);
     gyro_calibrate(500);
     sprintf(outBuf, "Calbiration done\n\n\r");
-    UART_PutString();
+    UART_PutString(true);
     
     // start timers
     Clock_Timer_G87_Sample_Start();
@@ -544,8 +544,8 @@ int main(void) {
                    gyro_calcAngles();  
                 
                 if(sendGyro){
-                    sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*100), (int)(compRoll*100));
-                    UART_PutString();
+                    sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*10), (int)(compRoll*10));
+                    UART_PutString(false);
                 }
                
          
@@ -578,7 +578,7 @@ int main(void) {
         
         if(encoderEvalReady && sendMotor){
             sprintf(outBuf, "MS %d %d\n\r", encoderL.evalCount, encoderR.evalCount); 
-            UART_PutString();
+            UART_PutString(false);
             encoderEvalReady = false;
         }
         

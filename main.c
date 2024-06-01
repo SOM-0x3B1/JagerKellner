@@ -84,6 +84,7 @@ void UART_active_PutString(){
 }
 
 /// Send string to all UART sources
+/// @param forceBT disable BT spacing for this output
 void UART_dual_PutString(bool forceBT){    
     if(forceBT || BTspacer > 2){
         UART_Bluetooth_PutString(outBuf);

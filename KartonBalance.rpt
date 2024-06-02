@@ -1,13 +1,13 @@
-Loading plugins phase: Elapsed time ==> 0s.186ms
+Loading plugins phase: Elapsed time ==> 0s.164ms
 <CYPRESSTAG name="CyDsfit arguments...">
-cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -d CY8C5888LTI-LP097 -s D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\Generated_Source\PSoC5 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
+cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -d CY8C5888LTI-LP097 -s D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\Generated_Source\PSoC5 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 </CYPRESSTAG>
 <CYPRESSTAG name="Design elaboration results...">
 </CYPRESSTAG>
-Elaboration phase: Elapsed time ==> 2s.282ms
+Elaboration phase: Elapsed time ==> 1s.976ms
 <CYPRESSTAG name="HDL generation results...">
 </CYPRESSTAG>
-HDL generation phase: Elapsed time ==> 0s.072ms
+HDL generation phase: Elapsed time ==> 0s.062ms
 <CYPRESSTAG name="Synthesis results...">
 
      | | | | | | |
@@ -23,35 +23,35 @@ HDL generation phase: Elapsed time ==> 0s.072ms
      | | | | | | |
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\bin\warp.exe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 JagerKellner.v -verilog
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 KartonBalance.v -verilog
 ======================================================================
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\bin\warp.exe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 JagerKellner.v -verilog
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 KartonBalance.v -verilog
 ======================================================================
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   vlogfe
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 -verilog JagerKellner.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 -verilog KartonBalance.v
 ======================================================================
 
 vlogfe V6.3 IR 41:  Verilog parser
-Thu May 30 01:02:17 2024
+Sun Jun 02 14:30:06 2024
 
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   vpp
-Options  :    -yv2 -q10 JagerKellner.v
+Options  :    -yv2 -q10 KartonBalance.v
 ======================================================================
 
 vpp V6.3 IR 41:  Verilog Pre-Processor
-Thu May 30 01:02:17 2024
+Sun Jun 02 14:30:06 2024
 
 Flattening file 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v'
 Flattening file 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.v'
@@ -79,7 +79,7 @@ Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
-Using control file 'JagerKellner.ctl'.
+Using control file 'KartonBalance.ctl'.
 E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v (line 947, col 46):  Note: Substituting module 'sub_vi_vv' for '-'.
 E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v (line 977, col 46):  Note: Substituting module 'add_vi_vv' for '+'.
 E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_UART_v2_50\B_UART_v2_50.v (line 1113, col 55):  Note: Substituting module 'add_vv_vv' for '+'.
@@ -97,13 +97,13 @@ vlogfe:  No errors.
 
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   tovif
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 -verilog JagerKellner.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 -verilog KartonBalance.v
 ======================================================================
 
 tovif V6.3 IR 41:  High-level synthesis
-Thu May 30 01:02:17 2024
+Sun Jun 02 14:30:06 2024
 
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -114,11 +114,11 @@ Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
-Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\codegentemp\JagerKellner.ctl'.
+Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\codegentemp\KartonBalance.ctl'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
-Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\codegentemp\JagerKellner.v'.
+Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\codegentemp\KartonBalance.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
@@ -135,13 +135,13 @@ tovif:  No errors.
 
 
 ======================================================================
-Compiling:  JagerKellner.v
+Compiling:  KartonBalance.v
 Program  :   topld
-Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 -verilog JagerKellner.v
+Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 -verilog KartonBalance.v
 ======================================================================
 
 topld V6.3 IR 41:  Synthesis and optimization
-Thu May 30 01:02:18 2024
+Sun Jun 02 14:30:07 2024
 
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -152,11 +152,11 @@ Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
-Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\codegentemp\JagerKellner.ctl'.
+Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\codegentemp\KartonBalance.ctl'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
-Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\codegentemp\JagerKellner.v'.
+Linking 'D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\codegentemp\KartonBalance.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
@@ -1984,16 +1984,16 @@ topld:  No errors.
 
 CYPRESS_DIR    : E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp
 Warp Program   : E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\bin\warp.exe
-Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -dcpsoc3 JagerKellner.v -verilog
+Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 KartonBalance.v -verilog
 </CYPRESSTAG>
-Warp synthesis phase: Elapsed time ==> 2s.367ms
+Warp synthesis phase: Elapsed time ==> 2s.120ms
 <CYPRESSTAG name="Fitter results...">
 <CYPRESSTAG name="Fitter startup details...">
-cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Thursday, 30 May 2024 01:02:19
-Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\JagerKellner.cydsn\JagerKellner.cyprj -d CY8C5888LTI-LP097 JagerKellner.v -verilog
+cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Sunday, 02 June 2024 14:30:08
+Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -d CY8C5888LTI-LP097 KartonBalance.v -verilog
 </CYPRESSTAG>
 <CYPRESSTAG name="Design parsing">
-Design parsing phase: Elapsed time ==> 0s.025ms
+Design parsing phase: Elapsed time ==> 0s.041ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Tech Mapping">
 <CYPRESSTAG name="Initial Mapping" icon="FILE_RPT_TECHM">
@@ -4690,8 +4690,8 @@ Analog (SC/CT) Blocks         :    0 :    4 :    4 :  0.00 %
 DAC                           :      :      :      :        
   VIDAC                       :    0 :    4 :    4 :  0.00 %
 </CYPRESSTAG>
-Technology Mapping: Elapsed time ==> 0s.264ms
-Tech Mapping phase: Elapsed time ==> 0s.325ms
+Technology Mapping: Elapsed time ==> 0s.235ms
+Tech Mapping phase: Elapsed time ==> 0s.319ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Placement">
 Initial Analog Placement Results:
@@ -4715,7 +4715,7 @@ IO_6@[IOP=(2)][IoId=(6)] : Rx_Blu(0) (fixed)
 IO_6@[IOP=(12)][IoId=(6)] : Rx_USB(0) (fixed)
 IO_7@[IOP=(2)][IoId=(7)] : Tx_Blu(0) (fixed)
 IO_7@[IOP=(12)][IoId=(7)] : Tx_USB(0) (fixed)
-Analog Placement phase: Elapsed time ==> 0s.045ms
+Analog Placement phase: Elapsed time ==> 0s.014ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Routing">
 Analog Routing phase: Elapsed time ==> 0s.000ms
@@ -4733,11 +4733,11 @@ Dump of CyP35AnalogRoutingResultsDB
 IsVddaHalfUsedForComp = False
 IsVddaHalfUsedForSar0 = False
 IsVddaHalfUsedForSar1 = False
-Analog Code Generation phase: Elapsed time ==> 0s.289ms
+Analog Code Generation phase: Elapsed time ==> 0s.307ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Placement">
 <CYPRESSTAG name="Detailed placement messages">
-I2076: Total run-time: 1.6 sec.
+I2076: Total run-time: 1.5 sec.
 
 </CYPRESSTAG>
 <CYPRESSTAG name="PLD Packing">
@@ -4768,7 +4768,7 @@ PLD Packing: Elapsed time ==> 0s.001ms
 Initial Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
 <CYPRESSTAG name="Final Partitioning Summary">
 Final Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
-Partitioning: Elapsed time ==> 0s.086ms
+Partitioning: Elapsed time ==> 0s.083ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Final Placement Summary">
 
@@ -7607,33 +7607,33 @@ Port | Pin | Fixed |      Type |       Drive Mode |                   Name | Con
 </CYPRESSTAG>
 </CYPRESSTAG>
 </CYPRESSTAG>
-Digital component placer commit/Report: Elapsed time ==> 0s.109ms
-Digital Placement phase: Elapsed time ==> 2s.096ms
+Digital component placer commit/Report: Elapsed time ==> 0s.103ms
+Digital Placement phase: Elapsed time ==> 1s.928ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Routing">
-"E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\bin/sjrouter.exe" --xml-path "E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\dev\psoc5/psoc5lp/route_arch-rrg.cydata" --vh2-path "JagerKellner_r.vh2" --pcf-path "JagerKellner.pco" --des-name "JagerKellner" --dsf-path "JagerKellner.dsf" --sdc-path "JagerKellner.sdc" --lib-path "JagerKellner_r.lib"
+"E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\bin/sjrouter.exe" --xml-path "E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\dev\psoc5/psoc5lp/route_arch-rrg.cydata" --vh2-path "KartonBalance_r.vh2" --pcf-path "KartonBalance.pco" --des-name "KartonBalance" --dsf-path "KartonBalance.dsf" --sdc-path "KartonBalance.sdc" --lib-path "KartonBalance_r.lib"
 Routing successful.
-Digital Routing phase: Elapsed time ==> 2s.645ms
+Digital Routing phase: Elapsed time ==> 2s.462ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Generation">
-Bitstream Generation phase: Elapsed time ==> 0s.163ms
+Bitstream Generation phase: Elapsed time ==> 0s.164ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Verification">
-Bitstream Verification phase: Elapsed time ==> 0s.044ms
+Bitstream Verification phase: Elapsed time ==> 0s.035ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Static timing analysis">
-Timing report is in JagerKellner_timing.html.
-Static timing analysis phase: Elapsed time ==> 0s.591ms
+Timing report is in KartonBalance_timing.html.
+Static timing analysis phase: Elapsed time ==> 0s.582ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Data reporting">
 Data reporting phase: Elapsed time ==> 0s.000ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Database update...">
-Design database save phase: Elapsed time ==> 0s.242ms
+Design database save phase: Elapsed time ==> 0s.234ms
 </CYPRESSTAG>
-cydsfit: Elapsed time ==> 6s.494ms
+cydsfit: Elapsed time ==> 6s.112ms
 </CYPRESSTAG>
-Fitter phase: Elapsed time ==> 6s.495ms
-API generation phase: Elapsed time ==> 1s.921ms
-Dependency generation phase: Elapsed time ==> 0s.011ms
-Cleanup phase: Elapsed time ==> 0s.000ms
+Fitter phase: Elapsed time ==> 6s.113ms
+API generation phase: Elapsed time ==> 1s.847ms
+Dependency generation phase: Elapsed time ==> 0s.018ms
+Cleanup phase: Elapsed time ==> 0s.001ms

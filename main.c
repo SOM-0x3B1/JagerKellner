@@ -11,11 +11,11 @@ volatile float targetPitchAngle = 0; // keep this angle to achieve balance
 volatile float antiDrift_weight = 0.005;*/
 
 
-volatile float Kp = 165;          // (P)roportional Tuning Parameter
-volatile float Ki = 0.4;           // (I)ntegral Tuning Parameter        
-volatile float Kd = 140;           // (D)erivative Tuning Parameter       
+volatile float Kp = 450;          // (P)roportional Tuning Parameter
+volatile float Ki = 300;           // (I)ntegral Tuning Parameter        
+volatile float Kd = 90;           // (D)erivative Tuning Parameter       
 volatile float iTerm = 0;        // used to accumulate error (integral)
-volatile float maxPID = 255;     // the maximum value that can be output
+volatile float maxPID = 1024;     // the maximum value that can be output
 
 volatile float lastPitch = 0;    // the last sensor value
 volatile float lastError = 0;    // the last error value
@@ -41,6 +41,8 @@ typedef enum {
 
 char outBuf[100]; // UART output string buffer
 
+
+#define BT_SPACING 1
 volatile int BTspacer = 0; // to make Bluetooth output less frequent
 
 volatile bool sendGyro = true;  // enable gyro out stream
@@ -84,15 +86,22 @@ void UART_active_PutString(){
 }
 
 /// Send string to all UART sources
-/// @param forceBT disable BT spacing for this output
-void UART_dual_PutString(bool forceBT){    
-    if(forceBT || BTspacer > 2){
+/// @param forceDual disable BT spacing for this output
+void UART_dual_PutString(bool forceDual){    
+    if(forceDual){
         UART_Bluetooth_PutString(outBuf);
-        BTspacer = 0;   
+        UART_USB_PutString(outBuf);
     }
-    else
-        BTspacer++;   
-    UART_USB_PutString(outBuf);  
+    else {
+        if(BTspacer > BT_SPACING){
+            UART_Bluetooth_PutString(outBuf);
+            BTspacer = 0;   
+        }
+        else{
+            BTspacer++;   
+            UART_USB_PutString(outBuf);  
+        }
+    }
 }
 
 /// Read command from currently active UART source
@@ -192,7 +201,7 @@ void UART_enum(){
                         Kp = (float)value;
                         break;
                     case 'I':
-                        Ki = (float)value / 100;
+                        Ki = (float)value;
                         break;
                     case 'D':
                         Kd = (float)value;
@@ -226,7 +235,7 @@ typedef enum {
 } GyroState;
 
 #define TIPPING_TRESHOLD 30                // give up control and suspend motors over this tilt angle
-#define GYRO_SAMPLE_INTERVAL 0.001         // 1  ms -> 1000 Hz
+#define GYRO_SAMPLE_INTERVAL 0.002         // 2  ms -> 500 Hz
 #define GYRO_EVAL_INTERVAL 0.02            // 20 ms -> 50 Hz
 volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
@@ -299,15 +308,15 @@ void gyro_calcAngles(){
     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
 
     // calculate the angles using a Complimentary filter
-    compRoll = 0.995 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.005 * accRoll; 
-    compPitch = 0.995 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.005 * accPitch;
+    compRoll = 0.99 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.01 * accRoll; 
+    compPitch = 0.99 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.01 * accPitch;
 }
 
 
 
 //=====[ Motor control ]==================
 
-#define MOTOR_PWM_MIN 0  // minimum value to start the motors
+#define MOTOR_PWM_MIN 200  // minimum value to start the motors
 #define MOTOR_PWM_MAX 2600 // maximum motor PWM value  <--  PWM compare vlaue * (6V / accumulator voltage)
 const int motor_fullThrottle = MOTOR_PWM_MAX - MOTOR_PWM_MIN;
 
@@ -356,8 +365,8 @@ volatile bool encoderEvalReady = false;
 
 
 /// Get direction according to the current pitch
-void motor_evalDirection(){    
-    if(compPitch - (targetPitchAngle /*+ antiDrift_offsetAngle*/) >= 0){ // tilting forwars
+void motor_evalDirection(float PIDres){    
+    if(PIDres < 0 && PIDres < 0){ // tilting forwars
         motor_newDirection = FORWARD;
         motor_curr_input = motor_input_forward;
     }
@@ -385,23 +394,29 @@ void motor_setDirection(){
 
 
 /// Calculate optimal motor speed
-void motor_evalPWM(){
+void motor_evalSpeed(){
     // Calculate error between target and current values
-	float error = (targetPitchAngle /*+ antiDrift_offsetAngle*/) - compPitch;
-	iTerm += error;
+	volatile float error = (targetPitchAngle /*+ antiDrift_offsetAngle*/) - compPitch;
+	iTerm += error * GYRO_EVAL_INTERVAL;
 
 	// Calculate the derivative term
-	float dTerm = error - lastError;
+	volatile float dTerm = (error - lastError) / GYRO_EVAL_INTERVAL / 10;
+    
 	lastError = error;
 
 	// Multiply each term by its constant, and add it all up
-	float result = (error * Kp) + (iTerm * Ki) + (dTerm * Kd);    
-    result = fabsf(result);
+	volatile float result = (error * Kp) + (iTerm * Ki) + (dTerm * Kd);    
+    //result = fabsf(result);
 
 	// Limit PID value to maximum values
 	if (result > maxPID) 
-        result = maxPID;    
+        result = maxPID;
+    else if (result < -maxPID)
+        result = -maxPID;
     
+    motor_evalDirection(result);
+    
+    result = fabsf(result);    
     motor_LPercentage = result / maxPID;
     motor_RPercentage = result / maxPID;
 }
@@ -583,11 +598,11 @@ int main(void) {
                 sampleCount = 0;   
                 
                 gyroState = GYRO_SAMPLE;
-                gyroStarted = true;
+                gyroStarted = true;                
                 
                 
-                motor_evalDirection();
-                motor_evalPWM();          
+                if(!sleep)
+                    motor_evalSpeed();
                 
                 
                 /*if(motor_lastDirection == motor_newDirection 

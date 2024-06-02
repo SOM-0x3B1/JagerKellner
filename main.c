@@ -42,11 +42,14 @@ typedef enum {
 char outBuf[100]; // UART output string buffer
 
 
-#define BT_SPACING 1
+#define USB_SPACING 5
+volatile int USBspacer = 0; // to make USB output less frequent
+#define BT_SPACING 10
 volatile int BTspacer = 0; // to make Bluetooth output less frequent
 
 volatile bool sendGyro = true;  // enable gyro out stream
 volatile bool sendMotor = true; // enable motor speed out stream
+volatile bool sendPID = true;   // enable PID out stream
 
 
 /// Read char from the currently active UART source
@@ -93,13 +96,18 @@ void UART_dual_PutString(bool forceDual){
         UART_USB_PutString(outBuf);
     }
     else {
-        if(BTspacer > BT_SPACING){
+        if(BTspacer >= BT_SPACING){
             UART_Bluetooth_PutString(outBuf);
             BTspacer = 0;   
         }
-        else{
+        else{     
+            if(USBspacer >= USB_SPACING)
+                UART_USB_PutString(outBuf);  
+            else
+                USBspacer = 0;
+             
             BTspacer++;   
-            UART_USB_PutString(outBuf);  
+            USBspacer++;                
         }
     }
 }
@@ -119,8 +127,9 @@ void UART_enum(){
          * I: set integral
          * D: set derivative
          * A: set target angle
-         * G: enable gyroscope
-         * M: enable motor
+         * G: enable gyroscope out stream
+         * M: enable motor out stream
+         * P: enable PID out stream
          */
         volatile char cmdSpec;
         
@@ -161,7 +170,7 @@ void UART_enum(){
                         }
                     }
                     else if (cmdType == 'E') {
-                        if(ch == 'G' || ch == 'M'){
+                        if(ch == 'G' || ch == 'M' || ch == 'P'){
                             cmdSpec = ch;
                             currPart = CMD_PART_VALUE;
                         }
@@ -217,6 +226,8 @@ void UART_enum(){
                     sendGyro = (value != 0);
                 else if(cmdSpec == 'M')
                     sendMotor = (value != 0);
+                else if(cmdSpec == 'P')
+                    sendPID = (value != 0);
             }
         }        
         //UART_clearRxBuffer();
@@ -235,8 +246,8 @@ typedef enum {
 } GyroState;
 
 #define TIPPING_TRESHOLD 30                // give up control and suspend motors over this tilt angle
-#define GYRO_SAMPLE_INTERVAL 0.002         // 2  ms -> 500 Hz
-#define GYRO_EVAL_INTERVAL 0.02            // 20 ms -> 50 Hz
+#define GYRO_SAMPLE_INTERVAL 0.001         // 1  ms
+#define GYRO_EVAL_INTERVAL 0.005           // 5  ms
 volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
 volatile GyroState gyroState = GYRO_SAMPLE;
@@ -308,15 +319,15 @@ void gyro_calcAngles(){
     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
 
     // calculate the angles using a Complimentary filter
-    compRoll = 0.99 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.01 * accRoll; 
-    compPitch = 0.99 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.01 * accPitch;
+    compRoll = 0.998 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.002 * accRoll; 
+    compPitch = 0.998 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.002 * accPitch;
 }
 
 
 
 //=====[ Motor control ]==================
 
-#define MOTOR_PWM_MIN 200  // minimum value to start the motors
+#define MOTOR_PWM_MIN 400  // minimum value to start the motors
 #define MOTOR_PWM_MAX 2600 // maximum motor PWM value  <--  PWM compare vlaue * (6V / accumulator voltage)
 const int motor_fullThrottle = MOTOR_PWM_MAX - MOTOR_PWM_MIN;
 
@@ -415,6 +426,15 @@ void motor_evalSpeed(){
         result = -maxPID;
     
     motor_evalDirection(result);
+    
+    if(sendPID){
+        int outP = error * Kp * 10;
+        int outI = iTerm * Ki * 10;
+        int outD = dTerm * Kd * 10;
+        int outPID = result * 10;
+        sprintf(outBuf, "PR %d %d %d %d\n\r",  outP, outI, outD, outPID);
+        UART_dual_PutString(false);
+    }
     
     result = fabsf(result);    
     motor_LPercentage = result / maxPID;
@@ -586,10 +606,7 @@ int main(void) {
                 if(sampleCount > 0)
                    gyro_calcAngles();  
                 
-                if(sendGyro){
-                    sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*10), (int)(compRoll*10));
-                    UART_dual_PutString(false);
-                }
+                
                
          
                 // reset samples
@@ -603,6 +620,12 @@ int main(void) {
                 
                 if(!sleep)
                     motor_evalSpeed();
+                    
+                    
+                if(sendGyro){
+                    sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*100), (int)(compRoll*100));
+                    UART_dual_PutString(false);
+                }
                 
                 
                 /*if(motor_lastDirection == motor_newDirection 

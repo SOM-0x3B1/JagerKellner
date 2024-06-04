@@ -1,13 +1,13 @@
-Loading plugins phase: Elapsed time ==> 0s.206ms
+Loading plugins phase: Elapsed time ==> 0s.163ms
 <CYPRESSTAG name="CyDsfit arguments...">
 cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -.fdsreffile=referenced_files.txt -p D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -d CY8C5888LTI-LP097 -s D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\Generated_Source\PSoC5 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE
 </CYPRESSTAG>
 <CYPRESSTAG name="Design elaboration results...">
 </CYPRESSTAG>
-Elaboration phase: Elapsed time ==> 2s.268ms
+Elaboration phase: Elapsed time ==> 2s.119ms
 <CYPRESSTAG name="HDL generation results...">
 </CYPRESSTAG>
-HDL generation phase: Elapsed time ==> 0s.070ms
+HDL generation phase: Elapsed time ==> 0s.115ms
 <CYPRESSTAG name="Synthesis results...">
 
      | | | | | | |
@@ -41,7 +41,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokon
 ======================================================================
 
 vlogfe V6.3 IR 41:  Verilog parser
-Sun Jun 02 22:05:04 2024
+Tue Jun 04 01:24:09 2024
 
 
 ======================================================================
@@ -51,7 +51,7 @@ Options  :    -yv2 -q10 KartonBalance.v
 ======================================================================
 
 vpp V6.3 IR 41:  Verilog Pre-Processor
-Sun Jun 02 22:05:04 2024
+Tue Jun 04 01:24:09 2024
 
 Flattening file 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\B_PWM_v3_30\B_PWM_v3_30.v'
 Flattening file 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.v'
@@ -103,7 +103,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokon
 ======================================================================
 
 tovif V6.3 IR 41:  High-level synthesis
-Sun Jun 02 22:05:04 2024
+Tue Jun 04 01:24:09 2024
 
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -141,7 +141,7 @@ Options  :    -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokon
 ======================================================================
 
 topld V6.3 IR 41:  Synthesis and optimization
-Sun Jun 02 22:05:05 2024
+Tue Jun 04 01:24:10 2024
 
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\std.vhd'.
 Linking 'E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\lib\common\cypress.vhd'.
@@ -614,7 +614,6 @@ Detecting unused logic.
 	\PWM_LED_BRIGHTNESS:Net_107\
 	\PWM_LED_BRIGHTNESS:Net_114\
 	Net_571
-	Net_708
 	Net_755
 	\UART_Bluetooth:BUART:reset_sr\
 	Net_817
@@ -643,6 +642,7 @@ Detecting unused logic.
 	\UART_Bluetooth:BUART:sRX:MODULE_13:gte\
 	\UART_Bluetooth:BUART:sRX:MODULE_13:lte\
 	Net_824
+	Net_894
 
     Synthesized names
 	\PWM_Motor:PWMUDB:add_vi_vv_MODGEN_1_31\
@@ -907,9 +907,6 @@ Aliasing tmpOE__Tx_USB_net_0 to one
 Aliasing Net_12 to zero
 Aliasing \Timer_GY87_Sample:Net_260\ to zero
 Aliasing \Timer_GY87_Sample:Net_102\ to one
-Aliasing Net_761 to zero
-Aliasing \Timer_GY87_Eval:Net_260\ to zero
-Aliasing \Timer_GY87_Eval:Net_102\ to one
 Aliasing tmpOE__Pin_Motor_In_1_net_0 to one
 Aliasing tmpOE__Pin_Motor_In_2_net_0 to one
 Aliasing tmpOE__Pin_Motor_In_3_net_0 to one
@@ -957,6 +954,9 @@ Aliasing tmpOE__Tx_Blu_net_0 to one
 Aliasing Net_819 to zero
 Aliasing \Timer_UART_Eval:Net_260\ to zero
 Aliasing \Timer_UART_Eval:Net_102\ to one
+Aliasing Net_896 to zero
+Aliasing \Timer_UART_Send:Net_260\ to zero
+Aliasing \Timer_UART_Send:Net_102\ to one
 Aliasing \PWM_Motor:PWMUDB:min_kill_reg\\D\ to one
 Aliasing \PWM_Motor:PWMUDB:prevCapture\\D\ to zero
 Aliasing \PWM_Motor:PWMUDB:trig_last\\D\ to zero
@@ -1257,152 +1257,152 @@ Removing Lhs of wire \Timer_GY87_Sample:Net_260\[1425] = zero[7]
 Removing Lhs of wire \Timer_GY87_Sample:Net_266\[1426] = one[4]
 Removing Rhs of wire Net_621[1430] = \Timer_GY87_Sample:Net_57\[1429]
 Removing Lhs of wire \Timer_GY87_Sample:Net_102\[1432] = one[4]
-Removing Rhs of wire Net_591[1435] = \Timer_GY87_Eval:Net_57\[1444]
-Removing Lhs of wire Net_761[1438] = zero[7]
-Removing Lhs of wire \Timer_GY87_Eval:Net_260\[1440] = zero[7]
-Removing Lhs of wire \Timer_GY87_Eval:Net_266\[1441] = one[4]
-Removing Lhs of wire \Timer_GY87_Eval:Net_102\[1446] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_In_1_net_0[1448] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_In_2_net_0[1454] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_In_3_net_0[1460] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_In_4_net_0[1466] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_Encoder_L_net_0[1472] = one[4]
-Removing Lhs of wire tmpOE__Pin_Motor_Encoder_R_net_0[1478] = one[4]
-Removing Rhs of wire Net_750[1484] = \Timer_Motor_Encoder_Eval:Net_57\[1496]
-Removing Lhs of wire Net_760[1489] = zero[7]
-Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_260\[1492] = zero[7]
-Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_266\[1493] = one[4]
-Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_102\[1498] = one[4]
-Removing Rhs of wire Net_812[1503] = \UART_Bluetooth:BUART:rx_interrupt_out\[1522]
-Removing Lhs of wire \UART_Bluetooth:Net_61\[1504] = \UART_Bluetooth:Net_9\[1501]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_hd_send_break\[1508] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:HalfDuplexSend\[1509] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:FinalParityType_1\[1510] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:FinalParityType_0\[1511] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_2\[1512] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_1\[1513] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_0\[1514] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_ctrl_mark\[1515] = zero[7]
-Removing Rhs of wire \UART_Bluetooth:BUART:tx_bitclk_enable_pre\[1526] = \UART_Bluetooth:BUART:tx_bitclk_dp\[1562]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_counter_tc\[1572] = \UART_Bluetooth:BUART:tx_counter_dp\[1563]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_6\[1573] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_5\[1574] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_4\[1575] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_1\[1577] = \UART_Bluetooth:BUART:tx_fifo_empty\[1540]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_3\[1579] = \UART_Bluetooth:BUART:tx_fifo_notfull\[1539]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_count7_bit8_wire\[1639] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:add_vv_vv_MODGEN_9_1\[1647] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:s_1\[1658]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:add_vv_vv_MODGEN_9_0\[1649] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:s_0\[1659]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:cmp_vv_vv_MODGEN_10\[1650] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:lta_0\[1675]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:cmp_vv_vv_MODGEN_11\[1651] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:lta_0\[1689]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:a_1\[1652] = \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_1\[1653]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_1\[1653] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:a_0\[1654] = \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_0\[1655]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_0\[1655] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:g1:z1:s0:g1:u0:c_0\[1661] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:g1:z1:s0:g1:u0:b_0\[1662] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newa_1\[1663] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN9_1\[1664] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newa_0\[1665] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN9_0\[1666] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newb_1\[1667] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newb_0\[1668] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:dataa_1\[1669] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:dataa_0\[1670] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:datab_1\[1671] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:datab_0\[1672] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newa_1\[1677] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN10_1\[1678] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newa_0\[1679] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN10_0\[1680] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newb_1\[1681] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newb_0\[1682] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:dataa_1\[1683] = \UART_Bluetooth:BUART:pollcount_1\[1645]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:dataa_0\[1684] = \UART_Bluetooth:BUART:pollcount_0\[1648]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:datab_1\[1685] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:datab_0\[1686] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_1\[1693] = zero[7]
-Removing Rhs of wire \UART_Bluetooth:BUART:rx_status_2\[1694] = \UART_Bluetooth:BUART:rx_parity_error_status\[1695]
-Removing Rhs of wire \UART_Bluetooth:BUART:rx_status_3\[1696] = \UART_Bluetooth:BUART:rx_stop_bit_error\[1697]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:cmp_vv_vv_MODGEN_12\[1707] = \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:lta_0\[1756]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:cmp_vv_vv_MODGEN_13\[1711] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:xneq\[1778]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_6\[1712] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_5\[1713] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_4\[1714] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_3\[1715] = \UART_Bluetooth:BUART:sRX:MODIN11_6\[1716]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_6\[1716] = \UART_Bluetooth:BUART:rx_count_6\[1634]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_2\[1717] = \UART_Bluetooth:BUART:sRX:MODIN11_5\[1718]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_5\[1718] = \UART_Bluetooth:BUART:rx_count_5\[1635]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_1\[1719] = \UART_Bluetooth:BUART:sRX:MODIN11_4\[1720]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_4\[1720] = \UART_Bluetooth:BUART:rx_count_4\[1636]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_0\[1721] = \UART_Bluetooth:BUART:sRX:MODIN11_3\[1722]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_3\[1722] = \UART_Bluetooth:BUART:rx_count_3\[1637]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_6\[1723] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_5\[1724] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_4\[1725] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_3\[1726] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_2\[1727] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_1\[1728] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_0\[1729] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_6\[1730] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_5\[1731] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_4\[1732] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_3\[1733] = \UART_Bluetooth:BUART:rx_count_6\[1634]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_2\[1734] = \UART_Bluetooth:BUART:rx_count_5\[1635]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_1\[1735] = \UART_Bluetooth:BUART:rx_count_4\[1636]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_0\[1736] = \UART_Bluetooth:BUART:rx_count_3\[1637]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_6\[1737] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_5\[1738] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_4\[1739] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_3\[1740] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_2\[1741] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_1\[1742] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_0\[1743] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:newa_0\[1758] = \UART_Bluetooth:BUART:rx_postpoll\[1593]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:newb_0\[1759] = \UART_Bluetooth:BUART:rx_parity_bit\[1710]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:dataa_0\[1760] = \UART_Bluetooth:BUART:rx_postpoll\[1593]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:datab_0\[1761] = \UART_Bluetooth:BUART:rx_parity_bit\[1710]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:a_0\[1762] = \UART_Bluetooth:BUART:rx_postpoll\[1593]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:b_0\[1763] = \UART_Bluetooth:BUART:rx_parity_bit\[1710]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:aeqb_0\[1765] = one[4]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:eq_0\[1766] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:xnor_array_0\[1764]
-Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:eqi_0\[1767] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:xnor_array_0\[1764]
-Removing Lhs of wire tmpOE__Rx_Blu_net_0[1789] = one[4]
-Removing Lhs of wire tmpOE__Tx_Blu_net_0[1794] = one[4]
-Removing Rhs of wire Net_818[1800] = \Timer_UART_Eval:Net_57\[1808]
-Removing Lhs of wire Net_819[1801] = zero[7]
-Removing Lhs of wire \Timer_UART_Eval:Net_260\[1804] = zero[7]
-Removing Lhs of wire \Timer_UART_Eval:Net_266\[1805] = one[4]
-Removing Lhs of wire \Timer_UART_Eval:Net_102\[1810] = one[4]
-Removing Lhs of wire \PWM_Motor:PWMUDB:min_kill_reg\\D\[1812] = one[4]
-Removing Lhs of wire \PWM_Motor:PWMUDB:prevCapture\\D\[1813] = zero[7]
-Removing Lhs of wire \PWM_Motor:PWMUDB:trig_last\\D\[1814] = zero[7]
-Removing Lhs of wire \PWM_Motor:PWMUDB:ltch_kill_reg\\D\[1817] = one[4]
-Removing Lhs of wire \PWM_Motor:PWMUDB:pwm_i_reg\\D\[1820] = \PWM_Motor:PWMUDB:pwm_i\[145]
-Removing Lhs of wire \PWM_Motor:PWMUDB:pwm1_i_reg\\D\[1821] = \PWM_Motor:PWMUDB:pwm1_i\[147]
-Removing Lhs of wire \PWM_Motor:PWMUDB:pwm2_i_reg\\D\[1822] = \PWM_Motor:PWMUDB:pwm2_i\[149]
-Removing Lhs of wire \UART_USB:BUART:reset_reg\\D\[1824] = zero[7]
-Removing Lhs of wire \UART_USB:BUART:rx_bitclk\\D\[1839] = \UART_USB:BUART:rx_bitclk_pre\[568]
-Removing Lhs of wire \UART_USB:BUART:rx_parity_error_pre\\D\[1848] = \UART_USB:BUART:rx_parity_error_pre\[645]
-Removing Lhs of wire \UART_USB:BUART:rx_break_status\\D\[1849] = zero[7]
-Removing Lhs of wire \PWM_LED:PWMUDB:min_kill_reg\\D\[1853] = one[4]
-Removing Lhs of wire \PWM_LED:PWMUDB:prevCapture\\D\[1854] = zero[7]
-Removing Lhs of wire \PWM_LED:PWMUDB:trig_last\\D\[1855] = zero[7]
-Removing Lhs of wire \PWM_LED:PWMUDB:ltch_kill_reg\\D\[1858] = one[4]
-Removing Lhs of wire \PWM_LED:PWMUDB:pwm_i_reg\\D\[1861] = \PWM_LED:PWMUDB:pwm_i\[871]
-Removing Lhs of wire \PWM_LED:PWMUDB:pwm1_i_reg\\D\[1862] = zero[7]
-Removing Lhs of wire \PWM_LED:PWMUDB:pwm2_i_reg\\D\[1863] = zero[7]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:min_kill_reg\\D\[1865] = one[4]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:prevCapture\\D\[1866] = zero[7]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:trig_last\\D\[1867] = zero[7]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:ltch_kill_reg\\D\[1870] = one[4]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm_i_reg\\D\[1873] = \PWM_LED_BRIGHTNESS:PWMUDB:pwm_i\[1192]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm1_i_reg\\D\[1874] = zero[7]
-Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm2_i_reg\\D\[1875] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:reset_reg\\D\[1877] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_bitclk\\D\[1892] = \UART_Bluetooth:BUART:rx_bitclk_pre\[1628]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_error_pre\\D\[1901] = \UART_Bluetooth:BUART:rx_parity_error_pre\[1705]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_break_status\\D\[1902] = zero[7]
+Removing Lhs of wire tmpOE__Pin_Motor_In_1_net_0[1435] = one[4]
+Removing Lhs of wire tmpOE__Pin_Motor_In_2_net_0[1441] = one[4]
+Removing Lhs of wire tmpOE__Pin_Motor_In_3_net_0[1447] = one[4]
+Removing Lhs of wire tmpOE__Pin_Motor_In_4_net_0[1453] = one[4]
+Removing Lhs of wire tmpOE__Pin_Motor_Encoder_L_net_0[1459] = one[4]
+Removing Lhs of wire tmpOE__Pin_Motor_Encoder_R_net_0[1465] = one[4]
+Removing Rhs of wire Net_750[1471] = \Timer_Motor_Encoder_Eval:Net_57\[1483]
+Removing Lhs of wire Net_760[1476] = zero[7]
+Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_260\[1479] = zero[7]
+Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_266\[1480] = one[4]
+Removing Lhs of wire \Timer_Motor_Encoder_Eval:Net_102\[1485] = one[4]
+Removing Rhs of wire Net_812[1490] = \UART_Bluetooth:BUART:rx_interrupt_out\[1509]
+Removing Lhs of wire \UART_Bluetooth:Net_61\[1491] = \UART_Bluetooth:Net_9\[1488]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_hd_send_break\[1495] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:HalfDuplexSend\[1496] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:FinalParityType_1\[1497] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:FinalParityType_0\[1498] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_2\[1499] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_1\[1500] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:FinalAddrMode_0\[1501] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_ctrl_mark\[1502] = zero[7]
+Removing Rhs of wire \UART_Bluetooth:BUART:tx_bitclk_enable_pre\[1513] = \UART_Bluetooth:BUART:tx_bitclk_dp\[1549]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_counter_tc\[1559] = \UART_Bluetooth:BUART:tx_counter_dp\[1550]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_6\[1560] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_5\[1561] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_4\[1562] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_1\[1564] = \UART_Bluetooth:BUART:tx_fifo_empty\[1527]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_status_3\[1566] = \UART_Bluetooth:BUART:tx_fifo_notfull\[1526]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_count7_bit8_wire\[1626] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:add_vv_vv_MODGEN_9_1\[1634] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:s_1\[1645]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:add_vv_vv_MODGEN_9_0\[1636] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:s_0\[1646]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:cmp_vv_vv_MODGEN_10\[1637] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:lta_0\[1662]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:cmp_vv_vv_MODGEN_11\[1638] = \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:lta_0\[1676]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:a_1\[1639] = \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_1\[1640]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_1\[1640] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:a_0\[1641] = \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_0\[1642]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN8_0\[1642] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:g1:z1:s0:g1:u0:c_0\[1648] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_9:g2:a0:g1:z1:s0:g1:u0:b_0\[1649] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newa_1\[1650] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN9_1\[1651] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newa_0\[1652] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN9_0\[1653] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newb_1\[1654] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:newb_0\[1655] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:dataa_1\[1656] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:dataa_0\[1657] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:datab_1\[1658] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_10:g2:a0:datab_0\[1659] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newa_1\[1664] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN10_1\[1665] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newa_0\[1666] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODIN10_0\[1667] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newb_1\[1668] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:newb_0\[1669] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:dataa_1\[1670] = \UART_Bluetooth:BUART:pollcount_1\[1632]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:dataa_0\[1671] = \UART_Bluetooth:BUART:pollcount_0\[1635]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:datab_1\[1672] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:s23Poll:MODULE_11:g2:a0:datab_0\[1673] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_1\[1680] = zero[7]
+Removing Rhs of wire \UART_Bluetooth:BUART:rx_status_2\[1681] = \UART_Bluetooth:BUART:rx_parity_error_status\[1682]
+Removing Rhs of wire \UART_Bluetooth:BUART:rx_status_3\[1683] = \UART_Bluetooth:BUART:rx_stop_bit_error\[1684]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:cmp_vv_vv_MODGEN_12\[1694] = \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:lta_0\[1743]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:cmp_vv_vv_MODGEN_13\[1698] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:xneq\[1765]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_6\[1699] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_5\[1700] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_4\[1701] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_3\[1702] = \UART_Bluetooth:BUART:sRX:MODIN11_6\[1703]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_6\[1703] = \UART_Bluetooth:BUART:rx_count_6\[1621]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_2\[1704] = \UART_Bluetooth:BUART:sRX:MODIN11_5\[1705]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_5\[1705] = \UART_Bluetooth:BUART:rx_count_5\[1622]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_1\[1706] = \UART_Bluetooth:BUART:sRX:MODIN11_4\[1707]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_4\[1707] = \UART_Bluetooth:BUART:rx_count_4\[1623]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newa_0\[1708] = \UART_Bluetooth:BUART:sRX:MODIN11_3\[1709]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODIN11_3\[1709] = \UART_Bluetooth:BUART:rx_count_3\[1624]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_6\[1710] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_5\[1711] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_4\[1712] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_3\[1713] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_2\[1714] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_1\[1715] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:newb_0\[1716] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_6\[1717] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_5\[1718] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_4\[1719] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_3\[1720] = \UART_Bluetooth:BUART:rx_count_6\[1621]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_2\[1721] = \UART_Bluetooth:BUART:rx_count_5\[1622]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_1\[1722] = \UART_Bluetooth:BUART:rx_count_4\[1623]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:dataa_0\[1723] = \UART_Bluetooth:BUART:rx_count_3\[1624]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_6\[1724] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_5\[1725] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_4\[1726] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_3\[1727] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_2\[1728] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_1\[1729] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_12:g2:a0:datab_0\[1730] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:newa_0\[1745] = \UART_Bluetooth:BUART:rx_postpoll\[1580]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:newb_0\[1746] = \UART_Bluetooth:BUART:rx_parity_bit\[1697]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:dataa_0\[1747] = \UART_Bluetooth:BUART:rx_postpoll\[1580]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:datab_0\[1748] = \UART_Bluetooth:BUART:rx_parity_bit\[1697]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:a_0\[1749] = \UART_Bluetooth:BUART:rx_postpoll\[1580]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:b_0\[1750] = \UART_Bluetooth:BUART:rx_parity_bit\[1697]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:aeqb_0\[1752] = one[4]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:eq_0\[1753] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:xnor_array_0\[1751]
+Removing Lhs of wire \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:eqi_0\[1754] = \UART_Bluetooth:BUART:sRX:MODULE_13:g1:a0:gx:u0:xnor_array_0\[1751]
+Removing Lhs of wire tmpOE__Rx_Blu_net_0[1776] = one[4]
+Removing Lhs of wire tmpOE__Tx_Blu_net_0[1781] = one[4]
+Removing Rhs of wire Net_818[1787] = \Timer_UART_Eval:Net_57\[1795]
+Removing Lhs of wire Net_819[1788] = zero[7]
+Removing Lhs of wire \Timer_UART_Eval:Net_260\[1791] = zero[7]
+Removing Lhs of wire \Timer_UART_Eval:Net_266\[1792] = one[4]
+Removing Lhs of wire \Timer_UART_Eval:Net_102\[1797] = one[4]
+Removing Rhs of wire Net_830[1800] = \Timer_UART_Send:Net_57\[1807]
+Removing Lhs of wire Net_896[1801] = zero[7]
+Removing Lhs of wire \Timer_UART_Send:Net_260\[1803] = zero[7]
+Removing Lhs of wire \Timer_UART_Send:Net_266\[1804] = one[4]
+Removing Lhs of wire \Timer_UART_Send:Net_102\[1809] = one[4]
+Removing Lhs of wire \PWM_Motor:PWMUDB:min_kill_reg\\D\[1810] = one[4]
+Removing Lhs of wire \PWM_Motor:PWMUDB:prevCapture\\D\[1811] = zero[7]
+Removing Lhs of wire \PWM_Motor:PWMUDB:trig_last\\D\[1812] = zero[7]
+Removing Lhs of wire \PWM_Motor:PWMUDB:ltch_kill_reg\\D\[1815] = one[4]
+Removing Lhs of wire \PWM_Motor:PWMUDB:pwm_i_reg\\D\[1818] = \PWM_Motor:PWMUDB:pwm_i\[145]
+Removing Lhs of wire \PWM_Motor:PWMUDB:pwm1_i_reg\\D\[1819] = \PWM_Motor:PWMUDB:pwm1_i\[147]
+Removing Lhs of wire \PWM_Motor:PWMUDB:pwm2_i_reg\\D\[1820] = \PWM_Motor:PWMUDB:pwm2_i\[149]
+Removing Lhs of wire \UART_USB:BUART:reset_reg\\D\[1822] = zero[7]
+Removing Lhs of wire \UART_USB:BUART:rx_bitclk\\D\[1837] = \UART_USB:BUART:rx_bitclk_pre\[568]
+Removing Lhs of wire \UART_USB:BUART:rx_parity_error_pre\\D\[1846] = \UART_USB:BUART:rx_parity_error_pre\[645]
+Removing Lhs of wire \UART_USB:BUART:rx_break_status\\D\[1847] = zero[7]
+Removing Lhs of wire \PWM_LED:PWMUDB:min_kill_reg\\D\[1851] = one[4]
+Removing Lhs of wire \PWM_LED:PWMUDB:prevCapture\\D\[1852] = zero[7]
+Removing Lhs of wire \PWM_LED:PWMUDB:trig_last\\D\[1853] = zero[7]
+Removing Lhs of wire \PWM_LED:PWMUDB:ltch_kill_reg\\D\[1856] = one[4]
+Removing Lhs of wire \PWM_LED:PWMUDB:pwm_i_reg\\D\[1859] = \PWM_LED:PWMUDB:pwm_i\[871]
+Removing Lhs of wire \PWM_LED:PWMUDB:pwm1_i_reg\\D\[1860] = zero[7]
+Removing Lhs of wire \PWM_LED:PWMUDB:pwm2_i_reg\\D\[1861] = zero[7]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:min_kill_reg\\D\[1863] = one[4]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:prevCapture\\D\[1864] = zero[7]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:trig_last\\D\[1865] = zero[7]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:ltch_kill_reg\\D\[1868] = one[4]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm_i_reg\\D\[1871] = \PWM_LED_BRIGHTNESS:PWMUDB:pwm_i\[1192]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm1_i_reg\\D\[1872] = zero[7]
+Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:pwm2_i_reg\\D\[1873] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:reset_reg\\D\[1875] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_bitclk\\D\[1890] = \UART_Bluetooth:BUART:rx_bitclk_pre\[1615]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_error_pre\\D\[1899] = \UART_Bluetooth:BUART:rx_parity_error_pre\[1692]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_break_status\\D\[1900] = zero[7]
 
 ------------------------------------------------------
 Aliased 0 equations, 431 wires.
@@ -1925,23 +1925,23 @@ Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:final_capture\[1157] = zero[7]
 Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:MODULE_8:g2:a0:g1:z1:s0:g1:u0:b_24\[1373] = zero[7]
 Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:MODULE_8:g2:a0:g1:z1:s0:g1:u0:b_16\[1383] = zero[7]
 Removing Lhs of wire \PWM_LED_BRIGHTNESS:PWMUDB:MODULE_8:g2:a0:g1:z1:s0:g1:u0:b_8\[1393] = zero[7]
-Removing Rhs of wire \UART_Bluetooth:BUART:rx_bitclk_enable\[1592] = \UART_Bluetooth:BUART:rx_bitclk\[1640]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_0\[1691] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_6\[1700] = zero[7]
-Removing Lhs of wire \PWM_Motor:PWMUDB:runmode_enable\\D\[1815] = \PWM_Motor:PWMUDB:control_7\[8]
-Removing Lhs of wire \UART_USB:BUART:tx_ctrl_mark_last\\D\[1831] = \UART_USB:BUART:tx_ctrl_mark_last\[523]
-Removing Lhs of wire \UART_USB:BUART:rx_markspace_status\\D\[1843] = zero[7]
-Removing Lhs of wire \UART_USB:BUART:rx_parity_error_status\\D\[1844] = zero[7]
-Removing Lhs of wire \UART_USB:BUART:rx_addr_match_status\\D\[1846] = zero[7]
-Removing Lhs of wire \UART_USB:BUART:rx_markspace_pre\\D\[1847] = \UART_USB:BUART:rx_markspace_pre\[644]
-Removing Lhs of wire \UART_USB:BUART:rx_parity_bit\\D\[1852] = \UART_USB:BUART:rx_parity_bit\[650]
-Removing Lhs of wire \PWM_LED:PWMUDB:runmode_enable\\D\[1856] = \PWM_LED:PWMUDB:control_7\[734]
-Removing Lhs of wire \UART_Bluetooth:BUART:tx_ctrl_mark_last\\D\[1884] = \UART_Bluetooth:BUART:tx_ctrl_mark_last\[1583]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_markspace_status\\D\[1896] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_error_status\\D\[1897] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_addr_match_status\\D\[1899] = zero[7]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_markspace_pre\\D\[1900] = \UART_Bluetooth:BUART:rx_markspace_pre\[1704]
-Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_bit\\D\[1905] = \UART_Bluetooth:BUART:rx_parity_bit\[1710]
+Removing Rhs of wire \UART_Bluetooth:BUART:rx_bitclk_enable\[1579] = \UART_Bluetooth:BUART:rx_bitclk\[1627]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_0\[1678] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_status_6\[1687] = zero[7]
+Removing Lhs of wire \PWM_Motor:PWMUDB:runmode_enable\\D\[1813] = \PWM_Motor:PWMUDB:control_7\[8]
+Removing Lhs of wire \UART_USB:BUART:tx_ctrl_mark_last\\D\[1829] = \UART_USB:BUART:tx_ctrl_mark_last\[523]
+Removing Lhs of wire \UART_USB:BUART:rx_markspace_status\\D\[1841] = zero[7]
+Removing Lhs of wire \UART_USB:BUART:rx_parity_error_status\\D\[1842] = zero[7]
+Removing Lhs of wire \UART_USB:BUART:rx_addr_match_status\\D\[1844] = zero[7]
+Removing Lhs of wire \UART_USB:BUART:rx_markspace_pre\\D\[1845] = \UART_USB:BUART:rx_markspace_pre\[644]
+Removing Lhs of wire \UART_USB:BUART:rx_parity_bit\\D\[1850] = \UART_USB:BUART:rx_parity_bit\[650]
+Removing Lhs of wire \PWM_LED:PWMUDB:runmode_enable\\D\[1854] = \PWM_LED:PWMUDB:control_7\[734]
+Removing Lhs of wire \UART_Bluetooth:BUART:tx_ctrl_mark_last\\D\[1882] = \UART_Bluetooth:BUART:tx_ctrl_mark_last\[1570]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_markspace_status\\D\[1894] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_error_status\\D\[1895] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_addr_match_status\\D\[1897] = zero[7]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_markspace_pre\\D\[1898] = \UART_Bluetooth:BUART:rx_markspace_pre\[1691]
+Removing Lhs of wire \UART_Bluetooth:BUART:rx_parity_bit\\D\[1903] = \UART_Bluetooth:BUART:rx_parity_bit\[1697]
 
 ------------------------------------------------------
 Aliased 0 equations, 33 wires.
@@ -1986,14 +1986,14 @@ CYPRESS_DIR    : E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp
 Warp Program   : E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\warp\bin\warp.exe
 Warp Arguments : -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -dcpsoc3 KartonBalance.v -verilog
 </CYPRESSTAG>
-Warp synthesis phase: Elapsed time ==> 2s.347ms
+Warp synthesis phase: Elapsed time ==> 2s.109ms
 <CYPRESSTAG name="Fitter results...">
 <CYPRESSTAG name="Fitter startup details...">
-cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Sunday, 02 June 2024 22:05:06
+cyp3fit: V4.4.0.80, Family: PSoC3, Started at: Tuesday, 04 June 2024 01:24:11
 Options: -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE -ya -.fftprj=D:\Uni\Mikokontrollerek\MikroAlk-HF\KartonBalance.cydsn\KartonBalance.cyprj -d CY8C5888LTI-LP097 KartonBalance.v -verilog
 </CYPRESSTAG>
 <CYPRESSTAG name="Design parsing">
-Design parsing phase: Elapsed time ==> 0s.033ms
+Design parsing phase: Elapsed time ==> 0s.029ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Tech Mapping">
 <CYPRESSTAG name="Initial Mapping" icon="FILE_RPT_TECHM">
@@ -2032,11 +2032,10 @@ Assigning clock I2C_GY87_BusClock to clock BUS_CLK because it is a pass-through
     Digital Clock 0: Automatic-assigning  clock 'Clock_Motor_PWM'. Fanout=1, Signal=Net_163
     Digital Clock 1: Automatic-assigning  clock 'UART_USB_IntClock'. Fanout=1, Signal=\UART_USB:Net_9\
     Digital Clock 2: Automatic-assigning  clock 'UART_Bluetooth_IntClock'. Fanout=1, Signal=\UART_Bluetooth:Net_9\
-    Digital Clock 3: Automatic-assigning  clock 'Clock_Timer_G87_Eval'. Fanout=1, Signal=Net_710
-    Digital Clock 4: Automatic-assigning  clock 'Clock_Timer_Motor_Encoder_Eval'. Fanout=1, Signal=Net_751
-    Digital Clock 5: Automatic-assigning  clock 'Clock_Timer_UART_Eval'. Fanout=1, Signal=Net_822
-    Digital Clock 6: Automatic-assigning  clock 'Clock_Timer_G87_Sample'. Fanout=1, Signal=Net_10
-    Digital Clock 7: Automatic-assigning  clock 'Clock_LED_PWM'. Fanout=2, Signal=Net_310
+    Digital Clock 3: Automatic-assigning  clock 'Clock_Timer_Motor_Encoder_Eval'. Fanout=1, Signal=Net_751
+    Digital Clock 4: Automatic-assigning  clock 'Clock_Timer_UART'. Fanout=2, Signal=Net_822
+    Digital Clock 5: Automatic-assigning  clock 'Clock_Timer_G87_Sample'. Fanout=1, Signal=Net_10
+    Digital Clock 6: Automatic-assigning  clock 'Clock_LED_PWM'. Fanout=2, Signal=Net_310
 </CYPRESSTAG>
 
 Removing unused cells resulting from optimization
@@ -4595,15 +4594,6 @@ Design Equations
             is_nmi = 0
         }
 
-    interrupt: Name =isr_Eval_GY87
-        PORT MAP (
-            interrupt => Net_591 );
-        Properties:
-        {
-            int_type = "10"
-            is_nmi = 0
-        }
-
     interrupt: Name =isr_Eval_Motor_Encoder
         PORT MAP (
             interrupt => Net_750 );
@@ -4648,6 +4638,15 @@ Design Equations
             int_type = "10"
             is_nmi = 0
         }
+
+    interrupt: Name =isr_UART_Send
+        PORT MAP (
+            interrupt => Net_830 );
+        Properties:
+        {
+            int_type = "10"
+            is_nmi = 0
+        }
     </CYPRESSTAG>
 </CYPRESSTAG>
 <CYPRESSTAG name="Technology mapping summary" expanded>
@@ -4658,7 +4657,7 @@ Technology mapping summary
 
 Resource Type                 : Used : Free :  Max :  % Used
 ============================================================
-Digital Clocks                :    8 :    0 :    8 : 100.00 %
+Digital Clocks                :    7 :    1 :    8 : 87.50 %
 Analog Clocks                 :    0 :    4 :    4 :  0.00 %
 CapSense Buffers              :    0 :    2 :    2 :  0.00 %
 Digital Filter Block          :    0 :    1 :    1 :  0.00 %
@@ -4690,8 +4689,8 @@ Analog (SC/CT) Blocks         :    0 :    4 :    4 :  0.00 %
 DAC                           :      :      :      :        
   VIDAC                       :    0 :    4 :    4 :  0.00 %
 </CYPRESSTAG>
-Technology Mapping: Elapsed time ==> 0s.223ms
-Tech Mapping phase: Elapsed time ==> 0s.301ms
+Technology Mapping: Elapsed time ==> 0s.216ms
+Tech Mapping phase: Elapsed time ==> 0s.302ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Placement">
 Initial Analog Placement Results:
@@ -4715,7 +4714,7 @@ IO_6@[IOP=(2)][IoId=(6)] : Rx_Blu(0) (fixed)
 IO_6@[IOP=(12)][IoId=(6)] : Rx_USB(0) (fixed)
 IO_7@[IOP=(2)][IoId=(7)] : Tx_Blu(0) (fixed)
 IO_7@[IOP=(12)][IoId=(7)] : Tx_USB(0) (fixed)
-Analog Placement phase: Elapsed time ==> 0s.022ms
+Analog Placement phase: Elapsed time ==> 0s.020ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Analog Routing">
 Analog Routing phase: Elapsed time ==> 0s.000ms
@@ -4733,11 +4732,11 @@ Dump of CyP35AnalogRoutingResultsDB
 IsVddaHalfUsedForComp = False
 IsVddaHalfUsedForSar0 = False
 IsVddaHalfUsedForSar1 = False
-Analog Code Generation phase: Elapsed time ==> 0s.289ms
+Analog Code Generation phase: Elapsed time ==> 0s.234ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Placement">
 <CYPRESSTAG name="Detailed placement messages">
-I2076: Total run-time: 1.5 sec.
+I2076: Total run-time: 1.4 sec.
 
 </CYPRESSTAG>
 <CYPRESSTAG name="PLD Packing">
@@ -4748,15 +4747,15 @@ PLD Packing Summary
 ------------------------------------------------------------
             Resource Type : Used : Free :  Max :  % Used
     ====================================================
-                     PLDs :   22 :   26 :   48 :  45.83%
+                     PLDs :   26 :   22 :   48 :  54.17%
 
 <CYPRESSTAG name="PLD Statistics">
 
         PLD Resource Type :     Average/LAB
     =======================================
-                   Inputs :            6.05
-                   Pterms :            4.82
-               Macrocells :            2.68
+                   Inputs :            6.96
+                   Pterms :            4.31
+               Macrocells :            2.27
 </CYPRESSTAG>
 <CYPRESSTAG name="Packed PLD Contents">
 Packed PLD Contents not displayed at this verbose level.</CYPRESSTAG>
@@ -4768,7 +4767,7 @@ PLD Packing: Elapsed time ==> 0s.001ms
 Initial Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
 <CYPRESSTAG name="Final Partitioning Summary">
 Final Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
-Partitioning: Elapsed time ==> 0s.084ms
+Partitioning: Elapsed time ==> 0s.087ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Final Placement Summary">
 
@@ -4778,20 +4777,20 @@ Final Placement Summary
 
        Resource Type :      Count : Avg Inputs : Avg Outputs
     ========================================================
-                 UDB :         13 :       7.23 :       4.54
+                 UDB :         14 :       9.71 :       4.21
 <CYPRESSTAG name="Final Placement Details">
 <CYPRESSTAG name="Component Details">
 
 ------------------------------------------------------------
 Component Placement Details
 ------------------------------------------------------------
-UDB [UDB=(0,0)] contents:
-LAB@[UDB=(0,0)][LB=0] #macrocells=1, #inputs=2, #pterms=1
+UDB [UDB=(0,0)] is empty.
+UDB [UDB=(0,1)] contents:
+LAB@[UDB=(0,1)][LB=0] #macrocells=2, #inputs=3, #pterms=2
 {
     [McSlotId=0]: (empty)
     [McSlotId=1]: (empty)
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_status_5\, Mode=(Combinatorial) @ [UDB=(0,0)][LB=0][MC=3]
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:rx_status_5\, Mode=(Combinatorial) @ [UDB=(0,1)][LB=0][MC=2]
         Total # of inputs        : 2
         Total # of product terms : 1
             Clock Enable: True
@@ -4804,12 +4803,24 @@ LAB@[UDB=(0,0)][LB=0] #macrocells=1, #inputs=2, #pterms=1
         Properties               : 
         {
         }
+
+    [McSlotId=3]:     MacroCell: Name=Net_548, Mode=(Combinatorial) @ [UDB=(0,1)][LB=0][MC=3]
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_USB:BUART:txn\
+        );
+        Output = Net_548 (fanout=1)
+        Properties               : 
+        {
+        }
 }
 
-UDB [UDB=(0,1)] contents:
-LAB@[UDB=(0,1)][LB=0] #macrocells=4, #inputs=7, #pterms=3
+LAB@[UDB=(0,1)][LB=1] #macrocells=1, #inputs=0, #pterms=0
 {
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_ctrl_mark_last\, Mode=(T-Register) @ [UDB=(0,1)][LB=0][MC=0]
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_ctrl_mark_last\, Mode=(T-Register) @ [UDB=(0,1)][LB=1][MC=0]
         Total # of inputs        : 0
         Total # of product terms : 0
         List of special equations: 
@@ -4824,80 +4835,31 @@ LAB@[UDB=(0,1)][LB=0] #macrocells=4, #inputs=7, #pterms=3
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_bitclk_enable\, Mode=(D-Register) @ [UDB=(0,1)][LB=0][MC=1]
-        Total # of inputs        : 3
-        Total # of product terms : 1
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_Bluetooth:BUART:rx_count_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_1\ * 
-              !\UART_Bluetooth:BUART:rx_count_0\
-        );
-        Output = \UART_Bluetooth:BUART:rx_bitclk_enable\ (fanout=6)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_5\, Mode=(Combinatorial) @ [UDB=(0,1)][LB=0][MC=2]
-        Total # of inputs        : 2
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \UART_Bluetooth:BUART:rx_fifonotempty\ * 
-              \UART_Bluetooth:BUART:rx_state_stop1_reg\
-        );
-        Output = \UART_Bluetooth:BUART:rx_status_5\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_4\, Mode=(Combinatorial) @ [UDB=(0,1)][LB=0][MC=3]
-        Total # of inputs        : 2
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \UART_Bluetooth:BUART:rx_load_fifo\ * 
-              \UART_Bluetooth:BUART:rx_fifofull\
-        );
-        Output = \UART_Bluetooth:BUART:rx_status_4\ (fanout=1)
-        Properties               : 
-        {
-        }
+    [McSlotId=1]: (empty)
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
 }
 
-LAB@[UDB=(0,1)][LB=1] #macrocells=3, #inputs=5, #pterms=7
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:pollcount_1\, Mode=(D-Register) @ [UDB=(0,1)][LB=1][MC=0]
-        Total # of inputs        : 5
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              !\UART_Bluetooth:BUART:rx_count_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_1\ * 
-              !\UART_Bluetooth:BUART:pollcount_1\ * Net_809 * 
-              \UART_Bluetooth:BUART:pollcount_0\
-            + !\UART_Bluetooth:BUART:rx_count_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_1\ * 
-              \UART_Bluetooth:BUART:pollcount_1\ * !Net_809
-            + !\UART_Bluetooth:BUART:rx_count_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_1\ * 
-              \UART_Bluetooth:BUART:pollcount_1\ * 
-              !\UART_Bluetooth:BUART:pollcount_0\
-        );
-        Output = \UART_Bluetooth:BUART:pollcount_1\ (fanout=4)
-        Properties               : 
-        {
-        }
+statusicell: Name =\UART_USB:BUART:sRX:RxSts\
+    PORT MAP (
+        clock => \UART_USB:Net_9\ ,
+        status_5 => \UART_USB:BUART:rx_status_5\ ,
+        status_4 => \UART_USB:BUART:rx_status_4\ ,
+        status_3 => \UART_USB:BUART:rx_status_3\ ,
+        interrupt => Net_547 );
+    Properties:
+    {
+        cy_force_order = 1
+        cy_int_mask = "1111111"
+        cy_md_select = "1011111"
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
 
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:pollcount_0\, Mode=(D-Register) @ [UDB=(0,1)][LB=1][MC=1]
+UDB [UDB=(0,2)] contents:
+LAB@[UDB=(0,2)][LB=0] #macrocells=1, #inputs=4, #pterms=2
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:pollcount_0\, Mode=(D-Register) @ [UDB=(0,2)][LB=0][MC=0]
         Total # of inputs        : 4
         Total # of product terms : 2
         List of special equations: 
@@ -4917,284 +4879,54 @@ LAB@[UDB=(0,1)][LB=1] #macrocells=3, #inputs=5, #pterms=7
         {
         }
 
+    [McSlotId=1]: (empty)
     [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_postpoll\, Mode=(Combinatorial) @ [UDB=(0,1)][LB=1][MC=3]
-        Total # of inputs        : 3
-        Total # of product terms : 2
-            Clock Enable: True
-        Main Equation            : 2 pterms
-        (
-              \UART_Bluetooth:BUART:pollcount_1\
-            + Net_809 * \UART_Bluetooth:BUART:pollcount_0\
-        );
-        Output = \UART_Bluetooth:BUART:rx_postpoll\ (fanout=1)
-        Properties               : 
-        {
-        }
+    [McSlotId=3]: (empty)
 }
 
-datapathcell: Name =\UART_Bluetooth:BUART:sRX:RxShifter:u0\
-    PORT MAP (
-        clock => \UART_Bluetooth:Net_9\ ,
-        cs_addr_2 => \UART_Bluetooth:BUART:tx_ctrl_mark_last\ ,
-        cs_addr_1 => \UART_Bluetooth:BUART:rx_state_0\ ,
-        cs_addr_0 => \UART_Bluetooth:BUART:rx_bitclk_enable\ ,
-        route_si => \UART_Bluetooth:BUART:rx_postpoll\ ,
-        f0_load => \UART_Bluetooth:BUART:rx_load_fifo\ ,
-        f0_bus_stat_comb => \UART_Bluetooth:BUART:rx_fifonotempty\ ,
-        f0_blk_stat_comb => \UART_Bluetooth:BUART:rx_fifofull\ );
-    Properties:
-    {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "0000000000000000000000000000000000000000000000000000001001000000000100000000000000010000001100000001000000000000000100100001000011111111000000001111111111111111101000000110001001000001111100000000000000001100"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-controlcell: Name =\PWM_LED:PWMUDB:genblk1:ctrlreg\
-    PORT MAP (
-        clock => Net_310 ,
-        control_7 => \PWM_LED:PWMUDB:control_7\ ,
-        control_6 => \PWM_LED:PWMUDB:control_6\ ,
-        control_5 => \PWM_LED:PWMUDB:control_5\ ,
-        control_4 => \PWM_LED:PWMUDB:control_4\ ,
-        control_3 => \PWM_LED:PWMUDB:control_3\ ,
-        control_2 => \PWM_LED:PWMUDB:control_2\ ,
-        control_1 => \PWM_LED:PWMUDB:control_1\ ,
-        control_0 => \PWM_LED:PWMUDB:control_0\ );
-    Properties:
-    {
-        cy_ctrl_mode_0 = "11111111"
-        cy_ctrl_mode_1 = "00000000"
-        cy_ext_reset = 0
-        cy_force_order = 1
-        cy_init_value = "00000000"
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-UDB [UDB=(0,2)] contents:
-LAB@[UDB=(0,2)][LB=0] #macrocells=4, #inputs=11, #pterms=7
+LAB@[UDB=(0,2)][LB=1] #macrocells=3, #inputs=5, #pterms=3
 {
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_0\, Mode=(T-Register) @ [UDB=(0,2)][LB=0][MC=0]
-        Total # of inputs        : 11
-        Total # of product terms : 4
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 4 pterms
-        (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:pollcount_1\ * !Net_809
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:pollcount_1\ * 
-              !\UART_Bluetooth:BUART:pollcount_0\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_5\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_4\
-        );
-        Output = \UART_Bluetooth:BUART:rx_state_0\ (fanout=8)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_counter_load\, Mode=(Combinatorial) @ [UDB=(0,2)][LB=0][MC=1]
-        Total # of inputs        : 4
+    [McSlotId=0]:     MacroCell: Name=\PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(0,2)][LB=1][MC=0]
+        Total # of inputs        : 2
         Total # of product terms : 1
+        List of special equations: 
+            Clock  = (Net_310) => Global
             Clock Enable: True
         Main Equation            : 1 pterm
         (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\
+              Net_538 * \PWM_LED_BRIGHTNESS:PWMUDB:control_7\
         );
-        Output = \UART_Bluetooth:BUART:rx_counter_load\ (fanout=2)
+        Output = \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ (fanout=2)
         Properties               : 
         {
         }
 
-    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_3\, Mode=(T-Register) @ [UDB=(0,2)][LB=0][MC=2]
-        Total # of inputs        : 8
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_5\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_4\
-        );
-        Output = \UART_Bluetooth:BUART:rx_state_3\ (fanout=7)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_stop1_reg\, Mode=(D-Register) @ [UDB=(0,2)][LB=0][MC=3]
-        Total # of inputs        : 4
+    [McSlotId=1]:     MacroCell: Name=\PWM_LED:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(0,2)][LB=1][MC=1]
+        Total # of inputs        : 1
         Total # of product terms : 1
         List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock  = (Net_310) => Global
             Clock Enable: True
         Main Equation            : 1 pterm
-        !(
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\
-        );
-        Output = \UART_Bluetooth:BUART:rx_state_stop1_reg\ (fanout=1)
-        Properties               : 
-        {
-        }
-}
-
-LAB@[UDB=(0,2)][LB=1] #macrocells=3, #inputs=12, #pterms=8
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_2\, Mode=(T-Register) @ [UDB=(0,2)][LB=1][MC=0]
-        Total # of inputs        : 10
-        Total # of product terms : 5
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 5 pterms
         (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_3\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_2\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * !Net_809 * 
-              \UART_Bluetooth:BUART:rx_last\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_5\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_4\
+              \PWM_LED:PWMUDB:control_7\
         );
-        Output = \UART_Bluetooth:BUART:rx_state_2\ (fanout=7)
+        Output = \PWM_LED:PWMUDB:runmode_enable\ (fanout=3)
         Properties               : 
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_load_fifo\, Mode=(D-Register) @ [UDB=(0,2)][LB=1][MC=1]
-        Total # of inputs        : 8
-        Total # of product terms : 3
+    [McSlotId=2]:     MacroCell: Name=Net_538, Mode=(D-Register) @ [UDB=(0,2)][LB=1][MC=2]
+        Total # of inputs        : 2
+        Total # of product terms : 1
         List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock  = (Net_310) => Global
             Clock Enable: True
-        Main Equation            : 3 pterms
+        Main Equation            : 1 pterm
         (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_5\
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              \UART_Bluetooth:BUART:rx_state_0\ * 
-              !\UART_Bluetooth:BUART:rx_state_3\ * 
-              !\UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:rx_count_6\ * 
-              !\UART_Bluetooth:BUART:rx_count_4\
+              \PWM_LED:PWMUDB:runmode_enable\ * \PWM_LED:PWMUDB:cmp1_less\
         );
-        Output = \UART_Bluetooth:BUART:rx_load_fifo\ (fanout=2)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_3\, Mode=(D-Register) @ [UDB=(0,2)][LB=1][MC=2]
-        Total # of inputs        : 8
-        Total # of product terms : 2
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 2 pterms
-        (
-              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:pollcount_1\ * !Net_809
-            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
-              !\UART_Bluetooth:BUART:rx_state_0\ * 
-              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
-              \UART_Bluetooth:BUART:rx_state_3\ * 
-              \UART_Bluetooth:BUART:rx_state_2\ * 
-              !\UART_Bluetooth:BUART:pollcount_1\ * 
-              !\UART_Bluetooth:BUART:pollcount_0\
-        );
-        Output = \UART_Bluetooth:BUART:rx_status_3\ (fanout=1)
+        Output = Net_538 (fanout=1)
         Properties               : 
         {
         }
@@ -5238,82 +4970,244 @@ datapathcell: Name =\PWM_LED:PWMUDB:sP16:pwmdp:u1\
     Clock Enable: True
     Previous in chain : \PWM_LED:PWMUDB:sP16:pwmdp:u0\
 
-count7cell: Name =\UART_Bluetooth:BUART:sRX:RxBitCounter\
+controlcell: Name =\PWM_LED:PWMUDB:genblk1:ctrlreg\
     PORT MAP (
-        clock => \UART_Bluetooth:Net_9\ ,
-        load => \UART_Bluetooth:BUART:rx_counter_load\ ,
-        count_6 => \UART_Bluetooth:BUART:rx_count_6\ ,
-        count_5 => \UART_Bluetooth:BUART:rx_count_5\ ,
-        count_4 => \UART_Bluetooth:BUART:rx_count_4\ ,
-        count_3 => \UART_Bluetooth:BUART:rx_count_3\ ,
-        count_2 => \UART_Bluetooth:BUART:rx_count_2\ ,
-        count_1 => \UART_Bluetooth:BUART:rx_count_1\ ,
-        count_0 => \UART_Bluetooth:BUART:rx_count_0\ ,
-        tc => \UART_Bluetooth:BUART:rx_count7_tc\ );
+        clock => Net_310 ,
+        control_7 => \PWM_LED:PWMUDB:control_7\ ,
+        control_6 => \PWM_LED:PWMUDB:control_6\ ,
+        control_5 => \PWM_LED:PWMUDB:control_5\ ,
+        control_4 => \PWM_LED:PWMUDB:control_4\ ,
+        control_3 => \PWM_LED:PWMUDB:control_3\ ,
+        control_2 => \PWM_LED:PWMUDB:control_2\ ,
+        control_1 => \PWM_LED:PWMUDB:control_1\ ,
+        control_0 => \PWM_LED:PWMUDB:control_0\ );
     Properties:
     {
-        cy_alt_mode = 0
-        cy_init_value = "0000000"
-        cy_period = "1110010"
-        cy_route_en = 1
-        cy_route_ld = 1
+        cy_ctrl_mode_0 = "11111111"
+        cy_ctrl_mode_1 = "00000000"
+        cy_ext_reset = 0
+        cy_force_order = 1
+        cy_init_value = "00000000"
     }
     Clock Polarity: Active High
     Clock Enable: True
 
-UDB [UDB=(0,3)] is empty.
-UDB [UDB=(0,4)] contents:
-LAB@[UDB=(0,4)][LB=0] #macrocells=4, #inputs=8, #pterms=8
+UDB [UDB=(0,3)] contents:
+LAB@[UDB=(0,3)][LB=0] #macrocells=3, #inputs=4, #pterms=3
 {
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_2\, Mode=(T-Register) @ [UDB=(0,4)][LB=0][MC=0]
-        Total # of inputs        : 6
-        Total # of product terms : 4
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
+    [McSlotId=0]:     MacroCell: Name=Net_133, Mode=(Combinatorial) @ [UDB=(0,3)][LB=0][MC=0]
+        Total # of inputs        : 1
+        Total # of product terms : 1
             Clock Enable: True
-        Main Equation            : 4 pterms
+        Main Equation            : 1 pterm
         (
-              !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-            + \UART_Bluetooth:BUART:tx_state_1\ * 
-              \UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-            + \UART_Bluetooth:BUART:tx_state_1\ * 
-              \UART_Bluetooth:BUART:tx_state_0\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\ * 
-              \UART_Bluetooth:BUART:tx_bitclk\
-            + \UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\ * 
-              \UART_Bluetooth:BUART:tx_counter_dp\ * 
-              \UART_Bluetooth:BUART:tx_bitclk\
+              !Net_131
         );
-        Output = \UART_Bluetooth:BUART:tx_state_2\ (fanout=7)
+        Output = Net_133 (fanout=1)
         Properties               : 
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:counter_load_not\, Mode=(Combinatorial) @ [UDB=(0,4)][LB=0][MC=1]
-        Total # of inputs        : 4
+    [McSlotId=1]:     MacroCell: Name=Net_537, Mode=(D-Register) @ [UDB=(0,3)][LB=0][MC=1]
+        Total # of inputs        : 2
+        Total # of product terms : 1
+        List of special equations: 
+            Clock  = (Net_310) => Global
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ * 
+              \PWM_LED_BRIGHTNESS:PWMUDB:cmp1_less\
+        );
+        Output = Net_537 (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]:     MacroCell: Name=Net_802, Mode=(Combinatorial) @ [UDB=(0,3)][LB=0][MC=3]
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !Net_787
+        );
+        Output = Net_802 (fanout=1)
+        Properties               : 
+        {
+        }
+}
+
+LAB@[UDB=(0,3)][LB=1] #macrocells=3, #inputs=10, #pterms=7
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_postpoll\, Mode=(Combinatorial) @ [UDB=(0,3)][LB=1][MC=0]
+        Total # of inputs        : 3
         Total # of product terms : 2
             Clock Enable: True
         Main Equation            : 2 pterms
-        !(
-              !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\
-            + !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\
+        (
+              \UART_Bluetooth:BUART:pollcount_1\
+            + Net_809 * \UART_Bluetooth:BUART:pollcount_0\
         );
-        Output = \UART_Bluetooth:BUART:counter_load_not\ (fanout=1)
+        Output = \UART_Bluetooth:BUART:rx_postpoll\ (fanout=1)
         Properties               : 
         {
         }
 
-    [McSlotId=2]:     MacroCell: Name=Net_813, Mode=(Combinatorial) @ [UDB=(0,4)][LB=0][MC=2]
+    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_3\, Mode=(D-Register) @ [UDB=(0,3)][LB=1][MC=1]
+        Total # of inputs        : 8
+        Total # of product terms : 2
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:pollcount_1\ * !Net_809
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:pollcount_1\ * 
+              !\UART_Bluetooth:BUART:pollcount_0\
+        );
+        Output = \UART_Bluetooth:BUART:rx_status_3\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:pollcount_1\, Mode=(D-Register) @ [UDB=(0,3)][LB=1][MC=3]
+        Total # of inputs        : 5
+        Total # of product terms : 3
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 3 pterms
+        (
+              !\UART_Bluetooth:BUART:rx_count_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_1\ * 
+              !\UART_Bluetooth:BUART:pollcount_1\ * Net_809 * 
+              \UART_Bluetooth:BUART:pollcount_0\
+            + !\UART_Bluetooth:BUART:rx_count_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_1\ * 
+              \UART_Bluetooth:BUART:pollcount_1\ * !Net_809
+            + !\UART_Bluetooth:BUART:rx_count_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_1\ * 
+              \UART_Bluetooth:BUART:pollcount_1\ * 
+              !\UART_Bluetooth:BUART:pollcount_0\
+        );
+        Output = \UART_Bluetooth:BUART:pollcount_1\ (fanout=4)
+        Properties               : 
+        {
+        }
+}
+
+datapathcell: Name =\PWM_LED_BRIGHTNESS:PWMUDB:sP8:pwmdp:u0\
+    PORT MAP (
+        clock => Net_310 ,
+        cs_addr_2 => \PWM_LED_BRIGHTNESS:PWMUDB:tc_i\ ,
+        cs_addr_1 => \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ ,
+        cl0_comb => \PWM_LED_BRIGHTNESS:PWMUDB:cmp1_less\ ,
+        z0_comb => \PWM_LED_BRIGHTNESS:PWMUDB:tc_i\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+controlcell: Name =\PWM_LED_BRIGHTNESS:PWMUDB:genblk1:ctrlreg\
+    PORT MAP (
+        clock => Net_310 ,
+        control_7 => \PWM_LED_BRIGHTNESS:PWMUDB:control_7\ ,
+        control_6 => \PWM_LED_BRIGHTNESS:PWMUDB:control_6\ ,
+        control_5 => \PWM_LED_BRIGHTNESS:PWMUDB:control_5\ ,
+        control_4 => \PWM_LED_BRIGHTNESS:PWMUDB:control_4\ ,
+        control_3 => \PWM_LED_BRIGHTNESS:PWMUDB:control_3\ ,
+        control_2 => \PWM_LED_BRIGHTNESS:PWMUDB:control_2\ ,
+        control_1 => \PWM_LED_BRIGHTNESS:PWMUDB:control_1\ ,
+        control_0 => \PWM_LED_BRIGHTNESS:PWMUDB:control_0\ );
+    Properties:
+    {
+        cy_ctrl_mode_0 = "11111111"
+        cy_ctrl_mode_1 = "00000000"
+        cy_ext_reset = 0
+        cy_force_order = 1
+        cy_init_value = "00000000"
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [UDB=(0,4)] contents:
+LAB@[UDB=(0,4)][LB=0] #macrocells=3, #inputs=11, #pterms=7
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_2\, Mode=(T-Register) @ [UDB=(0,4)][LB=0][MC=0]
+        Total # of inputs        : 10
+        Total # of product terms : 5
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 5 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_3\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_2\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * !Net_809 * 
+              \UART_Bluetooth:BUART:rx_last\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_5\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_4\
+        );
+        Output = \UART_Bluetooth:BUART:rx_state_2\ (fanout=7)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]:     MacroCell: Name=Net_813, Mode=(Combinatorial) @ [UDB=(0,4)][LB=0][MC=1]
         Total # of inputs        : 1
         Total # of product terms : 1
             Clock Enable: True
@@ -5326,7 +5220,7 @@ LAB@[UDB=(0,4)][LB=0] #macrocells=4, #inputs=8, #pterms=8
         {
         }
 
-    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_last\, Mode=(D-Register) @ [UDB=(0,4)][LB=0][MC=3]
+    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_last\, Mode=(D-Register) @ [UDB=(0,4)][LB=0][MC=2]
         Total # of inputs        : 1
         Total # of product terms : 1
         List of special equations: 
@@ -5340,11 +5234,124 @@ LAB@[UDB=(0,4)][LB=0] #macrocells=4, #inputs=8, #pterms=8
         Properties               : 
         {
         }
+
+    [McSlotId=3]: (empty)
 }
 
-LAB@[UDB=(0,4)][LB=1] #macrocells=2, #inputs=8, #pterms=8
+LAB@[UDB=(0,4)][LB=1] #macrocells=1, #inputs=11, #pterms=4
 {
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:txn\, Mode=(D-Register) @ [UDB=(0,4)][LB=1][MC=0]
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_0\, Mode=(T-Register) @ [UDB=(0,4)][LB=1][MC=0]
+        Total # of inputs        : 11
+        Total # of product terms : 4
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 4 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:pollcount_1\ * !Net_809
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:pollcount_1\ * 
+              !\UART_Bluetooth:BUART:pollcount_0\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_5\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_4\
+        );
+        Output = \UART_Bluetooth:BUART:rx_state_0\ (fanout=8)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
+}
+
+UDB [UDB=(0,5)] contents:
+LAB@[UDB=(0,5)][LB=0] #macrocells=3, #inputs=7, #pterms=6
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_status_0\, Mode=(Combinatorial) @ [UDB=(0,5)][LB=0][MC=0]
+        Total # of inputs        : 5
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              \UART_Bluetooth:BUART:tx_fifo_empty\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+        );
+        Output = \UART_Bluetooth:BUART:tx_status_0\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_status_2\, Mode=(Combinatorial) @ [UDB=(0,5)][LB=0][MC=2]
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_Bluetooth:BUART:tx_fifo_notfull\
+        );
+        Output = \UART_Bluetooth:BUART:tx_status_2\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_0\, Mode=(T-Register) @ [UDB=(0,5)][LB=0][MC=3]
+        Total # of inputs        : 6
+        Total # of product terms : 4
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 4 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              !\UART_Bluetooth:BUART:tx_fifo_empty\
+            + !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              !\UART_Bluetooth:BUART:tx_fifo_empty\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\
+            + \UART_Bluetooth:BUART:tx_state_1\ * 
+              \UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              \UART_Bluetooth:BUART:tx_fifo_empty\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+            + \UART_Bluetooth:BUART:tx_state_0\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\ * 
+              \UART_Bluetooth:BUART:tx_bitclk\
+        );
+        Output = \UART_Bluetooth:BUART:tx_state_0\ (fanout=8)
+        Properties               : 
+        {
+        }
+}
+
+LAB@[UDB=(0,5)][LB=1] #macrocells=1, #inputs=7, #pterms=5
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:txn\, Mode=(D-Register) @ [UDB=(0,5)][LB=1][MC=0]
         Total # of inputs        : 7
         Total # of product terms : 5
         List of special equations: 
@@ -5375,41 +5382,20 @@ LAB@[UDB=(0,4)][LB=1] #macrocells=2, #inputs=8, #pterms=8
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_1\, Mode=(T-Register) @ [UDB=(0,4)][LB=1][MC=1]
-        Total # of inputs        : 6
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              \UART_Bluetooth:BUART:tx_state_1\ * 
-              \UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-            + \UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\ * 
-              \UART_Bluetooth:BUART:tx_counter_dp\ * 
-              \UART_Bluetooth:BUART:tx_bitclk\
-            + \UART_Bluetooth:BUART:tx_state_0\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\ * 
-              \UART_Bluetooth:BUART:tx_bitclk\
-        );
-        Output = \UART_Bluetooth:BUART:tx_state_1\ (fanout=8)
-        Properties               : 
-        {
-        }
-
+    [McSlotId=1]: (empty)
     [McSlotId=2]: (empty)
     [McSlotId=3]: (empty)
 }
 
-datapathcell: Name =\UART_Bluetooth:BUART:sTX:sCLOCK:TxBitClkGen\
+datapathcell: Name =\UART_Bluetooth:BUART:sTX:TxShifter:u0\
     PORT MAP (
         clock => \UART_Bluetooth:Net_9\ ,
-        cs_addr_0 => \UART_Bluetooth:BUART:counter_load_not\ ,
-        ce0_reg => \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ ,
-        ce1_reg => \UART_Bluetooth:BUART:tx_counter_dp\ );
+        cs_addr_2 => \UART_Bluetooth:BUART:tx_state_1\ ,
+        cs_addr_1 => \UART_Bluetooth:BUART:tx_state_0\ ,
+        cs_addr_0 => \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ ,
+        so_comb => \UART_Bluetooth:BUART:tx_shift_out\ ,
+        f0_bus_stat_comb => \UART_Bluetooth:BUART:tx_fifo_notfull\ ,
+        f0_blk_stat_comb => \UART_Bluetooth:BUART:tx_fifo_empty\ );
     Properties:
     {
         a0_init = "00000000"
@@ -5420,7 +5406,7 @@ datapathcell: Name =\UART_Bluetooth:BUART:sTX:sCLOCK:TxBitClkGen\
         cl1_sync = 1
         cmsb_sync = 1
         co_msb_sync = 1
-        cy_dpconfig = "1010100001000000001000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111100000111001000000100000000000101111100000000000000001000"
+        cy_dpconfig = "0000000000000000000000000000000000000000000000000000000011000000000000000000000000000010010000000000000000000000000000000000000011111111000000001111111111111111000000000000000001000100111100000000000000001100"
         d0_init = "00000000"
         d1_init = "00000000"
         f0_blk_sync = 1
@@ -5437,152 +5423,18 @@ datapathcell: Name =\UART_Bluetooth:BUART:sTX:sCLOCK:TxBitClkGen\
     Clock Polarity: Active High
     Clock Enable: True
 
-UDB [UDB=(0,5)] contents:
-LAB@[UDB=(0,5)][LB=0] #macrocells=2, #inputs=6, #pterms=5
-{
-    [McSlotId=0]: (empty)
-    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:tx_state_1\, Mode=(T-Register) @ [UDB=(0,5)][LB=0][MC=1]
-        Total # of inputs        : 6
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              \UART_USB:BUART:tx_state_2\
-            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_2\ * 
-              \UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
-            + \UART_USB:BUART:tx_state_0\ * !\UART_USB:BUART:tx_state_2\ * 
-              \UART_USB:BUART:tx_bitclk\
-        );
-        Output = \UART_USB:BUART:tx_state_1\ (fanout=8)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:tx_state_2\, Mode=(T-Register) @ [UDB=(0,5)][LB=0][MC=3]
-        Total # of inputs        : 6
-        Total # of product terms : 4
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 4 pterms
-        (
-              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              \UART_USB:BUART:tx_state_2\
-            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              \UART_USB:BUART:tx_state_2\
-            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_state_2\ * \UART_USB:BUART:tx_bitclk\
-            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_2\ * 
-              \UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
-        );
-        Output = \UART_USB:BUART:tx_state_2\ (fanout=7)
-        Properties               : 
-        {
-        }
-}
-
-LAB@[UDB=(0,5)][LB=1] #macrocells=4, #inputs=9, #pterms=8
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:txn\, Mode=(D-Register) @ [UDB=(0,5)][LB=1][MC=0]
-        Total # of inputs        : 7
-        Total # of product terms : 5
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 5 pterms
-        (
-              \UART_USB:BUART:txn\ * \UART_USB:BUART:tx_state_1\ * 
-              !\UART_USB:BUART:tx_bitclk\
-            + \UART_USB:BUART:txn\ * \UART_USB:BUART:tx_state_2\
-            + !\UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_shift_out\ * !\UART_USB:BUART:tx_state_2\
-            + !\UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_state_2\ * !\UART_USB:BUART:tx_bitclk\
-            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_shift_out\ * !\UART_USB:BUART:tx_state_2\ * 
-              !\UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
-        );
-        Output = \UART_USB:BUART:txn\ (fanout=2)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]:     MacroCell: Name=Net_133, Mode=(Combinatorial) @ [UDB=(0,5)][LB=1][MC=1]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !Net_131
-        );
-        Output = Net_133 (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=Net_548, Mode=(Combinatorial) @ [UDB=(0,5)][LB=1][MC=2]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_USB:BUART:txn\
-        );
-        Output = Net_548 (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=3]:     MacroCell: Name=Net_802, Mode=(Combinatorial) @ [UDB=(0,5)][LB=1][MC=3]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !Net_787
-        );
-        Output = Net_802 (fanout=1)
-        Properties               : 
-        {
-        }
-}
-
-datapathcell: Name =\UART_USB:BUART:sTX:sCLOCK:TxBitClkGen\
+statusicell: Name =\UART_Bluetooth:BUART:sTX:TxSts\
     PORT MAP (
-        clock => \UART_USB:Net_9\ ,
-        cs_addr_0 => \UART_USB:BUART:counter_load_not\ ,
-        ce0_reg => \UART_USB:BUART:tx_bitclk_enable_pre\ ,
-        ce1_reg => \UART_USB:BUART:tx_counter_dp\ );
+        clock => \UART_Bluetooth:Net_9\ ,
+        status_3 => \UART_Bluetooth:BUART:tx_fifo_notfull\ ,
+        status_2 => \UART_Bluetooth:BUART:tx_status_2\ ,
+        status_1 => \UART_Bluetooth:BUART:tx_fifo_empty\ ,
+        status_0 => \UART_Bluetooth:BUART:tx_status_0\ );
     Properties:
     {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "1010100001000000001000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111100000111001000000100000000000101111100000000000000001000"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
+        cy_force_order = 1
+        cy_int_mask = "1111111"
+        cy_md_select = "0000001"
     }
     Clock Polarity: Active High
     Clock Enable: True
@@ -5620,31 +5472,7 @@ LAB@[UDB=(1,0)][LB=0] #macrocells=4, #inputs=11, #pterms=8
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_load_fifo\, Mode=(D-Register) @ [UDB=(1,0)][LB=0][MC=1]
-        Total # of inputs        : 8
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              !\UART_USB:BUART:tx_ctrl_mark_last\ * 
-              !\UART_USB:BUART:rx_state_0\ * 
-              \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
-              !\UART_USB:BUART:rx_state_2\
-            + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
-              \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
-              !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_5
-            + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
-              \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
-              !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_4
-        );
-        Output = \UART_USB:BUART:rx_load_fifo\ (fanout=2)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:rx_counter_load\, Mode=(Combinatorial) @ [UDB=(1,0)][LB=0][MC=2]
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_counter_load\, Mode=(Combinatorial) @ [UDB=(1,0)][LB=0][MC=1]
         Total # of inputs        : 4
         Total # of product terms : 1
             Clock Enable: True
@@ -5659,30 +5487,46 @@ LAB@[UDB=(1,0)][LB=0] #macrocells=4, #inputs=11, #pterms=8
         {
         }
 
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_status_3\, Mode=(D-Register) @ [UDB=(1,0)][LB=0][MC=3]
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:rx_state_3\, Mode=(T-Register) @ [UDB=(1,0)][LB=0][MC=2]
         Total # of inputs        : 8
-        Total # of product terms : 2
+        Total # of product terms : 3
         List of special equations: 
             Clock  = (\UART_USB:Net_9\) => Global
             Clock Enable: True
-        Main Equation            : 2 pterms
+        Main Equation            : 3 pterms
         (
               !\UART_USB:BUART:tx_ctrl_mark_last\ * 
               !\UART_USB:BUART:rx_state_0\ * 
               \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
-              \UART_USB:BUART:rx_state_2\ * !Net_544 * !MODIN2_1
+              \UART_USB:BUART:rx_state_2\
             + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
-              !\UART_USB:BUART:rx_state_0\ * 
-              \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
-              \UART_USB:BUART:rx_state_2\ * !MODIN2_1 * !MODIN2_0
+              \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
+              !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_5
+            + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
+              \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
+              !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_4
         );
-        Output = \UART_USB:BUART:rx_status_3\ (fanout=1)
+        Output = \UART_USB:BUART:rx_state_3\ (fanout=7)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_postpoll\, Mode=(Combinatorial) @ [UDB=(1,0)][LB=0][MC=3]
+        Total # of inputs        : 3
+        Total # of product terms : 2
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        (
+              Net_544 * MODIN2_0
+            + MODIN2_1
+        );
+        Output = \UART_USB:BUART:rx_postpoll\ (fanout=1)
         Properties               : 
         {
         }
 }
 
-LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=10, #pterms=8
+LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=12, #pterms=8
 {
     [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:rx_state_2\, Mode=(T-Register) @ [UDB=(1,0)][LB=1][MC=0]
         Total # of inputs        : 10
@@ -5714,24 +5558,7 @@ LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=10, #pterms=8
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_state_stop1_reg\, Mode=(D-Register) @ [UDB=(1,0)][LB=1][MC=1]
-        Total # of inputs        : 4
-        Total # of product terms : 1
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        !(
-              !\UART_USB:BUART:tx_ctrl_mark_last\ * 
-              !\UART_USB:BUART:rx_state_0\ * \UART_USB:BUART:rx_state_3\ * 
-              \UART_USB:BUART:rx_state_2\
-        );
-        Output = \UART_USB:BUART:rx_state_stop1_reg\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:rx_state_3\, Mode=(T-Register) @ [UDB=(1,0)][LB=1][MC=2]
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_load_fifo\, Mode=(D-Register) @ [UDB=(1,0)][LB=1][MC=1]
         Total # of inputs        : 8
         Total # of product terms : 3
         List of special equations: 
@@ -5742,7 +5569,7 @@ LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=10, #pterms=8
               !\UART_USB:BUART:tx_ctrl_mark_last\ * 
               !\UART_USB:BUART:rx_state_0\ * 
               \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
-              \UART_USB:BUART:rx_state_2\
+              !\UART_USB:BUART:rx_state_2\
             + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
               \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
               !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_5
@@ -5750,12 +5577,12 @@ LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=10, #pterms=8
               \UART_USB:BUART:rx_state_0\ * !\UART_USB:BUART:rx_state_3\ * 
               !\UART_USB:BUART:rx_state_2\ * !MODIN5_6 * !MODIN5_4
         );
-        Output = \UART_USB:BUART:rx_state_3\ (fanout=7)
+        Output = \UART_USB:BUART:rx_load_fifo\ (fanout=2)
         Properties               : 
         {
         }
 
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_last\, Mode=(D-Register) @ [UDB=(1,0)][LB=1][MC=3]
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:rx_last\, Mode=(D-Register) @ [UDB=(1,0)][LB=1][MC=2]
         Total # of inputs        : 1
         Total # of product terms : 1
         List of special equations: 
@@ -5766,6 +5593,19 @@ LAB@[UDB=(1,0)][LB=1] #macrocells=4, #inputs=10, #pterms=8
               Net_544
         );
         Output = \UART_USB:BUART:rx_last\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_status_4\, Mode=(Combinatorial) @ [UDB=(1,0)][LB=1][MC=3]
+        Total # of inputs        : 2
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \UART_USB:BUART:rx_load_fifo\ * \UART_USB:BUART:rx_fifofull\
+        );
+        Output = \UART_USB:BUART:rx_status_4\ (fanout=1)
         Properties               : 
         {
         }
@@ -5832,56 +5672,49 @@ count7cell: Name =\UART_USB:BUART:sRX:RxBitCounter\
     Clock Enable: True
 
 UDB [UDB=(1,1)] contents:
-LAB@[UDB=(1,1)][LB=0] #macrocells=4, #inputs=6, #pterms=8
+LAB@[UDB=(1,1)][LB=0] #macrocells=4, #inputs=8, #pterms=3
 {
-    [McSlotId=0]:     MacroCell: Name=MODIN2_1, Mode=(D-Register) @ [UDB=(1,1)][LB=0][MC=0]
-        Total # of inputs        : 5
-        Total # of product terms : 3
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 3 pterms
-        (
-              !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
-              !Net_544 * MODIN2_1
-            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
-              Net_544 * !MODIN2_1 * MODIN2_0
-            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
-              MODIN2_1 * !MODIN2_0
-        );
-        Output = MODIN2_1 (fanout=4)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_postpoll\, Mode=(Combinatorial) @ [UDB=(1,1)][LB=0][MC=1]
-        Total # of inputs        : 3
-        Total # of product terms : 2
-            Clock Enable: True
-        Main Equation            : 2 pterms
-        (
-              Net_544 * MODIN2_0
-            + MODIN2_1
-        );
-        Output = \UART_USB:BUART:rx_postpoll\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]:     MacroCell: Name=MODIN2_0, Mode=(D-Register) @ [UDB=(1,1)][LB=0][MC=2]
+    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:rx_state_stop1_reg\, Mode=(D-Register) @ [UDB=(1,1)][LB=0][MC=0]
         Total # of inputs        : 4
-        Total # of product terms : 2
+        Total # of product terms : 1
         List of special equations: 
             Clock  = (\UART_USB:Net_9\) => Global
             Clock Enable: True
-        Main Equation            : 2 pterms
-        (
-              !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
-              !Net_544 * MODIN2_0
-            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
-              Net_544 * !MODIN2_0
+        Main Equation            : 1 pterm
+        !(
+              !\UART_USB:BUART:tx_ctrl_mark_last\ * 
+              !\UART_USB:BUART:rx_state_0\ * \UART_USB:BUART:rx_state_3\ * 
+              \UART_USB:BUART:rx_state_2\
         );
-        Output = MODIN2_0 (fanout=5)
+        Output = \UART_USB:BUART:rx_state_stop1_reg\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:tx_status_2\, Mode=(Combinatorial) @ [UDB=(1,1)][LB=0][MC=1]
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_USB:BUART:tx_fifo_notfull\
+        );
+        Output = \UART_USB:BUART:tx_status_2\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:tx_ctrl_mark_last\, Mode=(T-Register) @ [UDB=(1,1)][LB=0][MC=2]
+        Total # of inputs        : 0
+        Total # of product terms : 0
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 0 pterms
+        (
+            0
+        );
+        Output = \UART_USB:BUART:tx_ctrl_mark_last\ (fanout=8)
         Properties               : 
         {
         }
@@ -5903,403 +5736,68 @@ LAB@[UDB=(1,1)][LB=0] #macrocells=4, #inputs=6, #pterms=8
         }
 }
 
-LAB@[UDB=(1,1)][LB=1] #macrocells=2, #inputs=2, #pterms=1
+LAB@[UDB=(1,1)][LB=1] #macrocells=3, #inputs=10, #pterms=7
 {
-    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:tx_ctrl_mark_last\, Mode=(T-Register) @ [UDB=(1,1)][LB=1][MC=0]
-        Total # of inputs        : 0
-        Total # of product terms : 0
-        List of special equations: 
-            Clock  = (\UART_USB:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 0 pterms
-        (
-            0
-        );
-        Output = \UART_USB:BUART:tx_ctrl_mark_last\ (fanout=8)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]: (empty)
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:rx_status_4\, Mode=(Combinatorial) @ [UDB=(1,1)][LB=1][MC=3]
-        Total # of inputs        : 2
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \UART_USB:BUART:rx_load_fifo\ * \UART_USB:BUART:rx_fifofull\
-        );
-        Output = \UART_USB:BUART:rx_status_4\ (fanout=1)
-        Properties               : 
-        {
-        }
-}
-
-datapathcell: Name =\PWM_LED_BRIGHTNESS:PWMUDB:sP8:pwmdp:u0\
-    PORT MAP (
-        clock => Net_310 ,
-        cs_addr_2 => \PWM_LED_BRIGHTNESS:PWMUDB:tc_i\ ,
-        cs_addr_1 => \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ ,
-        cl0_comb => \PWM_LED_BRIGHTNESS:PWMUDB:cmp1_less\ ,
-        z0_comb => \PWM_LED_BRIGHTNESS:PWMUDB:tc_i\ );
-    Properties:
-    {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-statusicell: Name =\UART_USB:BUART:sRX:RxSts\
-    PORT MAP (
-        clock => \UART_USB:Net_9\ ,
-        status_5 => \UART_USB:BUART:rx_status_5\ ,
-        status_4 => \UART_USB:BUART:rx_status_4\ ,
-        status_3 => \UART_USB:BUART:rx_status_3\ ,
-        interrupt => Net_547 );
-    Properties:
-    {
-        cy_force_order = 1
-        cy_int_mask = "1111111"
-        cy_md_select = "1011111"
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-UDB [UDB=(1,2)] contents:
-LAB@[UDB=(1,2)][LB=1] #macrocells=1, #inputs=1, #pterms=1
-{
-    [McSlotId=0]: (empty)
-    [McSlotId=1]: (empty)
-    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_status_2\, Mode=(Combinatorial) @ [UDB=(1,2)][LB=1][MC=2]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_Bluetooth:BUART:tx_fifo_notfull\
-        );
-        Output = \UART_Bluetooth:BUART:tx_status_2\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=3]: (empty)
-}
-
-datapathcell: Name =\PWM_LED:PWMUDB:sP16:pwmdp:u0\
-    PORT MAP (
-        clock => Net_310 ,
-        cs_addr_2 => \PWM_LED:PWMUDB:tc_i\ ,
-        cs_addr_1 => \PWM_LED:PWMUDB:runmode_enable\ ,
-        chain_out => \PWM_LED:PWMUDB:sP16:pwmdp:carry\ );
-    Properties:
-    {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-    Next in chain : \PWM_LED:PWMUDB:sP16:pwmdp:u1\
-
-statusicell: Name =\UART_Bluetooth:BUART:sRX:RxSts\
-    PORT MAP (
-        clock => \UART_Bluetooth:Net_9\ ,
-        status_5 => \UART_Bluetooth:BUART:rx_status_5\ ,
-        status_4 => \UART_Bluetooth:BUART:rx_status_4\ ,
-        status_3 => \UART_Bluetooth:BUART:rx_status_3\ ,
-        interrupt => Net_812 );
-    Properties:
-    {
-        cy_force_order = 1
-        cy_int_mask = "1111111"
-        cy_md_select = "1011111"
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-UDB [UDB=(1,3)] contents:
-LAB@[UDB=(1,3)][LB=0] #macrocells=1, #inputs=0, #pterms=0
-{
-    [McSlotId=0]: (empty)
-    [McSlotId=1]: (empty)
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=__ONE__, Mode=(Combinatorial) @ [UDB=(1,3)][LB=0][MC=3]
-        Total # of inputs        : 0
-        Total # of product terms : 0
-            Clock Enable: True
-        Main Equation            : 0 pterms
-        !(
-            0
-        );
-        Output = __ONE__ (fanout=4)
-        Properties               : 
-        {
-        }
-}
-
-UDB [UDB=(1,4)] contents:
-LAB@[UDB=(1,4)][LB=0] #macrocells=1, #inputs=5, #pterms=1
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:tx_status_0\, Mode=(Combinatorial) @ [UDB=(1,4)][LB=0][MC=0]
+    [McSlotId=0]:     MacroCell: Name=MODIN2_1, Mode=(D-Register) @ [UDB=(1,1)][LB=1][MC=0]
         Total # of inputs        : 5
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              \UART_USB:BUART:tx_fifo_empty\ * \UART_USB:BUART:tx_state_2\
-        );
-        Output = \UART_USB:BUART:tx_status_0\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]: (empty)
-    [McSlotId=2]: (empty)
-    [McSlotId=3]: (empty)
-}
-
-LAB@[UDB=(1,4)][LB=1] #macrocells=3, #inputs=6, #pterms=7
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_0\, Mode=(T-Register) @ [UDB=(1,4)][LB=1][MC=0]
-        Total # of inputs        : 6
-        Total # of product terms : 4
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 4 pterms
-        (
-              !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              !\UART_Bluetooth:BUART:tx_fifo_empty\
-            + !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              !\UART_Bluetooth:BUART:tx_fifo_empty\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\
-            + \UART_Bluetooth:BUART:tx_state_1\ * 
-              \UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              \UART_Bluetooth:BUART:tx_fifo_empty\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-            + \UART_Bluetooth:BUART:tx_state_0\ * 
-              !\UART_Bluetooth:BUART:tx_state_2\ * 
-              \UART_Bluetooth:BUART:tx_bitclk\
-        );
-        Output = \UART_Bluetooth:BUART:tx_state_0\ (fanout=8)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_status_0\, Mode=(Combinatorial) @ [UDB=(1,4)][LB=1][MC=1]
-        Total # of inputs        : 5
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
-              \UART_Bluetooth:BUART:tx_fifo_empty\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-        );
-        Output = \UART_Bluetooth:BUART:tx_status_0\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_bitclk\, Mode=(D-Register) @ [UDB=(1,4)][LB=1][MC=3]
-        Total # of inputs        : 4
-        Total # of product terms : 2
-        List of special equations: 
-            Clock  = (\UART_Bluetooth:Net_9\) => Global
-            Clock Enable: True
-        Main Equation            : 2 pterms
-        !(
-              !\UART_Bluetooth:BUART:tx_state_1\ * 
-              !\UART_Bluetooth:BUART:tx_state_0\ * 
-              \UART_Bluetooth:BUART:tx_state_2\
-            + !\UART_Bluetooth:BUART:tx_bitclk_enable_pre\
-        );
-        Output = \UART_Bluetooth:BUART:tx_bitclk\ (fanout=4)
-        Properties               : 
-        {
-        }
-}
-
-datapathcell: Name =\UART_Bluetooth:BUART:sTX:TxShifter:u0\
-    PORT MAP (
-        clock => \UART_Bluetooth:Net_9\ ,
-        cs_addr_2 => \UART_Bluetooth:BUART:tx_state_1\ ,
-        cs_addr_1 => \UART_Bluetooth:BUART:tx_state_0\ ,
-        cs_addr_0 => \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ ,
-        so_comb => \UART_Bluetooth:BUART:tx_shift_out\ ,
-        f0_bus_stat_comb => \UART_Bluetooth:BUART:tx_fifo_notfull\ ,
-        f0_blk_stat_comb => \UART_Bluetooth:BUART:tx_fifo_empty\ );
-    Properties:
-    {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "0000000000000000000000000000000000000000000000000000000011000000000000000000000000000010010000000000000000000000000000000000000011111111000000001111111111111111000000000000000001000100111100000000000000001100"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-statusicell: Name =\UART_Bluetooth:BUART:sTX:TxSts\
-    PORT MAP (
-        clock => \UART_Bluetooth:Net_9\ ,
-        status_3 => \UART_Bluetooth:BUART:tx_fifo_notfull\ ,
-        status_2 => \UART_Bluetooth:BUART:tx_status_2\ ,
-        status_1 => \UART_Bluetooth:BUART:tx_fifo_empty\ ,
-        status_0 => \UART_Bluetooth:BUART:tx_status_0\ );
-    Properties:
-    {
-        cy_force_order = 1
-        cy_int_mask = "1111111"
-        cy_md_select = "0000001"
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-UDB [UDB=(1,5)] contents:
-LAB@[UDB=(1,5)][LB=0] #macrocells=2, #inputs=5, #pterms=3
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:tx_status_2\, Mode=(Combinatorial) @ [UDB=(1,5)][LB=0][MC=0]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !\UART_USB:BUART:tx_fifo_notfull\
-        );
-        Output = \UART_USB:BUART:tx_status_2\ (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]: (empty)
-    [McSlotId=2]: (empty)
-    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:counter_load_not\, Mode=(Combinatorial) @ [UDB=(1,5)][LB=0][MC=3]
-        Total # of inputs        : 4
-        Total # of product terms : 2
-            Clock Enable: True
-        Main Equation            : 2 pterms
-        !(
-              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\
-            + !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_state_2\
-        );
-        Output = \UART_USB:BUART:counter_load_not\ (fanout=1)
-        Properties               : 
-        {
-        }
-}
-
-LAB@[UDB=(1,5)][LB=1] #macrocells=2, #inputs=6, #pterms=6
-{
-    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:tx_state_0\, Mode=(T-Register) @ [UDB=(1,5)][LB=1][MC=0]
-        Total # of inputs        : 6
-        Total # of product terms : 4
+        Total # of product terms : 3
         List of special equations: 
             Clock  = (\UART_USB:Net_9\) => Global
             Clock Enable: True
-        Main Equation            : 4 pterms
+        Main Equation            : 3 pterms
         (
-              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              !\UART_USB:BUART:tx_fifo_empty\
-            + !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              !\UART_USB:BUART:tx_fifo_empty\ * !\UART_USB:BUART:tx_state_2\
-            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
-              \UART_USB:BUART:tx_fifo_empty\ * \UART_USB:BUART:tx_state_2\
-            + \UART_USB:BUART:tx_state_0\ * !\UART_USB:BUART:tx_state_2\ * 
-              \UART_USB:BUART:tx_bitclk\
+              !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
+              !Net_544 * MODIN2_1
+            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
+              Net_544 * !MODIN2_1 * MODIN2_0
+            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
+              MODIN2_1 * !MODIN2_0
         );
-        Output = \UART_USB:BUART:tx_state_0\ (fanout=8)
+        Output = MODIN2_1 (fanout=4)
         Properties               : 
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:tx_bitclk\, Mode=(D-Register) @ [UDB=(1,5)][LB=1][MC=1]
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:rx_status_3\, Mode=(D-Register) @ [UDB=(1,1)][LB=1][MC=1]
+        Total # of inputs        : 8
+        Total # of product terms : 2
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        (
+              !\UART_USB:BUART:tx_ctrl_mark_last\ * 
+              !\UART_USB:BUART:rx_state_0\ * 
+              \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
+              \UART_USB:BUART:rx_state_2\ * !Net_544 * !MODIN2_1
+            + !\UART_USB:BUART:tx_ctrl_mark_last\ * 
+              !\UART_USB:BUART:rx_state_0\ * 
+              \UART_USB:BUART:rx_bitclk_enable\ * \UART_USB:BUART:rx_state_3\ * 
+              \UART_USB:BUART:rx_state_2\ * !MODIN2_1 * !MODIN2_0
+        );
+        Output = \UART_USB:BUART:rx_status_3\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]:     MacroCell: Name=MODIN2_0, Mode=(D-Register) @ [UDB=(1,1)][LB=1][MC=2]
         Total # of inputs        : 4
         Total # of product terms : 2
         List of special equations: 
             Clock  = (\UART_USB:Net_9\) => Global
             Clock Enable: True
         Main Equation            : 2 pterms
-        !(
-              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
-              \UART_USB:BUART:tx_state_2\
-            + !\UART_USB:BUART:tx_bitclk_enable_pre\
+        (
+              !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
+              !Net_544 * MODIN2_0
+            + !\UART_USB:BUART:rx_count_2\ * !\UART_USB:BUART:rx_count_1\ * 
+              Net_544 * !MODIN2_0
         );
-        Output = \UART_USB:BUART:tx_bitclk\ (fanout=4)
+        Output = MODIN2_0 (fanout=5)
         Properties               : 
         {
         }
 
-    [McSlotId=2]: (empty)
     [McSlotId=3]: (empty)
 }
 
@@ -6355,70 +5853,742 @@ statusicell: Name =\UART_USB:BUART:sTX:TxSts\
     Clock Polarity: Active High
     Clock Enable: True
 
-UDB [UDB=(2,0)] is empty.
-UDB [UDB=(2,1)] contents:
-LAB@[UDB=(2,1)][LB=0] #macrocells=4, #inputs=7, #pterms=4
+UDB [UDB=(1,2)] contents:
+LAB@[UDB=(1,2)][LB=0] #macrocells=2, #inputs=9, #pterms=6
 {
-    [McSlotId=0]:     MacroCell: Name=\PWM_LED:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(2,1)][LB=0][MC=0]
+    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:txn\, Mode=(D-Register) @ [UDB=(1,2)][LB=0][MC=0]
+        Total # of inputs        : 7
+        Total # of product terms : 5
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 5 pterms
+        (
+              \UART_USB:BUART:txn\ * \UART_USB:BUART:tx_state_1\ * 
+              !\UART_USB:BUART:tx_bitclk\
+            + \UART_USB:BUART:txn\ * \UART_USB:BUART:tx_state_2\
+            + !\UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_shift_out\ * !\UART_USB:BUART:tx_state_2\
+            + !\UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_state_2\ * !\UART_USB:BUART:tx_bitclk\
+            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_shift_out\ * !\UART_USB:BUART:tx_state_2\ * 
+              !\UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
+        );
+        Output = \UART_USB:BUART:txn\ (fanout=2)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_5\, Mode=(Combinatorial) @ [UDB=(1,2)][LB=0][MC=2]
+        Total # of inputs        : 2
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \UART_Bluetooth:BUART:rx_fifonotempty\ * 
+              \UART_Bluetooth:BUART:rx_state_stop1_reg\
+        );
+        Output = \UART_Bluetooth:BUART:rx_status_5\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]: (empty)
+}
+
+LAB@[UDB=(1,2)][LB=1] #macrocells=2, #inputs=8, #pterms=4
+{
+    [McSlotId=0]: (empty)
+    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_load_fifo\, Mode=(D-Register) @ [UDB=(1,2)][LB=1][MC=1]
+        Total # of inputs        : 8
+        Total # of product terms : 3
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 3 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_5\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_4\
+        );
+        Output = \UART_Bluetooth:BUART:rx_load_fifo\ (fanout=2)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_stop1_reg\, Mode=(D-Register) @ [UDB=(1,2)][LB=1][MC=2]
+        Total # of inputs        : 4
+        Total # of product terms : 1
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        !(
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\
+        );
+        Output = \UART_Bluetooth:BUART:rx_state_stop1_reg\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]: (empty)
+}
+
+datapathcell: Name =\PWM_LED:PWMUDB:sP16:pwmdp:u0\
+    PORT MAP (
+        clock => Net_310 ,
+        cs_addr_2 => \PWM_LED:PWMUDB:tc_i\ ,
+        cs_addr_1 => \PWM_LED:PWMUDB:runmode_enable\ ,
+        chain_out => \PWM_LED:PWMUDB:sP16:pwmdp:carry\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+    Next in chain : \PWM_LED:PWMUDB:sP16:pwmdp:u1\
+
+count7cell: Name =\UART_Bluetooth:BUART:sRX:RxBitCounter\
+    PORT MAP (
+        clock => \UART_Bluetooth:Net_9\ ,
+        load => \UART_Bluetooth:BUART:rx_counter_load\ ,
+        count_6 => \UART_Bluetooth:BUART:rx_count_6\ ,
+        count_5 => \UART_Bluetooth:BUART:rx_count_5\ ,
+        count_4 => \UART_Bluetooth:BUART:rx_count_4\ ,
+        count_3 => \UART_Bluetooth:BUART:rx_count_3\ ,
+        count_2 => \UART_Bluetooth:BUART:rx_count_2\ ,
+        count_1 => \UART_Bluetooth:BUART:rx_count_1\ ,
+        count_0 => \UART_Bluetooth:BUART:rx_count_0\ ,
+        tc => \UART_Bluetooth:BUART:rx_count7_tc\ );
+    Properties:
+    {
+        cy_alt_mode = 0
+        cy_init_value = "0000000"
+        cy_period = "1110010"
+        cy_route_en = 1
+        cy_route_ld = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [UDB=(1,3)] contents:
+LAB@[UDB=(1,3)][LB=0] #macrocells=3, #inputs=11, #pterms=5
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_status_4\, Mode=(Combinatorial) @ [UDB=(1,3)][LB=0][MC=0]
+        Total # of inputs        : 2
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \UART_Bluetooth:BUART:rx_load_fifo\ * 
+              \UART_Bluetooth:BUART:rx_fifofull\
+        );
+        Output = \UART_Bluetooth:BUART:rx_status_4\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_state_3\, Mode=(T-Register) @ [UDB=(1,3)][LB=0][MC=1]
+        Total # of inputs        : 8
+        Total # of product terms : 3
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 3 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              \UART_Bluetooth:BUART:rx_bitclk_enable\ * 
+              \UART_Bluetooth:BUART:rx_state_3\ * 
+              \UART_Bluetooth:BUART:rx_state_2\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_5\
+            + !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              \UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_6\ * 
+              !\UART_Bluetooth:BUART:rx_count_4\
+        );
+        Output = \UART_Bluetooth:BUART:rx_state_3\ (fanout=7)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]:     MacroCell: Name=Net_791, Mode=(Combinatorial) @ [UDB=(1,3)][LB=0][MC=3]
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !Net_793
+        );
+        Output = Net_791 (fanout=1)
+        Properties               : 
+        {
+        }
+}
+
+datapathcell: Name =\UART_Bluetooth:BUART:sRX:RxShifter:u0\
+    PORT MAP (
+        clock => \UART_Bluetooth:Net_9\ ,
+        cs_addr_2 => \UART_Bluetooth:BUART:tx_ctrl_mark_last\ ,
+        cs_addr_1 => \UART_Bluetooth:BUART:rx_state_0\ ,
+        cs_addr_0 => \UART_Bluetooth:BUART:rx_bitclk_enable\ ,
+        route_si => \UART_Bluetooth:BUART:rx_postpoll\ ,
+        f0_load => \UART_Bluetooth:BUART:rx_load_fifo\ ,
+        f0_bus_stat_comb => \UART_Bluetooth:BUART:rx_fifonotempty\ ,
+        f0_blk_stat_comb => \UART_Bluetooth:BUART:rx_fifofull\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000000000000000000000000000000000000000000000000001001000000000100000000000000010000001100000001000000000000000100100001000011111111000000001111111111111111101000000110001001000001111100000000000000001100"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+statusicell: Name =\UART_Bluetooth:BUART:sRX:RxSts\
+    PORT MAP (
+        clock => \UART_Bluetooth:Net_9\ ,
+        status_5 => \UART_Bluetooth:BUART:rx_status_5\ ,
+        status_4 => \UART_Bluetooth:BUART:rx_status_4\ ,
+        status_3 => \UART_Bluetooth:BUART:rx_status_3\ ,
+        interrupt => Net_812 );
+    Properties:
+    {
+        cy_force_order = 1
+        cy_int_mask = "1111111"
+        cy_md_select = "1011111"
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [UDB=(1,4)] contents:
+LAB@[UDB=(1,4)][LB=0] #macrocells=1, #inputs=6, #pterms=4
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_USB:BUART:tx_state_2\, Mode=(T-Register) @ [UDB=(1,4)][LB=0][MC=0]
+        Total # of inputs        : 6
+        Total # of product terms : 4
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 4 pterms
+        (
+              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              \UART_USB:BUART:tx_state_2\
+            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              \UART_USB:BUART:tx_state_2\
+            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_state_2\ * \UART_USB:BUART:tx_bitclk\
+            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_2\ * 
+              \UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
+        );
+        Output = \UART_USB:BUART:tx_state_2\ (fanout=7)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
+}
+
+LAB@[UDB=(1,4)][LB=1] #macrocells=3, #inputs=10, #pterms=6
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_counter_load\, Mode=(Combinatorial) @ [UDB=(1,4)][LB=1][MC=0]
+        Total # of inputs        : 4
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_Bluetooth:BUART:tx_ctrl_mark_last\ * 
+              !\UART_Bluetooth:BUART:rx_state_0\ * 
+              !\UART_Bluetooth:BUART:rx_state_3\ * 
+              !\UART_Bluetooth:BUART:rx_state_2\
+        );
+        Output = \UART_Bluetooth:BUART:rx_counter_load\ (fanout=2)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:counter_load_not\, Mode=(Combinatorial) @ [UDB=(1,4)][LB=1][MC=2]
+        Total # of inputs        : 4
+        Total # of product terms : 2
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        !(
+              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\
+            + !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_state_2\
+        );
+        Output = \UART_USB:BUART:counter_load_not\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]:     MacroCell: Name=\UART_USB:BUART:tx_state_1\, Mode=(T-Register) @ [UDB=(1,4)][LB=1][MC=3]
+        Total # of inputs        : 6
+        Total # of product terms : 3
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 3 pterms
+        (
+              \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              \UART_USB:BUART:tx_state_2\
+            + \UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_2\ * 
+              \UART_USB:BUART:tx_counter_dp\ * \UART_USB:BUART:tx_bitclk\
+            + \UART_USB:BUART:tx_state_0\ * !\UART_USB:BUART:tx_state_2\ * 
+              \UART_USB:BUART:tx_bitclk\
+        );
+        Output = \UART_USB:BUART:tx_state_1\ (fanout=8)
+        Properties               : 
+        {
+        }
+}
+
+datapathcell: Name =\UART_USB:BUART:sTX:sCLOCK:TxBitClkGen\
+    PORT MAP (
+        clock => \UART_USB:Net_9\ ,
+        cs_addr_0 => \UART_USB:BUART:counter_load_not\ ,
+        ce0_reg => \UART_USB:BUART:tx_bitclk_enable_pre\ ,
+        ce1_reg => \UART_USB:BUART:tx_counter_dp\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "1010100001000000001000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111100000111001000000100000000000101111100000000000000001000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [UDB=(1,5)] contents:
+LAB@[UDB=(1,5)][LB=0] #macrocells=3, #inputs=6, #pterms=8
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_2\, Mode=(T-Register) @ [UDB=(1,5)][LB=0][MC=0]
+        Total # of inputs        : 6
+        Total # of product terms : 4
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 4 pterms
+        (
+              !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+            + \UART_Bluetooth:BUART:tx_state_1\ * 
+              \UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+            + \UART_Bluetooth:BUART:tx_state_1\ * 
+              \UART_Bluetooth:BUART:tx_state_0\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\ * 
+              \UART_Bluetooth:BUART:tx_bitclk\
+            + \UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\ * 
+              \UART_Bluetooth:BUART:tx_counter_dp\ * 
+              \UART_Bluetooth:BUART:tx_bitclk\
+        );
+        Output = \UART_Bluetooth:BUART:tx_state_2\ (fanout=7)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_bitclk\, Mode=(D-Register) @ [UDB=(1,5)][LB=0][MC=1]
+        Total # of inputs        : 4
+        Total # of product terms : 2
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        !(
+              !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+            + !\UART_Bluetooth:BUART:tx_bitclk_enable_pre\
+        );
+        Output = \UART_Bluetooth:BUART:tx_bitclk\ (fanout=4)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]:     MacroCell: Name=\UART_Bluetooth:BUART:counter_load_not\, Mode=(Combinatorial) @ [UDB=(1,5)][LB=0][MC=2]
+        Total # of inputs        : 4
+        Total # of product terms : 2
+            Clock Enable: True
+        Main Equation            : 2 pterms
+        !(
+              !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\
+            + !\UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_0\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\
+        );
+        Output = \UART_Bluetooth:BUART:counter_load_not\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]: (empty)
+}
+
+LAB@[UDB=(1,5)][LB=1] #macrocells=2, #inputs=9, #pterms=4
+{
+    [McSlotId=0]:     MacroCell: Name=\UART_Bluetooth:BUART:tx_state_1\, Mode=(T-Register) @ [UDB=(1,5)][LB=1][MC=0]
+        Total # of inputs        : 6
+        Total # of product terms : 3
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 3 pterms
+        (
+              \UART_Bluetooth:BUART:tx_state_1\ * 
+              \UART_Bluetooth:BUART:tx_state_0\ * 
+              \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ * 
+              \UART_Bluetooth:BUART:tx_state_2\
+            + \UART_Bluetooth:BUART:tx_state_1\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\ * 
+              \UART_Bluetooth:BUART:tx_counter_dp\ * 
+              \UART_Bluetooth:BUART:tx_bitclk\
+            + \UART_Bluetooth:BUART:tx_state_0\ * 
+              !\UART_Bluetooth:BUART:tx_state_2\ * 
+              \UART_Bluetooth:BUART:tx_bitclk\
+        );
+        Output = \UART_Bluetooth:BUART:tx_state_1\ (fanout=8)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=1]:     MacroCell: Name=\UART_Bluetooth:BUART:rx_bitclk_enable\, Mode=(D-Register) @ [UDB=(1,5)][LB=1][MC=1]
+        Total # of inputs        : 3
+        Total # of product terms : 1
+        List of special equations: 
+            Clock  = (\UART_Bluetooth:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_Bluetooth:BUART:rx_count_2\ * 
+              !\UART_Bluetooth:BUART:rx_count_1\ * 
+              !\UART_Bluetooth:BUART:rx_count_0\
+        );
+        Output = \UART_Bluetooth:BUART:rx_bitclk_enable\ (fanout=6)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
+}
+
+datapathcell: Name =\UART_Bluetooth:BUART:sTX:sCLOCK:TxBitClkGen\
+    PORT MAP (
+        clock => \UART_Bluetooth:Net_9\ ,
+        cs_addr_0 => \UART_Bluetooth:BUART:counter_load_not\ ,
+        ce0_reg => \UART_Bluetooth:BUART:tx_bitclk_enable_pre\ ,
+        ce1_reg => \UART_Bluetooth:BUART:tx_counter_dp\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "1010100001000000001000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111100000111001000000100000000000101111100000000000000001000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [UDB=(2,0)] contents:
+LAB@[UDB=(2,0)][LB=0] #macrocells=1, #inputs=6, #pterms=4
+{
+    [McSlotId=0]: (empty)
+    [McSlotId=1]: (empty)
+    [McSlotId=2]:     MacroCell: Name=\UART_USB:BUART:tx_state_0\, Mode=(T-Register) @ [UDB=(2,0)][LB=0][MC=2]
+        Total # of inputs        : 6
+        Total # of product terms : 4
+        List of special equations: 
+            Clock  = (\UART_USB:Net_9\) => Global
+            Clock Enable: True
+        Main Equation            : 4 pterms
+        (
+              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              !\UART_USB:BUART:tx_fifo_empty\
+            + !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              !\UART_USB:BUART:tx_fifo_empty\ * !\UART_USB:BUART:tx_state_2\
+            + \UART_USB:BUART:tx_state_1\ * \UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              \UART_USB:BUART:tx_fifo_empty\ * \UART_USB:BUART:tx_state_2\
+            + \UART_USB:BUART:tx_state_0\ * !\UART_USB:BUART:tx_state_2\ * 
+              \UART_USB:BUART:tx_bitclk\
+        );
+        Output = \UART_USB:BUART:tx_state_0\ (fanout=8)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]: (empty)
+}
+
+LAB@[UDB=(2,0)][LB=1] #macrocells=1, #inputs=5, #pterms=1
+{
+    [McSlotId=0]: (empty)
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:tx_status_0\, Mode=(Combinatorial) @ [UDB=(2,0)][LB=1][MC=1]
+        Total # of inputs        : 5
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_bitclk_enable_pre\ * 
+              \UART_USB:BUART:tx_fifo_empty\ * \UART_USB:BUART:tx_state_2\
+        );
+        Output = \UART_USB:BUART:tx_status_0\ (fanout=1)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
+}
+
+datapathcell: Name =\PWM_Motor:PWMUDB:sP16:pwmdp:u0\
+    PORT MAP (
+        clock => Net_163 ,
+        cs_addr_2 => \PWM_Motor:PWMUDB:tc_i\ ,
+        cs_addr_1 => \PWM_Motor:PWMUDB:runmode_enable\ ,
+        chain_out => \PWM_Motor:PWMUDB:sP16:pwmdp:carry\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+    Next in chain : \PWM_Motor:PWMUDB:sP16:pwmdp:u1\
+
+UDB [UDB=(2,1)] is empty.
+UDB [UDB=(2,2)] is empty.
+UDB [UDB=(2,3)] is empty.
+UDB [UDB=(2,4)] is empty.
+UDB [UDB=(2,5)] contents:
+LAB@[UDB=(2,5)][LB=0] #macrocells=1, #inputs=0, #pterms=0
+{
+    [McSlotId=0]: (empty)
+    [McSlotId=1]: (empty)
+    [McSlotId=2]:     MacroCell: Name=__ONE__, Mode=(Combinatorial) @ [UDB=(2,5)][LB=0][MC=2]
+        Total # of inputs        : 0
+        Total # of product terms : 0
+            Clock Enable: True
+        Main Equation            : 0 pterms
+        !(
+            0
+        );
+        Output = __ONE__ (fanout=4)
+        Properties               : 
+        {
+        }
+
+    [McSlotId=3]: (empty)
+}
+
+UDB [UDB=(3,0)] contents:
+LAB@[UDB=(3,0)][LB=0] #macrocells=3, #inputs=4, #pterms=3
+{
+    [McSlotId=0]:     MacroCell: Name=\PWM_Motor:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(3,0)][LB=0][MC=0]
         Total # of inputs        : 1
         Total # of product terms : 1
         List of special equations: 
-            Clock  = (Net_310) => Global
+            Clock  = (Net_163) => Global
             Clock Enable: True
         Main Equation            : 1 pterm
         (
-              \PWM_LED:PWMUDB:control_7\
+              \PWM_Motor:PWMUDB:control_7\
         );
-        Output = \PWM_LED:PWMUDB:runmode_enable\ (fanout=3)
+        Output = \PWM_Motor:PWMUDB:runmode_enable\ (fanout=4)
         Properties               : 
         {
         }
 
-    [McSlotId=1]:     MacroCell: Name=Net_538, Mode=(D-Register) @ [UDB=(2,1)][LB=0][MC=1]
+    [McSlotId=1]:     MacroCell: Name=Net_180, Mode=(D-Register) @ [UDB=(3,0)][LB=0][MC=1]
         Total # of inputs        : 2
         Total # of product terms : 1
         List of special equations: 
-            Clock  = (Net_310) => Global
+            Clock  = (Net_163) => Global
             Clock Enable: True
         Main Equation            : 1 pterm
         (
-              \PWM_LED:PWMUDB:runmode_enable\ * \PWM_LED:PWMUDB:cmp1_less\
+              \PWM_Motor:PWMUDB:runmode_enable\ * 
+              \PWM_Motor:PWMUDB:cmp1_less\
         );
-        Output = Net_538 (fanout=1)
+        Output = Net_180 (fanout=1)
         Properties               : 
         {
         }
 
-    [McSlotId=2]:     MacroCell: Name=\PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(2,1)][LB=0][MC=2]
+    [McSlotId=2]:     MacroCell: Name=Net_194, Mode=(D-Register) @ [UDB=(3,0)][LB=0][MC=2]
         Total # of inputs        : 2
         Total # of product terms : 1
         List of special equations: 
-            Clock  = (Net_310) => Global
+            Clock  = (Net_163) => Global
             Clock Enable: True
         Main Equation            : 1 pterm
         (
-              Net_538 * \PWM_LED_BRIGHTNESS:PWMUDB:control_7\
+              \PWM_Motor:PWMUDB:runmode_enable\ * 
+              \PWM_Motor:PWMUDB:cmp2_less\
         );
-        Output = \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ (fanout=2)
+        Output = Net_194 (fanout=1)
         Properties               : 
         {
         }
 
-    [McSlotId=3]:     MacroCell: Name=Net_537, Mode=(D-Register) @ [UDB=(2,1)][LB=0][MC=3]
-        Total # of inputs        : 2
-        Total # of product terms : 1
+    [McSlotId=3]: (empty)
+}
+
+LAB@[UDB=(3,0)][LB=1] #macrocells=1, #inputs=4, #pterms=2
+{
+    [McSlotId=0]: (empty)
+    [McSlotId=1]:     MacroCell: Name=\UART_USB:BUART:tx_bitclk\, Mode=(D-Register) @ [UDB=(3,0)][LB=1][MC=1]
+        Total # of inputs        : 4
+        Total # of product terms : 2
         List of special equations: 
-            Clock  = (Net_310) => Global
+            Clock  = (\UART_USB:Net_9\) => Global
             Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \PWM_LED_BRIGHTNESS:PWMUDB:runmode_enable\ * 
-              \PWM_LED_BRIGHTNESS:PWMUDB:cmp1_less\
+        Main Equation            : 2 pterms
+        !(
+              !\UART_USB:BUART:tx_state_1\ * !\UART_USB:BUART:tx_state_0\ * 
+              \UART_USB:BUART:tx_state_2\
+            + !\UART_USB:BUART:tx_bitclk_enable_pre\
         );
-        Output = Net_537 (fanout=1)
+        Output = \UART_USB:BUART:tx_bitclk\ (fanout=4)
         Properties               : 
         {
         }
+
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
 }
 
 datapathcell: Name =\PWM_Motor:PWMUDB:sP16:pwmdp:u1\
@@ -6458,140 +6628,6 @@ datapathcell: Name =\PWM_Motor:PWMUDB:sP16:pwmdp:u1\
     Clock Enable: True
     Previous in chain : \PWM_Motor:PWMUDB:sP16:pwmdp:u0\
 
-controlcell: Name =\PWM_LED_BRIGHTNESS:PWMUDB:genblk1:ctrlreg\
-    PORT MAP (
-        clock => Net_310 ,
-        control_7 => \PWM_LED_BRIGHTNESS:PWMUDB:control_7\ ,
-        control_6 => \PWM_LED_BRIGHTNESS:PWMUDB:control_6\ ,
-        control_5 => \PWM_LED_BRIGHTNESS:PWMUDB:control_5\ ,
-        control_4 => \PWM_LED_BRIGHTNESS:PWMUDB:control_4\ ,
-        control_3 => \PWM_LED_BRIGHTNESS:PWMUDB:control_3\ ,
-        control_2 => \PWM_LED_BRIGHTNESS:PWMUDB:control_2\ ,
-        control_1 => \PWM_LED_BRIGHTNESS:PWMUDB:control_1\ ,
-        control_0 => \PWM_LED_BRIGHTNESS:PWMUDB:control_0\ );
-    Properties:
-    {
-        cy_ctrl_mode_0 = "11111111"
-        cy_ctrl_mode_1 = "00000000"
-        cy_ext_reset = 0
-        cy_force_order = 1
-        cy_init_value = "00000000"
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-
-UDB [UDB=(2,2)] is empty.
-UDB [UDB=(2,3)] is empty.
-UDB [UDB=(2,4)] is empty.
-UDB [UDB=(2,5)] is empty.
-UDB [UDB=(3,0)] is empty.
-UDB [UDB=(3,1)] contents:
-LAB@[UDB=(3,1)][LB=0] #macrocells=2, #inputs=3, #pterms=2
-{
-    [McSlotId=0]:     MacroCell: Name=\PWM_Motor:PWMUDB:runmode_enable\, Mode=(D-Register) @ [UDB=(3,1)][LB=0][MC=0]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-        List of special equations: 
-            Clock  = (Net_163) => Global
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \PWM_Motor:PWMUDB:control_7\
-        );
-        Output = \PWM_Motor:PWMUDB:runmode_enable\ (fanout=4)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]:     MacroCell: Name=Net_194, Mode=(D-Register) @ [UDB=(3,1)][LB=0][MC=1]
-        Total # of inputs        : 2
-        Total # of product terms : 1
-        List of special equations: 
-            Clock  = (Net_163) => Global
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \PWM_Motor:PWMUDB:runmode_enable\ * 
-              \PWM_Motor:PWMUDB:cmp2_less\
-        );
-        Output = Net_194 (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=2]: (empty)
-    [McSlotId=3]: (empty)
-}
-
-LAB@[UDB=(3,1)][LB=1] #macrocells=2, #inputs=3, #pterms=2
-{
-    [McSlotId=0]:     MacroCell: Name=Net_791, Mode=(Combinatorial) @ [UDB=(3,1)][LB=1][MC=0]
-        Total # of inputs        : 1
-        Total # of product terms : 1
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              !Net_793
-        );
-        Output = Net_791 (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=1]: (empty)
-    [McSlotId=2]:     MacroCell: Name=Net_180, Mode=(D-Register) @ [UDB=(3,1)][LB=1][MC=2]
-        Total # of inputs        : 2
-        Total # of product terms : 1
-        List of special equations: 
-            Clock  = (Net_163) => Global
-            Clock Enable: True
-        Main Equation            : 1 pterm
-        (
-              \PWM_Motor:PWMUDB:runmode_enable\ * 
-              \PWM_Motor:PWMUDB:cmp1_less\
-        );
-        Output = Net_180 (fanout=1)
-        Properties               : 
-        {
-        }
-
-    [McSlotId=3]: (empty)
-}
-
-datapathcell: Name =\PWM_Motor:PWMUDB:sP16:pwmdp:u0\
-    PORT MAP (
-        clock => Net_163 ,
-        cs_addr_2 => \PWM_Motor:PWMUDB:tc_i\ ,
-        cs_addr_1 => \PWM_Motor:PWMUDB:runmode_enable\ ,
-        chain_out => \PWM_Motor:PWMUDB:sP16:pwmdp:carry\ );
-    Properties:
-    {
-        a0_init = "00000000"
-        a1_init = "00000000"
-        ce0_sync = 1
-        ce1_sync = 1
-        cl0_sync = 1
-        cl1_sync = 1
-        cmsb_sync = 1
-        co_msb_sync = 1
-        cy_dpconfig = "0000000001000000000000001100000001000000010000000000000011000000000000001100000000000000110000000000000011000000000000001100000011111111000000001111111111111111101000000000000000000100000000000000000000011000"
-        d0_init = "00000000"
-        d1_init = "00000000"
-        f0_blk_sync = 1
-        f0_bus_sync = 1
-        f1_blk_sync = 1
-        f1_bus_sync = 1
-        ff0_sync = 1
-        ff1_sync = 1
-        ov_msb_sync = 1
-        so_sync = 1
-        z0_sync = 1
-        z1_sync = 1
-    }
-    Clock Polarity: Active High
-    Clock Enable: True
-    Next in chain : \PWM_Motor:PWMUDB:sP16:pwmdp:u1\
-
 controlcell: Name =\PWM_Motor:PWMUDB:genblk1:ctrlreg\
     PORT MAP (
         clock => Net_163 ,
@@ -6614,6 +6650,7 @@ controlcell: Name =\PWM_Motor:PWMUDB:genblk1:ctrlreg\
     Clock Polarity: Active High
     Clock Enable: True
 
+UDB [UDB=(3,1)] is empty.
 UDB [UDB=(3,2)] is empty.
 UDB [UDB=(3,3)] is empty.
 UDB [UDB=(3,4)] is empty.
@@ -6674,15 +6711,6 @@ Intr container @ [IntrContainer=(0)]:
             is_nmi = 0
         }
   Intr@ [IntrContainer=(0)][IntrId=(17)] 
-    interrupt: Name =isr_Eval_GY87
-        PORT MAP (
-            interrupt => Net_591 );
-        Properties:
-        {
-            int_type = "10"
-            is_nmi = 0
-        }
-  Intr@ [IntrContainer=(0)][IntrId=(18)] 
     interrupt: Name =isr_Sample_GY87
         PORT MAP (
             interrupt => Net_621 );
@@ -6691,7 +6719,7 @@ Intr container @ [IntrContainer=(0)]:
             int_type = "10"
             is_nmi = 0
         }
-  Intr@ [IntrContainer=(0)][IntrId=(19)] 
+  Intr@ [IntrContainer=(0)][IntrId=(18)] 
     interrupt: Name =isr_Eval_Motor_Encoder
         PORT MAP (
             interrupt => Net_750 );
@@ -6700,10 +6728,19 @@ Intr container @ [IntrContainer=(0)]:
             int_type = "10"
             is_nmi = 0
         }
-  Intr@ [IntrContainer=(0)][IntrId=(20)] 
+  Intr@ [IntrContainer=(0)][IntrId=(19)] 
     interrupt: Name =isr_UART_Eval
         PORT MAP (
             interrupt => Net_818 );
+        Properties:
+        {
+            int_type = "10"
+            is_nmi = 0
+        }
+  Intr@ [IntrContainer=(0)][IntrId=(20)] 
+    interrupt: Name =isr_UART_Send
+        PORT MAP (
+            interrupt => Net_830 );
         Properties:
         {
             int_type = "10"
@@ -7475,16 +7512,14 @@ Clock group 0:
             dclk_1 => \UART_USB:Net_9_local\ ,
             dclk_glb_2 => \UART_Bluetooth:Net_9\ ,
             dclk_2 => \UART_Bluetooth:Net_9_local\ ,
-            dclk_glb_3 => Net_710 ,
-            dclk_3 => Net_710_local ,
-            dclk_glb_4 => Net_751 ,
-            dclk_4 => Net_751_local ,
-            dclk_glb_5 => Net_822 ,
-            dclk_5 => Net_822_local ,
-            dclk_glb_6 => Net_10 ,
-            dclk_6 => Net_10_local ,
-            dclk_glb_7 => Net_310 ,
-            dclk_7 => Net_310_local );
+            dclk_glb_3 => Net_751 ,
+            dclk_3 => Net_751_local ,
+            dclk_glb_4 => Net_822 ,
+            dclk_4 => Net_822_local ,
+            dclk_glb_5 => Net_10 ,
+            dclk_5 => Net_10_local ,
+            dclk_glb_6 => Net_310 ,
+            dclk_6 => Net_310_local );
         Properties:
         {
         }
@@ -7516,18 +7551,6 @@ SC group 0: empty
 SPC group 0: empty
 Timer group 0: 
     Timer Block @ F(Timer,0): 
-    timercell: Name =\Timer_GY87_Eval:TimerHW\
-        PORT MAP (
-            clock => Net_710 ,
-            enable => __ONE__ ,
-            tc => \Timer_GY87_Eval:Net_51\ ,
-            cmp => \Timer_GY87_Eval:Net_261\ ,
-            irq => Net_591 );
-        Properties:
-        {
-            cy_registers = ""
-        }
-    Timer Block @ F(Timer,1): 
     timercell: Name =\Timer_GY87_Sample:TimerHW\
         PORT MAP (
             clock => Net_10 ,
@@ -7539,7 +7562,7 @@ Timer group 0:
         {
             cy_registers = ""
         }
-    Timer Block @ F(Timer,2): 
+    Timer Block @ F(Timer,1): 
     timercell: Name =\Timer_Motor_Encoder_Eval:TimerHW\
         PORT MAP (
             clock => Net_751 ,
@@ -7551,7 +7574,7 @@ Timer group 0:
         {
             cy_registers = ""
         }
-    Timer Block @ F(Timer,3): 
+    Timer Block @ F(Timer,2): 
     timercell: Name =\Timer_UART_Eval:TimerHW\
         PORT MAP (
             clock => Net_822 ,
@@ -7559,6 +7582,18 @@ Timer group 0:
             tc => \Timer_UART_Eval:Net_51\ ,
             cmp => \Timer_UART_Eval:Net_261\ ,
             irq => Net_818 );
+        Properties:
+        {
+            cy_registers = ""
+        }
+    Timer Block @ F(Timer,3): 
+    timercell: Name =\Timer_UART_Send:TimerHW\
+        PORT MAP (
+            clock => Net_822 ,
+            enable => __ONE__ ,
+            tc => \Timer_UART_Send:Net_51\ ,
+            cmp => \Timer_UART_Send:Net_261\ ,
+            irq => Net_830 );
         Properties:
         {
             cy_registers = ""
@@ -7608,32 +7643,32 @@ Port | Pin | Fixed |      Type |       Drive Mode |                   Name | Con
 </CYPRESSTAG>
 </CYPRESSTAG>
 Digital component placer commit/Report: Elapsed time ==> 0s.101ms
-Digital Placement phase: Elapsed time ==> 1s.997ms
+Digital Placement phase: Elapsed time ==> 1s.935ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Digital Routing">
 "E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\bin/sjrouter.exe" --xml-path "E:\Programs\PSoC\PSoC Creator\4.4\PSoC Creator\dev\psoc5/psoc5lp/route_arch-rrg.cydata" --vh2-path "KartonBalance_r.vh2" --pcf-path "KartonBalance.pco" --des-name "KartonBalance" --dsf-path "KartonBalance.dsf" --sdc-path "KartonBalance.sdc" --lib-path "KartonBalance_r.lib"
 Routing successful.
-Digital Routing phase: Elapsed time ==> 2s.497ms
+Digital Routing phase: Elapsed time ==> 2s.411ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Generation">
-Bitstream Generation phase: Elapsed time ==> 0s.176ms
+Bitstream Generation phase: Elapsed time ==> 0s.156ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Bitstream Verification">
-Bitstream Verification phase: Elapsed time ==> 0s.037ms
+Bitstream Verification phase: Elapsed time ==> 0s.039ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Static timing analysis">
 Timing report is in KartonBalance_timing.html.
-Static timing analysis phase: Elapsed time ==> 0s.617ms
+Static timing analysis phase: Elapsed time ==> 0s.507ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Data reporting">
 Data reporting phase: Elapsed time ==> 0s.000ms
 </CYPRESSTAG>
 <CYPRESSTAG name="Database update...">
-Design database save phase: Elapsed time ==> 0s.241ms
+Design database save phase: Elapsed time ==> 0s.267ms
 </CYPRESSTAG>
-cydsfit: Elapsed time ==> 6s.241ms
+cydsfit: Elapsed time ==> 5s.925ms
 </CYPRESSTAG>
-Fitter phase: Elapsed time ==> 6s.242ms
-API generation phase: Elapsed time ==> 1s.895ms
-Dependency generation phase: Elapsed time ==> 0s.013ms
-Cleanup phase: Elapsed time ==> 0s.001ms
+Fitter phase: Elapsed time ==> 5s.926ms
+API generation phase: Elapsed time ==> 1s.680ms
+Dependency generation phase: Elapsed time ==> 0s.009ms
+Cleanup phase: Elapsed time ==> 0s.000ms

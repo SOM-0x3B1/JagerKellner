@@ -7,14 +7,11 @@
 //=====[ Main parameters ]==================
 
 volatile float targetPitchAngle = 0; // keep this angle to achieve balance
-/*volatile float antiDrift_offsetAngle = 0;
-volatile float antiDrift_weight = 0.005;*/
 
-
-volatile float Kp = 450;          // (P)roportional Tuning Parameter
-volatile float Ki = 300;           // (I)ntegral Tuning Parameter        
-volatile float Kd = 90;           // (D)erivative Tuning Parameter       
-volatile float iTerm = 0;        // used to accumulate error (integral)
+volatile float Kp = 750;          // (P)roportional Tuning Parameter
+volatile float Ki = 330;          // (I)ntegral Tuning Parameter        
+volatile float Kd = 160;          // (D)erivative Tuning Parameter       
+volatile float iTerm = 0;         // used to accumulate error (integral)
 volatile float maxPID = 1024;     // the maximum value that can be output
 
 volatile float lastPitch = 0;    // the last sensor value
@@ -39,12 +36,24 @@ typedef enum {
     CMD_PART_VALUE  // the value after the command
 } CommandPart;
 
-char outBuf[100]; // UART output string buffer
+char outBuf[120];      // UART output string buffer
+char outBufAngles[40]; // angle part of UART output string buffer
+char outBufSpeed[40];  // speed part of output string buffer
+char outBufPID[40];    // PID part of  output string buffer
+
+volatile int outP = 0;
+volatile int outI = 0;
+volatile int outD = 0;
+volatile int outPID = 0;
+volatile int lastOutP = 0;
+volatile int lastOutI = 0;
+volatile int lastOutD = 0;
+volatile int lastOutPID = 0;
 
 
-#define USB_SPACING 5
-volatile int USBspacer = 0; // to make USB output less frequent
-#define BT_SPACING 10
+volatile bool sendData = false;
+
+#define BT_SPACING 1
 volatile int BTspacer = 0; // to make Bluetooth output less frequent
 
 volatile bool sendGyro = true;  // enable gyro out stream
@@ -96,24 +105,18 @@ void UART_dual_PutString(bool forceDual){
         UART_USB_PutString(outBuf);
     }
     else {
+        UART_USB_PutString(outBuf);
         if(BTspacer >= BT_SPACING){
             UART_Bluetooth_PutString(outBuf);
-            BTspacer = 0;   
+            BTspacer = 0;
         }
-        else{     
-            if(USBspacer >= USB_SPACING)
-                UART_USB_PutString(outBuf);  
-            else
-                USBspacer = 0;
-             
-            BTspacer++;   
-            USBspacer++;                
-        }
+        else
+            BTspacer++;
     }
 }
 
 /// Read command from currently active UART source
-void UART_enum(){
+void UART_enum() {
     if(currentUARTSource != SOURCE_WAITING){
         bool fail = false;
         volatile CommandPart currPart = CMD_PART_TYPE; // which part of the command string to expect
@@ -240,18 +243,16 @@ void UART_enum(){
 
 //=====[ Gyroscope ]==================
 
-typedef enum {
-    GYRO_SAMPLE, // collect samples (1000 Hz)
-    GYRO_EVAL    // calculate orientation from samples (62 Hz)
-} GyroState;
-
 #define TIPPING_TRESHOLD 30                // give up control and suspend motors over this tilt angle
+#define GYRO_G_WEIGHT 0.99                // gyorscope weight
+const double gyro_accWeight = 1.0 - GYRO_G_WEIGHT; // accelerometer weight
 #define GYRO_SAMPLE_INTERVAL 0.001         // 1  ms
 #define GYRO_EVAL_INTERVAL 0.005           // 5  ms
 volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
-volatile GyroState gyroState = GYRO_SAMPLE;
-volatile bool gyroStarted = false;         // the first evaluation has been completed
+volatile bool gyro_sampleReady = false;    // ready to evaluate gyro samples
+volatile bool gyro_evalReady = false;      // ready to evaluate gyro samples
+volatile bool gyroStarted = false;         // the first evaluation has concluded
 
 int16_t CAX = 0, CAY = 0, CAZ = 0;               // current acceleration values
 int16_t CGX = 0, CGY = 0, CGZ = 0;               // current gyroscope values
@@ -262,6 +263,7 @@ volatile double GX = 0, GY = 0, GZ = 0;          // averaged gyroscope values
 volatile int sampleCount = 0;                    // number of successfully collected samples
 volatile double accPitch = 0, accRoll = 0;       // angles calculated exclusively from the accelerometer
 volatile double compRoll = 0, compPitch = 0;     // anlges calculated by the complementary filter (gyro + acc)
+volatile double lastCompRoll = 0, lastCompPitch = 0; 
 
 
 /// calibrate gyro offsets
@@ -319,8 +321,8 @@ void gyro_calcAngles(){
     accPitch = atan(-AX / sqrt(AY * AY + AZ * AZ)) * radToDeg;                   
 
     // calculate the angles using a Complimentary filter
-    compRoll = 0.998 * (compRoll + GX * GYRO_EVAL_INTERVAL) + 0.002 * accRoll; 
-    compPitch = 0.998 * (compPitch + GY * GYRO_EVAL_INTERVAL) + 0.002 * accPitch;
+    compRoll = GYRO_G_WEIGHT * (compRoll + GX * GYRO_EVAL_INTERVAL) + gyro_accWeight * accRoll; 
+    compPitch = GYRO_G_WEIGHT * (compPitch + GY * GYRO_EVAL_INTERVAL) + gyro_accWeight * accPitch;
 }
 
 
@@ -371,6 +373,9 @@ typedef struct Encoder{
 
 Encoder encoderL = (Encoder) {0, 0};
 Encoder encoderR = (Encoder) {0, 0};
+uint lastEncoderEvalL = 0;
+uint lastEncoderEvalR = 0;
+
 
 volatile bool encoderEvalReady = false;
 
@@ -428,12 +433,10 @@ void motor_evalSpeed(){
     motor_evalDirection(result);
     
     if(sendPID){
-        int outP = error * Kp * 10;
-        int outI = iTerm * Ki * 10;
-        int outD = dTerm * Kd * 10;
-        int outPID = result * 10;
-        sprintf(outBuf, "PR %d %d %d %d\n\r",  outP, outI, outD, outPID);
-        UART_dual_PutString(false);
+        outP = error * Kp * 10;
+        outI = iTerm * Ki * 10;
+        outD = dTerm * Kd * 10;
+        outPID = result * 10;        
     }
     
     result = fabsf(result);    
@@ -473,28 +476,24 @@ void updateLED(){
 
 /// get gyro sample
 CY_ISR(GyroSampleIT){    
-    if(gyroState == GYRO_SAMPLE)
-        MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
+    MPU6050_getMotion6(&CAX, &CAY, &CAZ, &CGX, &CGY, &CGZ);
+    gyro_sampleReady = true;
     Timer_GY87_Sample_STATUS;
-}
-/// evaluate gyro samples 
-CY_ISR(GyroEvalIT){
-    Timer_GY87_Eval_STATUS;
-    gyroState = GYRO_EVAL; 
 }
 
 /// Encoder interrupt count
 CY_ISR(EncoderLeftIT){ encoderL.currCount++; }
 CY_ISR(EncoderRightIT){ encoderR.currCount++; }
 /// Evaluate encoder interrupt count
-CY_ISR(EncoderEvalIT){
-    Timer_Motor_Encoder_Eval_STATUS;
+CY_ISR(EncoderEvalIT){    
     encoderL.evalCount = encoderL.currCount;
     encoderR.evalCount = encoderR.currCount;
     encoderL.currCount = 0;
     encoderR.currCount = 0;   
     encoderEvalReady = true;
+    Timer_Motor_Encoder_Eval_STATUS;
 }
+
 
 /// Button interrupt to toggle sleep mode
 CY_ISR(ToggleSleepIT){
@@ -504,8 +503,7 @@ CY_ISR(ToggleSleepIT){
 }
 
 /// Read UART data
-CY_ISR(UARTEvalIT){
-    Timer_UART_Eval_STATUS;
+CY_ISR(UARTEvalIT){    
     if(currentUARTSource == SOURCE_WAITING){
         if(UART_USB_GetRxBufferSize())
             currentUARTSource = SOURCE_USB;
@@ -514,7 +512,15 @@ CY_ISR(UARTEvalIT){
         else
             currentUARTSource = SOURCE_WAITING;
     }
+    Timer_UART_Eval_STATUS;
 }
+
+/// Ready to send UART data
+CY_ISR(UARTSendIT){
+    sendData = true;
+    Timer_UART_Send_STATUS;
+}
+
 
 
 
@@ -537,43 +543,54 @@ void init() {
 	MPU6050_initialize();
     MPU6050_setMasterClockSpeed(13); // 400 kbps
     MPU6050_setDLPFMode(1); // 184 Hz, supports 1 kHz sample rate
+    
     sprintf(outBuf, MPU6050_testConnection() ? "MPU6050 connection successful\n\r" : "MPU6050 connection failed\n\n\r");
     UART_dual_PutString(true);
     
     // calibrate gyro offsets
     sprintf(outBuf, "Calbirating...\n\r");
     UART_dual_PutString(true);
-    gyro_calibrate(500);
+    gyro_calibrate(100);
     sprintf(outBuf, "Calbiration done\n\n\r");
     UART_dual_PutString(true);
     
     // start timers
     Clock_Timer_G87_Sample_Start();
-    Clock_Timer_G87_Eval_Start();
     Clock_Timer_Motor_Encoder_Eval_Start();
-    Clock_Timer_UART_Eval_Start();
-    Timer_GY87_Sample_Start();
-    Timer_GY87_Eval_Start();
-    Timer_Motor_Encoder_Eval_Start();
+    Clock_Timer_UART_Start();
+    Timer_GY87_Sample_Start(); 
     Timer_UART_Eval_Start();
+    Timer_UART_Send_Start();
+    
+    sprintf(outBuf, "Timers started\n\r");
+    UART_dual_PutString(true);
     
     // start motor control
     Clock_Motor_PWM_Start();
     PWM_Motor_Start();
     motor_curr_input = motor_input_sleep;
     
+    sprintf(outBuf, "Motor control started\n\r");
+    UART_dual_PutString(true);
+    
     // start status LED 
     PWM_LED_Start();
     PWM_LED_BRIGHTNESS_Start();
     
+    sprintf(outBuf, "LED blinking\n\r");
+    UART_dual_PutString(true);
+    
     // register interrupts
     isr_Sample_GY87_StartEx(GyroSampleIT);
-    isr_Eval_GY87_StartEx(GyroEvalIT);
     isr_Inc_Motor_Encoder_L_StartEx(EncoderLeftIT);
-    isr_Inc_Motor_Encoder_R_StartEx(EncoderRightIT);
+    isr_Inc_Motor_Encoder_R_StartEx(EncoderRightIT);   
     isr_Eval_Motor_Encoder_StartEx(EncoderEvalIT);
     isr_Toggle_Sleep_StartEx(ToggleSleepIT);
     isr_UART_Eval_StartEx(UARTEvalIT);
+    isr_UART_Send_StartEx(UARTSendIT);
+    
+    sprintf(outBuf, "Interrupts registered\n\n\r");
+    UART_dual_PutString(true);
 }
 
 
@@ -588,70 +605,72 @@ int main(void) {
         
         UART_enum();
         
-        switch(gyroState){
-            case GYRO_SAMPLE: {
-                // apply offstets and accumulate samples
-                AX += ((float)CAX-AXoff);
-                AY += ((float)CAY-AYoff);
-                AZ += ((float)CAZ-AZoff);
-                
-                GX += ((float)CGX-GXoff);
-                GY += ((float)CGY-GYoff);
-                GZ += ((float)CGZ-GZoff);
-                
-                sampleCount++;
-                break;
-            }
-            case GYRO_EVAL: {
-                if(sampleCount > 0)
-                   gyro_calcAngles();  
-                
-                
-               
-         
-                // reset samples
-                AX = 0; AY = 0; AZ = 0;
-                GX = 0; GY = 0; GZ = 0;           
-                sampleCount = 0;   
-                
-                gyroState = GYRO_SAMPLE;
-                gyroStarted = true;                
-                
-                
-                if(!sleep)
-                    motor_evalSpeed();
-                    
-                    
-                if(sendGyro){
-                    sprintf(outBuf, "GA %d %d\n\r",  (int)(compPitch*100), (int)(compRoll*100));
-                    UART_dual_PutString(false);
-                }
-                
-                
-                /*if(motor_lastDirection == motor_newDirection 
-                    && fabsf(motor_LPercentage + motor_RPercentage) > 0.2)
-                {
-                    if(motor_newDirection == FORWARD)
-                        antiDrift_offsetAngle -= (motor_LPercentage + motor_RPercentage) * antiDrift_weight;
-                    else
-                        antiDrift_offsetAngle += (motor_LPercentage + motor_RPercentage) * antiDrift_weight;
-                }*/
-                
-                break;
-            }
+        if(gyro_sampleReady) {
+            // apply offstets and accumulate samples
+            AX += ((float)CAX-AXoff);
+            AY += ((float)CAY-AYoff);
+            AZ += ((float)CAZ-AZoff);
+            
+            GX += ((float)CGX-GXoff);
+            GY += ((float)CGY-GYoff);
+            GZ += ((float)CGZ-GZoff);
+            
+            sampleCount++;
+            
+            if(sampleCount >= 5)
+                gyro_evalReady = true;
+            
+            gyro_sampleReady = false;
+        }
+    
+        if(gyro_evalReady) {
+            if(sampleCount > 0)
+               gyro_calcAngles();   
+     
+            // reset samples
+            AX = 0; AY = 0; AZ = 0;
+            GX = 0; GY = 0; GZ = 0;           
+            sampleCount = 0;   
+            
+            gyroStarted = true;            
+            
+            if(!sleep)
+                motor_evalSpeed(); 
+            
+            gyro_evalReady = false;
         }
         
         
-        // send motor speed data
-        if(encoderEvalReady && sendMotor){
-            sprintf(outBuf, "MS %d %d\n\r", encoderL.evalCount, encoderR.evalCount); 
+        // ready to send UART output
+        if(sendData){
+            outBuf[0] = '\0';
+            if(sendGyro && (compPitch != lastCompPitch || compRoll != lastCompRoll)){               
+                sprintf(outBufAngles, "GA %d %d\n\r",  (int)(compPitch*100), (int)(compRoll*100));
+                strcat(outBuf, outBufAngles);
+                lastCompPitch = compPitch;
+                lastCompRoll = compRoll;
+            }
+            if(sendMotor && (encoderL.evalCount != lastEncoderEvalL || encoderR.evalCount != lastEncoderEvalR)){
+                sprintf(outBufSpeed, "MS %d %d\n\r", encoderL.evalCount, encoderR.evalCount); 
+                strcat(outBuf, outBufSpeed);
+                lastEncoderEvalL = encoderL.evalCount;
+                lastEncoderEvalR = encoderR.evalCount;
+            }
+            if(sendPID && (outPID != lastOutPID || outP != lastOutP || outI != lastOutI || outD != lastOutD)){
+                sprintf(outBufPID, "PR %d %d %d %d\n\r",  outP, outI, outD, outPID);
+                strcat(outBuf, outBufPID);
+                lastOutP = outP;
+                lastOutI = outI;
+                lastOutD = outD;
+                lastOutPID = outPID;
+            }
+                
             UART_dual_PutString(false);
-            encoderEvalReady = false;
         }
+        
         
         // tipping detection
-        if(compPitch > TIPPING_TRESHOLD || compPitch < -TIPPING_TRESHOLD ||
-        compRoll > TIPPING_TRESHOLD || compRoll < -TIPPING_TRESHOLD){
+        if(compPitch - targetPitchAngle > TIPPING_TRESHOLD || compPitch - targetPitchAngle < -TIPPING_TRESHOLD) {
             sleep = true;
             motor_sate = MOTOR_SLEEP;            
             updateLED();

@@ -8,14 +8,14 @@
 
 volatile float targetPitchAngle = 0; // keep this angle to achieve balance
 
-volatile float Kp = 750;          // (P)roportional Tuning Parameter
-volatile float Ki = 330;          // (I)ntegral Tuning Parameter        
+volatile float Kp = 500;          // (P)roportional Tuning Parameter
+volatile float Ki = 800;          // (I)ntegral Tuning Parameter        
 volatile float Kd = 160;          // (D)erivative Tuning Parameter       
 volatile float iTerm = 0;         // used to accumulate error (integral)
 volatile float maxPID = 1024;     // the maximum value that can be output
 
-volatile float lastPitch = 0;    // the last sensor value
-volatile float lastError = 0;    // the last error value
+volatile float lastPitch = 0;     // the last sensor value
+volatile float lastError = 0;     // the last error value
 
 
 
@@ -244,10 +244,12 @@ void UART_enum() {
 //=====[ Gyroscope ]==================
 
 #define TIPPING_TRESHOLD 30                // give up control and suspend motors over this tilt angle
-#define GYRO_G_WEIGHT 0.99                // gyorscope weight
+#define GYRO_G_WEIGHT 0.998                // gyorscope weight
 const double gyro_accWeight = 1.0 - GYRO_G_WEIGHT; // accelerometer weight
-#define GYRO_SAMPLE_INTERVAL 0.001         // 1  ms
-#define GYRO_EVAL_INTERVAL 0.005           // 5  ms
+#define GYRO_SAMPLE_INTERVAL 0.005         // 5  ms
+#define GYRO_EVAL_INTERVAL 0.010           // 10  ms
+#define GYRO_SAMPLE_COUNT 2                // min count of samples for eval
+
 volatile const double radToDeg = 180/M_PI; // convert radian to degree
 
 volatile bool gyro_sampleReady = false;    // ready to evaluate gyro samples
@@ -299,13 +301,13 @@ void gyro_calibrate(int numberOfTests){
 
 
 /// calculate angles from evaluated gyro data
-void gyro_calcAngles(){
-    AX /= sampleCount;
-    AY /= sampleCount;
-    AZ /= sampleCount;
-    GX /= sampleCount;
-    GY /= sampleCount;
-    GZ /= sampleCount;
+void gyro_calcAngles(int sc){
+    AX /= sc;
+    AY /= sc;
+    AZ /= sc;
+    GX /= sc;
+    GY /= sc;
+    GZ /= sc;
 
     AX = ((float)CAX - AXoff) / 16384.00;
     AY = ((float)CAY - AYoff) / 16384.00;
@@ -550,7 +552,7 @@ void init() {
     // calibrate gyro offsets
     sprintf(outBuf, "Calbirating...\n\r");
     UART_dual_PutString(true);
-    gyro_calibrate(100);
+    gyro_calibrate(500);
     sprintf(outBuf, "Calbiration done\n\n\r");
     UART_dual_PutString(true);
     
@@ -617,7 +619,7 @@ int main(void) {
             
             sampleCount++;
             
-            if(sampleCount >= 5)
+            if(sampleCount >= GYRO_SAMPLE_COUNT)
                 gyro_evalReady = true;
             
             gyro_sampleReady = false;
@@ -625,7 +627,7 @@ int main(void) {
     
         if(gyro_evalReady) {
             if(sampleCount > 0)
-               gyro_calcAngles();   
+               gyro_calcAngles(sampleCount);   
      
             // reset samples
             AX = 0; AY = 0; AZ = 0;
@@ -670,7 +672,7 @@ int main(void) {
         
         
         // tipping detection
-        if(compPitch - targetPitchAngle > TIPPING_TRESHOLD || compPitch - targetPitchAngle < -TIPPING_TRESHOLD) {
+        if(compPitch > TIPPING_TRESHOLD || compPitch < -TIPPING_TRESHOLD) {
             sleep = true;
             motor_sate = MOTOR_SLEEP;            
             updateLED();
